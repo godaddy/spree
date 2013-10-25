@@ -9,7 +9,7 @@ module Spree
     validates_presence_of :stock_location, :variant
     validates_uniqueness_of :variant_id, scope: [:stock_location_id, :deleted_at]
 
-    attr_accessible :count_on_hand, :variant, :stock_location, :backorderable, :variant_id
+    attr_accessible :count_on_hand, :variant, :stock_location, :backorderable, :silentbackorder, :variant_id, :tracking
 
     delegate :weight, to: :variant
 
@@ -38,6 +38,7 @@ module Spree
     end
 
     def in_stock?
+      return true unless self.tracking
       self.count_on_hand > 0
     end
 
