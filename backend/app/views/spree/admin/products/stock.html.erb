@@ -33,6 +33,11 @@
             <% if variant.images.present? %>
               <%= image_tag variant.images.first.attachment.url(:mini) %>
             <% end %>
+            <br/>
+            <%= check_box_tag 'variant[track_inventory]', 1, variant.track_inventory?,
+                              class: '',
+                              id: "variant_track_inventory_#{variant.id}" %>
+            <%= Spree.t(:track_inventory) %>
           </td>
           <td colspan="4" class="stock_location_info">
             <table>
