@@ -220,11 +220,6 @@ module Spree
     end
 
     def total_on_hand
-      #if Spree::Config.track_inventory_levels
-      #  self.stock_items.sum(&:count_on_hand)
-      #else
-      #  Float::INFINITY
-      #end
       if self.variants_including_master.any? { |v| !v.should_track_inventory? }
         Float::INFINITY
       else
