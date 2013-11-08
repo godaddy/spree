@@ -50,6 +50,7 @@ module Spree
       def update
         authorize! :update, Taxon
         if taxon.update_attributes(params[:taxon])
+          update_siblings_position unless params[:taxon][:position].nil?
           respond_with(taxon, :status => 200, :default_template => :show)
         else
           invalid_resource!(taxon)
@@ -72,6 +73,17 @@ module Spree
 
       def taxon
         @taxon ||= taxonomy.taxons.find(params[:id])
+      end
+
+      def update_siblings_position
+        position = 0
+        siblings = taxon.siblings.sort_by &:position
+        siblings.each do |sibling|
+          position = taxon.position + 1 if position == taxon.position
+          sibling.position = position
+          sibling.save!
+          position += 1
+        end
       end
 
     end
