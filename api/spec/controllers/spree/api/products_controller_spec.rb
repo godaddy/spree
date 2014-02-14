@@ -13,6 +13,16 @@ module Spree
         :price => 19.99,
         :shipping_category_id => create(:shipping_category).id }
     end
+    let(:attributes_for_variant) do
+      h = attributes_for(:variant).except(:is_master, :product)
+      h.delete(:option_values)
+      h.merge({
+        options: [
+          { name: "size", value: "small" },
+          { name: "color", value: "black" }
+        ]
+      })
+    end
 
     before do
       stub_authentication!
@@ -80,6 +90,13 @@ module Spree
         it "retrieves a list of products of jsonp" do
           api_get :index, {:callback => 'callback'}
           response.body.should =~ /^callback\(.*\)$/
+          response.header['Content-Type'].should include('application/javascript')
+        end
+
+        # Regression test for #4332
+        it "does not escape quotes" do
+          api_get :index, {:callback => 'callback'}
+          response.body.should =~ /^callback\({"count":1,"total_count":1/
           response.header['Content-Type'].should include('application/javascript')
         end
       end
@@ -192,17 +209,6 @@ module Spree
 
       describe "creating products with" do
         it "embedded variants" do
-          def attributes_for_variant
-            h = attributes_for(:variant).except(:is_master, :product)
-            h.delete(:option_values)
-            h.merge({
-              options: [
-                { name: "size", value: "small" },
-                { name: "color", value: "black" }
-              ]
-            })
-          end
-
           product_hash.merge!({
             variants_attributes: [
               attributes_for_variant,
@@ -212,7 +218,6 @@ module Spree
 
           api_post :create, :product => product_hash
           expect(response.status).to eq 201
-          expect(json_response['variants'].count).to eq(3) # 1 master + 2 variants
 
           variants = json_response['variants'].select { |v| !v['is_master'] }
           expect(variants.first['option_values'][0]['name']).to eq('small')
@@ -296,6 +301,13 @@ module Spree
         response.status.should == 200
       end
 
+      it "updates shipping category properly if provided" do
+        api_put :update, :id => product.to_param, :product => { :shipping_category => "New Ships" }
+        expect(response.status).to eq 200
+        shipping_id = ShippingCategory.find_by_name("New Ships").id
+        expect(json_response['shipping_category_id']).to eq shipping_id
+      end
+
       it "cannot update a product with an invalid attribute" do
         api_put :update, :id => product.to_param, :product => { :name => "" }
         response.status.should == 422
@@ -308,6 +320,41 @@ module Spree
         api_delete :destroy, :id => product.to_param
         response.status.should == 204
         product.reload.deleted_at.should_not be_nil
+      end
+
+      describe "updating products with" do
+        it "embedded option types" do
+          api_put :update, :id => product.to_param, :product => { :option_types => ['shape', 'color'] }
+          json_response['option_types'].count.should eq(2)
+        end
+
+        it "new variants" do
+          api_put :update, :id => product.to_param, :product => { :variants_attributes => [attributes_for_variant, attributes_for_variant] }
+          response.status.should == 200
+          json_response['variants'].count.should == 3 # 1 master + 2 variants
+
+          variants = json_response['variants'].select { |v| !v['is_master'] }
+          variants.last['option_values'][0]['name'].should == 'small'
+          variants.last['option_values'][0]['option_type_name'].should == 'size'
+
+          json_response['option_types'].count.should == 2 # size, color
+        end
+
+        it "updating an existing variant" do
+          variant_hash = {
+            :sku => '123', :price => 19.99, :options => [{:name => "size", :value => "small"}]
+          }
+          variant = product.variants.new
+          variant.update_attributes(variant_hash)
+
+          api_put :update, :id => product.to_param, :product => { :variants_attributes => [variant_hash.merge(:id => variant.id.to_s, :sku => '456', :options => [{:name => "size", :value => "large" }])] }
+
+          json_response['variants'].count.should == 2 # 1 master + 2 variants
+          variants = json_response['variants'].select { |v| !v['is_master'] }
+          variants.last['option_values'][0]['name'].should == 'large'
+          variants.last['sku'].should == '456'
+          variants.count.should == 1
+        end
       end
     end
   end

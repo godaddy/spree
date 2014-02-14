@@ -35,21 +35,24 @@ module Spree
     end
 
     def activate(payload)
-      return unless order_activatable? payload[:order]
+      if order_activatable?(payload[:order]) && eligible?(payload[:order])
+        # make sure code is always downcased (old databases might have mixed case codes)
+        if code.present?
+          event_code = payload[:coupon_code]
+          return unless event_code == self.code.downcase.strip
+        end
 
-      # make sure code is always downcased (old databases might have mixed case codes)
-      if code.present?
-        event_code = payload[:coupon_code]
-        return unless event_code == self.code.downcase.strip
-      end
+        if path.present?
+          return unless path == payload[:path]
+        end
 
-      if path.present?
-        return unless path == payload[:path]
-      end
+        actions.each do |action|
+          action.perform(payload)
+        end
 
-      actions.each do |action|
-        action.perform(payload)
+        return true
       end
+      false
     end
 
     # called anytime order.update! happens

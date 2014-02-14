@@ -36,7 +36,7 @@ module Spree
       dependent: :destroy
 
     validate :check_price
-    validates :price, numericality: { greater_than_or_equal_to: 0 }, presence: true, if: proc { Spree::Config[:require_master_price] }
+    validates :price, numericality: { greater_than_or_equal_to: 0 }
     validates :cost_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true } if self.table_exists? && self.column_names.include?('cost_price')
 
     before_validation :set_cost_currency
@@ -45,7 +45,7 @@ module Spree
     after_create :set_position
 
     # default variant scope only lists non-deleted variants
-    scope :deleted, lambda { where('deleted_at IS NOT NULL') }
+    scope :deleted, lambda { where("#{quoted_table_name}.deleted_at IS NOT NULL") }
 
     def self.active(currency = nil)
       joins(:prices).where(deleted_at: nil).where('spree_prices.currency' => currency || Spree::Config[:currency]).where('spree_prices.amount IS NOT NULL')

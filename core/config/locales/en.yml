@@ -318,13 +318,18 @@ en:
           delivery_success: Test Mail sent successfully
           error: ! 'Test Mail error: %{e}'
       tab:
-        overview: "Overview"
-        orders: "Orders"
-        products: "Products"
-        reports: "Reports"
-        configuration: "Configuration"
-        promotions: "Promotions"
-        users: "Users"
+        configuration: Configuration
+        option_types: Option Types
+        orders: Orders
+        overview: Overview
+        products: Products
+        promotions: Promotions
+        properties: Properties
+        prototypes: Prototypes
+        reports: Reports
+        taxonomies: Taxonomies
+        taxons: Taxons
+        users: Users
     administration: Administration
     agree_to_privacy_policy: Agree to Privacy Policy
     agree_to_terms_of_service: Agree to Terms of Service
@@ -702,6 +707,7 @@ en:
     no_rules_added: No rules added
     no_resource_found: ! 'No %{resource} found'
     no_shipping_methods_found: No shipping methods found
+    no_eligible_shipping_methods_found: No eligible shipping methods found
     no_trackers_found: No Trackers Found
     no_stock_locations_found: No stock locations found
     no_tracking_present: No tracking details provided.
