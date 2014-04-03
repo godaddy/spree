@@ -12,6 +12,7 @@ end
 describe Spree::Product do
   context 'product instance' do
     let(:product) { create(:product) }
+    let(:variant) { create(:variant, :product => product) }
 
     context '#duplicate' do
       before do
@@ -173,6 +174,11 @@ describe Spree::Product do
         product.available_on = 1.day.from_now
         product.should_not be_available
       end
+
+      it "should not be available if destroyed" do 
+        product.destroy 
+        product.should_not be_available 
+      end 
     end
 
     context "variants_and_option_values" do
@@ -211,7 +217,7 @@ describe Spree::Product do
       end
     end
 
-    # Regression test for #3737 
+    # Regression test for #3737
     context "has stock items" do
       let(:product) { create(:product) }
       it "can retreive stock items" do
