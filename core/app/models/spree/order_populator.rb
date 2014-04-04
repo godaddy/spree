@@ -9,9 +9,8 @@ module Spree
       @errors = ActiveModel::Errors.new(self)
     end
 
-    def populate(variant_id, quantity)
-      attempt_cart_add(variant_id, quantity)
-      order.ensure_updated_shipments
+    def populate(variant_id, quantity, options=nil)
+      attempt_cart_add(variant_id, quantity, options)
       valid?
     end
 
@@ -21,7 +20,7 @@ module Spree
 
     private
 
-    def attempt_cart_add(variant_id, quantity)
+    def attempt_cart_add(variant_id, quantity, options=nil)
       quantity = quantity.to_i
       # 2,147,483,647 is crazy.
       # See issue #2695.
@@ -32,7 +31,7 @@ module Spree
 
       variant = Spree::Variant.find(variant_id)
       if quantity > 0
-        line_item = @order.contents.add(variant, quantity, currency)
+        line_item = @order.contents.add(variant, quantity, currency, nil, options)
         unless line_item.valid?
           errors.add(:base, line_item.errors.messages.values.join(" "))
           return false
