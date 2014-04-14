@@ -28,7 +28,7 @@ module Spree
     def self.match(order)
       order_zone = order.tax_zone
       return [] unless order_zone
-      all.select do |rate|
+      all(:include => { :zone => { :zone_members => :zoneable } }).select do |rate|
         rate_zone = rate.zone
         rate_zone == order_zone || rate_zone.contains?(order_zone) || rate_zone.default_tax
       end
