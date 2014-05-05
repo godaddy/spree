@@ -1,4 +1,4 @@
-<div id="<%= "shipment_#{shipment.id}" %>">
+<div id="<%= "shipment_#{shipment.id}" %>" data-hook="admin_shipment_form">
   <%= render :partial => "spree/admin/variants/split", :formats => :js %>
   <fieldset class="no-border-bottom">
     <legend align="center" class="stock-location" data-hook="stock-location">
@@ -54,6 +54,7 @@
             <% end %>
           </td>
         </tr>
+        <% end %>
 
         <tr class="show-method total">
           <% if shipment.shipping_method %>
@@ -68,12 +69,12 @@
           <% end %>
 
           <td class="actions">
-            <% if can? :update, shipment %>
+            <% if( (can? :update, shipment) and !shipment.shipped?) %>
               <%= link_to '', '#', :class => 'edit-method icon_link icon-edit no-text with-tip', :data => {:action => 'edit'}, :title => Spree.t('edit') %>
             <% end %>
           </td>
         </tr>
-      <% end %>
+
 
       <tr class="edit-tracking hidden total">
         <td colspan="5">
