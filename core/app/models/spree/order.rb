@@ -90,8 +90,12 @@ module Spree
       where(number: number)
     end
 
+    scope :created_between, ->(start_date, end_date) { where(created_at: start_date..end_date) }
+    scope :completed_between, ->(start_date, end_date) { where(completed_at: start_date..end_date) }
+
     def self.between(start_date, end_date)
-      where(created_at: start_date..end_date)
+      ActiveSupport::Deprecation.warn("Order#between will be deprecated in Spree 2.3, please use either Order#created_between or Order#completed_between instead.")
+      self.created_between(start_date, end_date)
     end
 
     def self.by_customer(customer)
@@ -598,7 +602,7 @@ module Spree
 
       def after_cancel
         shipments.each { |shipment| shipment.cancel! }
-        payments.completed.each { |payment| payment.credit! }
+        payments.completed.each { |payment| payment.cancel! }
 
         send_cancel_email
         self.update_column(:payment_state, 'credit_owed') unless shipped?
