@@ -9,7 +9,11 @@ module Spree
     validates_presence_of :stock_location, :variant
     validates_uniqueness_of :variant_id, scope: [:stock_location_id, :deleted_at]
 
-    delegate :weight, :should_track_inventory?, to: :variant
+    delegate :weight, to: :variant
+
+    def should_track_inventory?
+      variant && !variant.destroyed? && variant.should_track_inventory?
+    end
 
     after_save :conditional_variant_touch
     after_touch { variant.touch }
