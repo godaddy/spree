@@ -18,26 +18,23 @@ module Spree
       expect{duplicator.duplicate}.to change{Spree::Product.count}.by(1)
     end
 
-    it "will duplicate the product images" do
-      dup_flag_current = Spree::config[:dup_product_images_on_clone]
+    context 'when image duplication enabled' do
 
-      Spree::config[:dup_product_images_on_clone] = true
-      expect{duplicator.duplicate}.to change{Spree::Image.count}.by(1)
+      it "will duplicate the product images" do
+        expect{duplicator.duplicate}.to change{Spree::Image.count}.by(1)
+      end
 
-      #reset to original value
-      Spree::config[:dup_product_images_on_clone] = dup_flag_current
     end
 
-    it "will not duplicate the product images" do
-      dup_flag_current = Spree::config[:dup_product_images_on_clone]
+    context 'when image duplication disabled' do
 
-      Spree::config[:dup_product_images_on_clone] = false
-      expect{duplicator.duplicate}.to change{Spree::Image.count}.by(0)
+      let!(:duplicator) { Spree::ProductDuplicator.new(product, false)}
 
-      #reset to original value
-      Spree::config[:dup_product_images_on_clone] = dup_flag_current
+      it "will not duplicate the product images" do
+        expect{duplicator.duplicate}.to change{Spree::Image.count}.by(0)
+      end
+
     end
-
 
     context "product attributes" do
       let!(:new_product) {duplicator.duplicate}
