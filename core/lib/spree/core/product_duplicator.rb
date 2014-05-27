@@ -2,7 +2,10 @@ module Spree
   class ProductDuplicator
     attr_accessor :product
 
-    def initialize(product, include_images = true)
+    @@clone_images_default = true
+    mattr_accessor :clone_images_default
+
+    def initialize(product, include_images = @@clone_images_default)
       @product = product
       @include_images = include_images
     end

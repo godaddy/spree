@@ -78,7 +78,6 @@ module Spree
     preference :attachment_url, :string, default: '/spree/products/:id/:style/:basename.:extension'
     preference :attachment_styles, :string, default: "{\"mini\":\"48x48>\",\"small\":\"100x100>\",\"product\":\"240x240>\",\"large\":\"600x600>\"}"
     preference :attachment_default_style, :string, default: 'product'
-    preference :dup_product_images_on_clone, :boolean, default: true
     preference :s3_access_key, :string
     preference :s3_bucket, :string
     preference :s3_secret, :string
