@@ -210,6 +210,12 @@ describe Spree::CreditCard do
     it "does not blow up when passed an empty string" do
       lambda { credit_card.expiry = '' }.should_not raise_error
     end
+
+    # Regression test for #4725
+    it "does not blow up when passed one number" do
+      lambda { credit_card.expiry = '12' }.should_not raise_error
+    end
+
   end
 
   context "#cc_type=" do
@@ -285,6 +291,19 @@ describe Spree::CreditCard do
       am_card.first_name.should == "Bob"
       am_card.last_name = "Boblaw"
       am_card.verification_value.should == 123
+    end
+
+    context "provides name instead of first and last" do
+      before do
+        credit_card.first_name = credit_card.last_name = nil
+        credit_card.name = "Ludwig van Beethoven"
+      end
+
+      it "falls back to split first and last" do
+        am_card = credit_card.to_active_merchant
+        expect(am_card.first_name).to eq "Ludwig"
+        expect(am_card.last_name).to eq "van Beethoven"
+      end
     end
   end
 end
