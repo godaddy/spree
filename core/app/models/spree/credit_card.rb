@@ -37,9 +37,10 @@ module Spree
       elsif match = expiry.match(/(\d{2})(\d{2,4})/) # will match mmyy and mmyyyy
         [match[1], match[2]]
       end
-
-      self[:year] = "20" + self[:year] if self[:year].length == 2
-      self[:year] = self[:year].to_i
+      if self[:year]
+        self[:year] = "20" + self[:year] if self[:year].length == 2
+        self[:year] = self[:year].to_i
+      end
       self[:month] = self[:month].to_i
     end
 
@@ -111,8 +112,8 @@ module Spree
         :month => month,
         :year => year,
         :verification_value => verification_value,
-        :first_name => first_name,
-        :last_name => last_name
+        :first_name => first_name || name.to_s.split(/[[:space:]]/, 2)[0],
+        :last_name => last_name || name.to_s.split(/[[:space:]]/, 2)[1]
       )
     end
 
