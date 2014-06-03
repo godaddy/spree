@@ -174,6 +174,31 @@ module Spree
         end
       end
 
+      context "when previously ineligible promotions become available" do
+        let(:promo1) { create(:promotion, :with_order_adjustment, :with_item_total_rule, order_adjustment_amount: 5, item_total_threshold_amount: 10) }
+        let(:promo2) { create(:promotion, :with_order_adjustment, :with_item_total_rule, order_adjustment_amount: 10, item_total_threshold_amount: 20) }
+        let(:order) { create(:order_with_line_items, line_items_count: 1) }
+
+        it "should pick the best one according to current eligibility" do
+          # apply both promos to the order, even though only promo1 is eligible
+          promo1.activate order: order
+          promo2.activate order: order
+
+          order.reload
+          order.all_adjustments.count.should == 2
+          order.all_adjustments.eligible.count.should == 1
+          order.all_adjustments.eligible.first.source.promotion.should == promo1
+
+          order.contents.add create(:variant, price: 10), 1
+          order.save
+
+          order.reload
+          order.all_adjustments.count.should == 2
+          order.all_adjustments.eligible.count.should == 1
+          order.all_adjustments.eligible.first.source.promotion.should == promo2
+        end
+      end
+
       context "multiple adjustments and the best one is not eligible" do
         let!(:promo_a) { create_adjustment("Promotion A", -100) }
         let!(:promo_c) { create_adjustment("Promotion C", -300) }
