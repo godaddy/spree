@@ -177,47 +177,59 @@ module Spree
       context "when previously ineligible promotions become available" do
         let(:order_promo1) { create(:promotion, :with_order_adjustment, :with_item_total_rule, order_adjustment_amount: 5, item_total_threshold_amount: 10) }
         let(:order_promo2) { create(:promotion, :with_order_adjustment, :with_item_total_rule, order_adjustment_amount: 10, item_total_threshold_amount: 20) }
+        let(:order_promos) { [ order_promo1, order_promo2 ] }
         let(:line_item_promo1) { create(:promotion, :with_line_item_adjustment, :with_item_total_rule, adjustment_rate: 2.5, item_total_threshold_amount: 10) }
         let(:line_item_promo2) { create(:promotion, :with_line_item_adjustment, :with_item_total_rule, adjustment_rate: 5, item_total_threshold_amount: 20) }
+        let(:line_item_promos) { [ line_item_promo1, line_item_promo2 ] }
         let(:order) { create(:order_with_line_items, line_items_count: 1) }
 
-        it "should pick the best order-level promo according to current eligibility" do
-          # apply both promos to the order, even though only promo1 is eligible
-          order_promo1.activate order: order
-          order_promo2.activate order: order
+        # Apply promotions in different sequences. Results should be the same.
+        promo_sequences = [
+          [ 0, 1 ],
+          [ 1, 0 ]
+        ]
 
-          order.reload
-          order.all_adjustments.count.should == 2
-          order.all_adjustments.eligible.count.should == 1
-          order.all_adjustments.eligible.first.source.promotion.should == order_promo1
+        promo_sequences.each do |promo_sequence|
+          it "should pick the best order-level promo according to current eligibility" do
+            # apply both promos to the order, even though only promo1 is eligible
+            order_promos[promo_sequence[0]].activate order: order
+            order_promos[promo_sequence[1]].activate order: order
 
-          order.contents.add create(:variant, price: 10), 1
-          order.save
+            order.reload
+            order.all_adjustments.count.should eq(2), "Expected two adjustments (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.count.should eq(1), "Expected one elegible adjustment (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.first.source.promotion.should eq(order_promo1), "Expected promo1 to be used (using sequence #{promo_sequence})"
 
-          order.reload
-          order.all_adjustments.count.should == 2
-          order.all_adjustments.eligible.count.should == 1
-          order.all_adjustments.eligible.first.source.promotion.should == order_promo2
+            order.contents.add create(:variant, price: 10), 1
+            order.save
+
+            order.reload
+            order.all_adjustments.count.should eq(2), "Expected two adjustments (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.count.should eq(1), "Expected one elegible adjustment (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.first.source.promotion.should eq(order_promo2), "Expected promo2 to be used (using sequence #{promo_sequence})"
+          end
         end
 
-        it "should pick the best line-item-level promo according to current eligibility" do
-          # apply both promos to the order, even though only promo1 is eligible
-          line_item_promo1.activate order: order
-          line_item_promo2.activate order: order
+        promo_sequences.each do |promo_sequence|
+          it "should pick the best line-item-level promo according to current eligibility" do
+            # apply both promos to the order, even though only promo1 is eligible
+            line_item_promos[promo_sequence[0]].activate order: order
+            line_item_promos[promo_sequence[1]].activate order: order
 
-          order.reload
-          order.all_adjustments.count.should == 2
-          order.all_adjustments.eligible.count.should == 1
-          order.all_adjustments.eligible.first.source.promotion.should == line_item_promo1
+            order.reload
+            order.all_adjustments.count.should eq(2), "Expected two adjustments (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.count.should eq(1), "Expected one elegible adjustment (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.first.source.promotion.should eq(line_item_promo1), "Expected line_item_promo1 to be used (using sequence #{promo_sequence})"
 
-          order.contents.add create(:variant, price: 10), 1
-          order.save
+            order.contents.add create(:variant, price: 10), 1
+            order.save
 
-          order.reload
-          order.all_adjustments.count.should == 4
-          order.all_adjustments.eligible.count.should == 2
-          order.all_adjustments.eligible.each do |adjustment|
-            adjustment.source.promotion.should == line_item_promo2
+            order.reload
+            order.all_adjustments.count.should eq(4), "Expected four adjustments (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.count.should eq(2), "Expected two elegible adjustments (using sequence #{promo_sequence})"
+            order.all_adjustments.eligible.each do |adjustment|
+              adjustment.source.promotion.should eq(line_item_promo2), "Expected line_item_promo2 to be used (using sequence #{promo_sequence})"
+            end
           end
         end
       end
