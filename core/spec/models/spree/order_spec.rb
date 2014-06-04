@@ -52,17 +52,17 @@ describe Spree::Order do
       persisted_order = Spree::Order.create
       credit_card_payment_method = create(:credit_card_payment_method)
       attributes = {
-        :payments_attributes => [
-          { 
-            :payment_method_id => credit_card_payment_method.id,
-            :source_attributes => {
-              :name => "Ryan Bigg",
-              :number => "41111111111111111111",
-              :expiry => "01 / 15",
-              :verification_value => "123"
-            }
-          }
-        ]
+          :payments_attributes => [
+              {
+                  :payment_method_id => credit_card_payment_method.id,
+                  :source_attributes => {
+                      :name => "Ryan Bigg",
+                      :number => "41111111111111111111",
+                      :expiry => "01 / 15",
+                      :verification_value => "123"
+                  }
+              }
+          ]
       }
 
       persisted_order.update_attributes(attributes)
@@ -268,7 +268,7 @@ describe Spree::Order do
       adjustments = [double]
       order.should_receive(:all_adjustments).and_return(adjustments)
       adjustments.each do |adj|
-	expect(adj).to receive(:close)
+        expect(adj).to receive(:close)
       end
       order.finalize!
     end
@@ -284,7 +284,7 @@ describe Spree::Order do
       end
 
       context "and order is approved" do
-        before do 
+        before do
           order.stub :approved? => true
         end
 
@@ -437,7 +437,7 @@ describe Spree::Order do
 
   context "empty!" do
     let(:order) { stub_model(Spree::Order, item_count: 2) }
-    
+
     before do
       order.stub(:line_items => line_items = [1, 2])
       order.stub(:adjustments => adjustments = [])
@@ -659,7 +659,10 @@ describe Spree::Order do
   end
 
   context "ensure shipments will be updated" do
-    before { Spree::Shipment.create!(order: order) }
+    before do
+      Spree::Shipment.any_instance.stub(:order => order)
+      Spree::Shipment.create!(order: order)
+    end
 
     it "destroys current shipments" do
       order.ensure_updated_shipments
@@ -848,31 +851,31 @@ describe Spree::Order do
   context "#available_payment_methods" do
     it "includes frontend payment methods" do
       payment_method = Spree::PaymentMethod.create!({
-        :name => "Fake",
-        :active => true,
-        :display_on => "front_end",
-        :environment => Rails.env
-      })
+                                                        :name => "Fake",
+                                                        :active => true,
+                                                        :display_on => "front_end",
+                                                        :environment => Rails.env
+                                                    })
       expect(order.available_payment_methods).to include(payment_method)
     end
 
     it "includes 'both' payment methods" do
       payment_method = Spree::PaymentMethod.create!({
-        :name => "Fake",
-        :active => true,
-        :display_on => "both",
-        :environment => Rails.env
-      })
+                                                        :name => "Fake",
+                                                        :active => true,
+                                                        :display_on => "both",
+                                                        :environment => Rails.env
+                                                    })
       expect(order.available_payment_methods).to include(payment_method)
     end
 
     it "does not include a payment method twice if display_on is blank" do
       payment_method = Spree::PaymentMethod.create!({
-        :name => "Fake",
-        :active => true,
-        :display_on => "both",
-        :environment => Rails.env
-      })
+                                                        :name => "Fake",
+                                                        :active => true,
+                                                        :display_on => "both",
+                                                        :environment => Rails.env
+                                                    })
       expect(order.available_payment_methods.count).to eq(1)
       expect(order.available_payment_methods).to include(payment_method)
     end
