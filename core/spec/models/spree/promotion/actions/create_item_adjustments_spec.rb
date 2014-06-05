@@ -95,13 +95,13 @@ module Spree
             }.to change { Adjustment.count }.by(0)
           end
 
-          it "nullifies adjustments for completed orders" do
+          it "doesn't destroy adjustments for completed orders" do
             order = Order.create(completed_at: Time.now)
             adjustment = action.adjustments.create!(label: "Check", amount: 0, order: order)
 
             expect {
               action.destroy
-            }.to change { adjustment.reload.source_id }.from(action.id).to nil
+            }.to change { Adjustment.count }.by(0)
           end
 
           it "doesnt mess with unrelated adjustments" do
