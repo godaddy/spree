@@ -42,7 +42,7 @@ module Spree
         # item_total and ship_total
         def compute_amount(adjustable)
           amount = self.calculator.compute(adjustable).to_f.abs
-          [adjustable.total, amount].min * -1
+          [adjustable.total - adjustable.promo_total, amount].min * -1
         end
 
         private
