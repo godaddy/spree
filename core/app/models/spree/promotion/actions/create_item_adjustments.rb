@@ -9,6 +9,7 @@ module Spree
         delegate :eligible?, to: :promotion
 
         before_validation :ensure_action_has_calculator
+        before_destroy :deals_with_adjustments
 
         def perform(payload = {})
           order = payload[:order]
@@ -60,6 +61,16 @@ module Spree
             self.calculator = Calculator::PercentOnLineItem.new
           end
 
+          def deals_with_adjustments
+            # We nullify the source_id, leaving the adjustment in place.
+            # This would mean that the order's total is not altered at all.
+            self.adjustments.each do |adjustment|
+              adjustment.update_columns(
+                source_id: nil,
+                updated_at: Time.now,
+              )
+            end
+          end
       end
     end
   end

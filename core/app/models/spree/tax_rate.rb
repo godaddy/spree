@@ -21,6 +21,8 @@ module Spree
     validates :tax_category_id, presence: true
     validates_with DefaultTaxZoneValidator
 
+    before_destroy :deals_with_adjustments
+
     scope :by_zone, ->(zone) { where(zone_id: zone) }
 
     # Gets the array of TaxRates appropriate for the specified order
@@ -193,5 +195,15 @@ module Spree
         label << (show_rate_in_label? ? "#{amount * 100}%" : "")
       end
 
+      def deals_with_adjustments
+        # We nullify the source_id, leaving the adjustment in place.
+        # This would mean that the order's total is not altered at all.
+        self.adjustments.each do |adjustment|
+          adjustment.update_columns(
+            source_id: nil,
+            updated_at: Time.now,
+          )
+        end
+      end
   end
 end
