@@ -36,31 +36,33 @@ module Spree
       #
       # Additional tax adjustments are the opposite; effecting the final total.
       promo_total = 0
-      item.update_attributes(:adjustment_total => 0)
+      item.transaction do
+        item.update_attributes(:adjustment_total => 0)
 
-      run_callbacks :promo_adjustments do
-        promotion_total = adjustments.promotion.reload.map(&:update!).compact.sum
-        unless promotion_total == 0
-          choose_best_promotion_adjustment
+        run_callbacks :promo_adjustments do
+          promotion_total = adjustments.promotion.reload.map(&:update!).compact.sum
+          unless promotion_total == 0
+            choose_best_promotion_adjustment
+          end
+          promo_total = best_promotion_adjustment.try(:amount).to_f
         end
-        promo_total = best_promotion_adjustment.try(:amount).to_f
-      end
 
-      included_tax_total = 0
-      additional_tax_total = 0
-      run_callbacks :tax_adjustments do
-        included_tax_total = adjustments.tax.included.reload.map(&:update!).compact.sum
-        additional_tax_total = adjustments.tax.additional.reload.map(&:update!).compact.sum
-      end
+        included_tax_total = 0
+        additional_tax_total = 0
+        run_callbacks :tax_adjustments do
+          included_tax_total = adjustments.tax.included.reload.map(&:update!).compact.sum
+          additional_tax_total = adjustments.tax.additional.reload.map(&:update!).compact.sum
+        end
 
-      item.update_columns(
-        :promo_total => promo_total,
-        :included_tax_total => included_tax_total,
-        :additional_tax_total => additional_tax_total,
-        :adjustment_total => promo_total + additional_tax_total,
-        :updated_at => Time.now,
-      )
-    end
+        item.update_columns(
+          :promo_total => promo_total,
+          :included_tax_total => included_tax_total,
+          :additional_tax_total => additional_tax_total,
+          :adjustment_total => promo_total + additional_tax_total,
+          :updated_at => Time.now,
+        )
+        end
+      end
 
     # Picks one (and only one) promotion to be eligible for this order
     # This promotion provides the most discount, and if two promotions
