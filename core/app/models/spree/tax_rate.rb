@@ -15,11 +15,13 @@ module Spree
     belongs_to :zone, class_name: "Spree::Zone"
     belongs_to :tax_category, class_name: "Spree::TaxCategory"
 
-    has_many :adjustments, as: :source, dependent: :destroy
+    has_many :adjustments, as: :source
 
     validates :amount, presence: true, numericality: true
     validates :tax_category_id, presence: true
     validates_with DefaultTaxZoneValidator
+
+    before_destroy :deals_with_adjustments
 
     scope :by_zone, ->(zone) { where(zone_id: zone) }
 
@@ -191,6 +193,25 @@ module Spree
         label = ""
         label << (name.present? ? name : tax_category.name) + " "
         label << (show_rate_in_label? ? "#{amount * 100}%" : "")
+      end
+
+      def deals_with_adjustments
+        adjustment_scope = self.adjustments.includes(:order).references(:spree_orders)
+
+        # For incomplete orders, remove the adjustment completely.
+        adjustment_scope.where("spree_orders.completed_at IS NULL").each do |adjustment|
+          adjustment.destroy
+        end
+
+        # For complete orders, the source will be invalid.
+        # Therefore we nullify the source_id, leaving the adjustment in place.
+        # This would mean that the order's total is not altered at all.
+        adjustment_scope.where("spree_orders.completed_at IS NOT NULL").each do |adjustment|
+          adjustment.update_columns(
+            source_id: nil,
+            updated_at: Time.now,
+          )
+        end
       end
   end
 end
