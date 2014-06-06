@@ -84,8 +84,10 @@ module Spree
 
       def best_promotion_adjustments_for_order
         promotion_adjustments = order.all_adjustments.eligible.includes(source: :promotion).promotion
-        return [] unless promotion_adjustments.present?
-        promotion_adjustments.group_by { |a| a.source.promotion }.min_by { |p, a| [a.map(&:amount).sum, -1 * p.updated_at.to_i] }.last
+        # adjustment may be associated with a deleted promotion
+        active_adjustments = promotion_adjustments.select {|a| ! a.source.nil?}
+        return [] unless active_adjustments.present?
+        active_adjustments.group_by { |a| a.source.promotion }.min_by { |p, a| [a.map(&:amount).sum, -1 * p.updated_at.to_i] }.last
       end
 
   end
