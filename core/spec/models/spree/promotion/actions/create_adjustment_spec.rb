@@ -52,12 +52,10 @@ describe Spree::Promotion::Actions::CreateAdjustment do
     end
 
     context "when order is not complete" do
-      it "should keep the adjustment" do
+      it "should not keep the adjustment" do
         action.perform(:order => order)
         action.destroy
-        order.reload
-        order.adjustments.count.should == 1
-        order.adjustment_total.should == -10
+        order.adjustments.count.should == 0
       end
     end
 
@@ -72,9 +70,7 @@ describe Spree::Promotion::Actions::CreateAdjustment do
       end
 
       it "should keep the adjustment" do
-        order.reload
         order.adjustments.count.should == 1
-        order.adjustment_total.should == -10
       end
 
       it "should nullify the adjustment source" do

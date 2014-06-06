@@ -86,22 +86,22 @@ module Spree
           let!(:action) { CreateItemAdjustments.create! }
           let(:other_action) { CreateItemAdjustments.create! }
 
-          it "doesn't destroy adjustments for incompleted orders" do
+          it "destroys adjustments for incompleted orders" do
             order = Order.create
             action.adjustments.create!(label: "Check", amount: 0, order: order)
 
             expect {
               action.destroy
-            }.to change { Adjustment.count }.by(0)
+            }.to change { Adjustment.count }.by(-1)
           end
 
-          it "doesn't destroy adjustments for completed orders" do
+          it "nullifies adjustments for completed orders" do
             order = Order.create(completed_at: Time.now)
             adjustment = action.adjustments.create!(label: "Check", amount: 0, order: order)
 
             expect {
               action.destroy
-            }.to change { Adjustment.count }.by(0)
+            }.to change { adjustment.reload.source_id }.from(action.id).to nil
           end
 
           it "doesnt mess with unrelated adjustments" do

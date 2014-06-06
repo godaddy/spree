@@ -21,6 +21,8 @@ module Spree
     validates :tax_category_id, presence: true
     validates_with DefaultTaxZoneValidator
 
+    before_destroy :deals_with_adjustments
+
     scope :by_zone, ->(zone) { where(zone_id: zone) }
 
     # Gets the array of TaxRates appropriate for the specified order
@@ -72,7 +74,7 @@ module Spree
     def self.adjust(order, items)
       rates = self.match(order)
       tax_categories = rates.map(&:tax_category)
-      relevant_items, non_relevant_items = items.partition { |item| tax_categories.include?(item.tax_category) }
+      relevant_items = items.select { |item| tax_categories.include?(item.tax_category) }
       relevant_items.each do |item|
         item.adjustments.tax.delete_all
         relevant_rates = rates.select { |rate| rate.tax_category == item.tax_category }
@@ -80,11 +82,6 @@ module Spree
         relevant_rates.each do |rate|
           rate.adjust(order, item)
         end
-      end
-      non_relevant_items.each do |item|
-        item.adjustments.tax.delete_all
-        item.update_column(:pre_tax_amount, nil)
-        item.send(:recalculate_adjustments)
       end
     end
 
@@ -198,5 +195,23 @@ module Spree
         label << (show_rate_in_label? ? "#{amount * 100}%" : "")
       end
 
+      def deals_with_adjustments
+        adjustment_scope = self.adjustments.includes(:order).references(:spree_orders)
+
+        # For incomplete orders, remove the adjustment completely.
+        adjustment_scope.where("spree_orders.completed_at IS NULL").each do |adjustment|
+          adjustment.destroy
+        end
+
+        # For complete orders, the source will be invalid.
+        # Therefore we nullify the source_id, leaving the adjustment in place.
+        # This would mean that the order's total is not altered at all.
+        adjustment_scope.where("spree_orders.completed_at IS NOT NULL").each do |adjustment|
+          adjustment.update_columns(
+            source_id: nil,
+            updated_at: Time.now,
+          )
+        end
+      end
   end
 end
