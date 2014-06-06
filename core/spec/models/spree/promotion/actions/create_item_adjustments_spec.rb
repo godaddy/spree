@@ -86,13 +86,13 @@ module Spree
           let!(:action) { CreateItemAdjustments.create! }
           let(:other_action) { CreateItemAdjustments.create! }
 
-          it "doesn't destroy adjustments for incompleted orders" do
+          it "destroys adjustments for incompleted orders" do
             order = Order.create
             action.adjustments.create!(label: "Check", amount: 0, order: order)
 
             expect {
               action.destroy
-            }.to change { Adjustment.count }.by(0)
+            }.to change { Adjustment.count }.by(-1)
           end
 
           it "nullifies adjustments for completed orders" do

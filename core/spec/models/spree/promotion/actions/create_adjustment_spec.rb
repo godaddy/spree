@@ -52,10 +52,10 @@ describe Spree::Promotion::Actions::CreateAdjustment do
     end
 
     context "when order is not complete" do
-      it "should still keep the adjustment" do
+      it "should not keep the adjustment" do
         action.perform(:order => order)
         action.destroy
-        order.adjustments.count.should == 1
+        order.adjustments.count.should == 0
       end
     end
 
