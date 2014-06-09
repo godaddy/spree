@@ -121,8 +121,6 @@ module Spree
         line_item.adjustments.promotion.eligible.first.label.should == 'Promotion C'
       end
 
-<<<<<<< HEAD
-=======
       context "comparing order and line item level adjustments" do
         let(:order)               { create :order_with_line_items, line_items_count: 2 }
         let(:line_item_1)         { order.line_items.first }
@@ -176,7 +174,6 @@ module Spree
         end
       end
 
->>>>>>> 1838
       context "when previously ineligible promotions become available" do
         let(:order_promo1) { create(:promotion, :with_order_adjustment, :with_item_total_rule, order_adjustment_amount: 5, item_total_threshold_amount: 10) }
         let(:order_promo2) { create(:promotion, :with_order_adjustment, :with_item_total_rule, order_adjustment_amount: 10, item_total_threshold_amount: 20) }
