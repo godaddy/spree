@@ -81,7 +81,7 @@ module Spree
 
     before_validation :normalize_slug, on: :update
 
-    before_destroy :punch_slug
+    after_destroy :punch_slug
 
     attr_accessor :option_values_hash
 
@@ -279,7 +279,7 @@ module Spree
       end
 
       def punch_slug
-        update_attribute :slug, "#{Time.now.to_i}_#{slug}" # punch slug with date prefix to allow reuse of original
+        update(slug: "#{Time.now.to_i}_#{slug}") # punch slug with date prefix to allow reuse of original
       end
 
   end
