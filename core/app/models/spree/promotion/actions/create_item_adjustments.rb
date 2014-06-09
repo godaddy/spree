@@ -41,8 +41,9 @@ module Spree
         # Ensure a negative amount which does not exceed the sum of the order's
         # item_total and ship_total
         def compute_amount(adjustable)
-          amount = self.calculator.compute(adjustable).to_f.abs
-          [adjustable.total, amount].min * -1
+          promotion_amount = self.calculator.compute(adjustable).to_f.abs
+          
+          [adjustable.amount, promotion_amount].min * -1
         end
 
         private
@@ -61,24 +62,6 @@ module Spree
             self.calculator = Calculator::PercentOnLineItem.new
           end
 
-          def deals_with_adjustments
-            adjustment_scope = self.adjustments.includes(:order).references(:spree_orders)
-
-            # For incomplete orders, remove the adjustment completely.
-            adjustment_scope.where("spree_orders.completed_at IS NULL").each do |adjustment|
-              adjustment.destroy
-            end
-
-            # For complete orders, the source will be invalid.
-            # Therefore we nullify the source_id, leaving the adjustment in place.
-            # This would mean that the order's total is not altered at all.
-            adjustment_scope.where("spree_orders.completed_at IS NOT NULL").each do |adjustment|
-              adjustment.update_columns(
-                source_id: nil,
-                updated_at: Time.now,
-              )
-            end
-          end
       end
     end
   end
