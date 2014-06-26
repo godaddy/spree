@@ -18,7 +18,6 @@ module Spree
 
     before_validation :validate_source
     before_create :set_unique_identifier
-    before_save :update_uncaptured_amount
 
     after_save :create_payment_profile, if: :profiles_supported?
 
@@ -97,7 +96,7 @@ module Spree
         case amount
         when String
           separator = I18n.t('number.currency.format.separator')
-          number    = amount.delete("^0-9-#{separator}").tr(separator, '.')
+          number    = amount.delete("^0-9-#{separator}\.").tr(separator, '.')
           number.to_d if number.present?
         end || amount
     end
@@ -144,6 +143,10 @@ module Spree
       return false if cvv_response_code.nil?
       return false if cvv_response_message.present?
       return true
+    end
+
+    def uncaptured_amount
+      amount - capture_events.sum(:amount)
     end
 
     private
@@ -194,10 +197,6 @@ module Spree
 
       def generate_identifier
         Array.new(8){ IDENTIFIER_CHARS.sample }.join
-      end
-
-      def update_uncaptured_amount
-        self.uncaptured_amount = amount - capture_events.sum(:amount)
       end
   end
 end
