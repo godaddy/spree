@@ -660,11 +660,7 @@ describe Spree::Order do
   end
 
   context "ensure shipments will be updated" do
-    let(:order) { Spree::Order.create }
-
-    before do
-      Spree::Shipment.create!(order: order)
-    end
+    before { Spree::Shipment.create!(order: order) }
 
     it "destroys current shipments" do
       order.ensure_updated_shipments
