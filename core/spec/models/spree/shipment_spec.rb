@@ -2,15 +2,11 @@ require 'spec_helper'
 require 'benchmark'
 
 describe Spree::Shipment do
-  let(:order) do
-    order = mock_model Spree::Order, backordered?: false,
-                                     canceled?: false,
-                                     can_ship?: true,
-                                     currency: 'USD',
-                                     touch: true,
-                                     all_adjustments: Spree::Adjustment.none
-    order
-  end
+  let(:order) { mock_model Spree::Order, backordered?: false,
+                                         canceled?: false,
+                                         can_ship?: true,
+                                         currency: 'USD',
+                                         touch: true }
   let(:shipping_method) { create(:shipping_method, name: "UPS") }
   let(:shipment) do
     shipment = Spree::Shipment.new

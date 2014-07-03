@@ -1,11 +1,11 @@
 module Spree
-  # Manage (recalculate) adjustments on LineItem, Shipment and Order
+  # Manage (recalculate) item (LineItem or Shipment) adjustments
   class ItemAdjustments
     include ActiveSupport::Callbacks
     define_callbacks :promo_adjustments, :tax_adjustments
     attr_reader :item
 
-    delegate :adjustments, to: :item
+    delegate :adjustments, :order, to: :item
 
     def initialize(item)
       @item = item
@@ -61,33 +61,18 @@ module Spree
       )
     end
 
-    # Picks a single order-level promotion adjustment, or a set of line-item adjustments
-    # based on a single promotion, to be eligible for this order.
-    # This adjustment(s) provides the most discount, and if two order-level promotions
+    # Picks one (and only one) promotion to be eligible for this order
+    # This promotion provides the most discount, and if two promotions
     # have the same amount, then it will pick the latest one.
     def choose_best_promotion_adjustment
-      if best_adjustments = best_promotion_adjustments_for_order
-        Adjustment.where(:id => best_adjustments.map(&:id)).update_all(:eligible => true)
-        other_promotions = order.all_adjustments.promotion.where("id NOT IN (?)", best_adjustments.map(&:id))
+      if best_promotion_adjustment
+        other_promotions = self.adjustments.promotion.where("id NOT IN (?)", best_promotion_adjustment.id)
         other_promotions.update_all(:eligible => false)
       end
     end
 
     def best_promotion_adjustment
-      best_promotion_adjustments_for_order.find { |a| a.adjustable == item }
+      @best_promotion_adjustment ||= adjustments.promotion.eligible.reorder("amount ASC, created_at DESC").first
     end
-
-    def order
-      item.is_a?(Spree::Order) ? item : item.order
-    end
-
-    private
-
-      def best_promotion_adjustments_for_order
-        promotion_adjustments = order.all_adjustments.eligible.includes(source: :promotion).promotion
-        return [] unless promotion_adjustments.present?
-        promotion_adjustments.group_by { |a| a.source.promotion }.min_by { |p, a| [a.map(&:amount).sum, -1 * p.updated_at.to_i] }.last
-      end
-
   end
 end

@@ -38,7 +38,7 @@ module Spree
         line_item.price = 20
         line_item.tax_category = tax_rate.tax_category
         line_item.save
-        create(:adjustment, :source => promotion_action, :adjustable => line_item, :order => order)
+        create(:adjustment, :source => promotion_action, :adjustable => line_item)
       end
 
       context "tax included in price" do
@@ -46,8 +46,7 @@ module Spree
           create(:adjustment, 
             :source => tax_rate,
             :adjustable => line_item,
-            :included => true,
-            :order => order
+            :included => true
           )
         end
 
@@ -86,17 +85,12 @@ module Spree
     context "best promotion is always applied" do
       let(:calculator) { Calculator::FlatRate.new(:preferred_amount => 10) }
 
-      def source
-        Promotion::Actions::CreateItemAdjustments.create(
-          calculator: calculator,
-          promotion: Promotion.create!(name: 'test promotion')
-        )
-      end
+      let(:source) { Promotion::Actions::CreateItemAdjustments.create calculator: calculator }
 
-      def create_adjustment(label, amount, options = {})
+      def create_adjustment(label, amount)
         create(:adjustment, :order      => order,
-                            :adjustable => options[:adjustable] || line_item,
-                            :source     => options[:source] || source,
+                            :adjustable => line_item,
+                            :source     => source,
                             :amount     => amount,
                             :state      => "closed",
                             :label      => label,
@@ -195,7 +189,7 @@ module Spree
         # regression for #3274
         it "still makes the previous best eligible adjustment valid" do
           subject.choose_best_promotion_adjustment
-          line_item.adjustments.promotion.eligible.first.label.should == 'Promotion A'
+          line_item.adjustments.promotion.first.label.should == 'Promotion A'
         end
       end
 
