@@ -200,3 +200,12 @@ module Spree
       end
   end
 end
+
+# DELETED_COLUMN_OVERRIDES
+Spree::Payment.class_eval do
+
+  # only setter overridden here, as getter is already redefined as a dynamically calculated value in the model
+  # once migration is introduced to delete this column (following this deploy to stub attribute), this override can be deleted
+  def uncaptured_amount=(value); end
+
+end
