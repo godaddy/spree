@@ -12,6 +12,7 @@ module Spree
   class TaxRate < ActiveRecord::Base
     acts_as_paranoid
     include Spree::Core::CalculatedAdjustments
+    include Spree::Core::AdjustmentSource
     belongs_to :zone, class_name: "Spree::Zone"
     belongs_to :tax_category, class_name: "Spree::TaxCategory"
 
@@ -21,7 +22,7 @@ module Spree
     validates :tax_category_id, presence: true
     validates_with DefaultTaxZoneValidator
 
-    before_destroy :deals_with_adjustments
+    before_destroy :deals_with_adjustments_for_deleted_source
 
     scope :by_zone, ->(zone) { where(zone_id: zone) }
 
@@ -87,7 +88,7 @@ module Spree
         if item.adjustments.tax.present?
           item.adjustments.tax.delete_all
           item.update_column(:pre_tax_amount, nil)
-          item.send(:recalculate_adjustments)
+          Spree::ItemAdjustments.new(item).update
         end
       end
     end

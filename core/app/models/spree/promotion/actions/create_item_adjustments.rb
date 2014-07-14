@@ -3,13 +3,14 @@ module Spree
     module Actions
       class CreateItemAdjustments < PromotionAction
         include Spree::Core::CalculatedAdjustments
+        include Spree::Core::AdjustmentSource
 
         has_many :adjustments, as: :source
 
         delegate :eligible?, to: :promotion
 
         before_validation :ensure_action_has_calculator
-        before_destroy :deals_with_adjustments
+        before_destroy :deals_with_adjustments_for_deleted_source
 
         def perform(payload = {})
           order = payload[:order]
