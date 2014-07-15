@@ -19,13 +19,12 @@ module Spree
       greater_than: -1,
       message: Spree.t('validation.must_be_int')
     }
-    validates :price, numericality: { less_than: 999999.99, greater_than_or_equal_to: 0 }
-    validates :cost_price, numericality: { less_than: 999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :adjustment_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: -99999999.99, allow_nil: true }
-    validates :additional_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :promo_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :included_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :pre_tax_amount, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :price, numericality: { less_than_or_equal_to: 999999.99, greater_than_or_equal_to: 0 }
+    validates :cost_price, numericality: { less_than_or_equal_to: 999999.99, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :adjustment_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: -99999999.99, allow_nil: true }
+    validates :additional_tax_total, :promo_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :included_tax_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :pre_tax_amount, numericality: { less_than_or_equal_to: 999999.99, greater_than_or_equal_to: 0, allow_nil: true }
 
     validates_with Stock::AvailabilityValidator
 

@@ -27,7 +27,7 @@ module Spree
     belongs_to :order, :class_name => "Spree::Order"
 
     validates :label, presence: true
-    validates :amount, numericality: { less_than: 99999999.99, greater_than_or_equal_to: -99999999.99 }
+    validates :amount, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: -99999999.99 }
 
     state_machine :state, initial: :open do
       event :close do

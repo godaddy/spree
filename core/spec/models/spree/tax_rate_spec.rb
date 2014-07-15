@@ -387,4 +387,28 @@ describe Spree::TaxRate do
       end
     end
   end
+
+  context "validation" do
+    context "amount" do
+      it "should be less than 1000" do
+        rate = Spree::TaxRate.new
+        rate.amount = '1000'
+        rate.valid?
+        expect(rate.errors[:amount].size).to eq 1
+        rate.amount = '999.99999'
+        rate.valid?
+        expect(rate.errors[:amount].size).to eq 0
+      end
+
+      it "should be non negative" do
+        rate = Spree::TaxRate.new
+        rate.amount = '-1'
+        rate.valid?
+        expect(rate.errors[:amount].size).to eq 1
+        rate.amount = '0'
+        rate.valid?
+        expect(rate.errors[:amount].size).to eq 0
+      end
+    end
+  end
 end
