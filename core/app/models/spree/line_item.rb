@@ -25,7 +25,7 @@ module Spree
     validates :additional_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
     validates :promo_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
     validates :included_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :pre_tax_amount, numericality: { less_than: 099999999.99, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :pre_tax_amount, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
 
     validates_with Stock::AvailabilityValidator
 
