@@ -40,7 +40,7 @@ module Spree
     after_rollback :persist_invalid
 
     validates :amount, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :uncaptured_amount, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :uncaptured_amount, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
 
     def persist_invalid
       return unless ['failed', 'invalid'].include?(state)

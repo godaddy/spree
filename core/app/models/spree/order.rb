@@ -81,10 +81,10 @@ module Spree
     validates :item_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
     validates :total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
     validates :adjustment_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :payment_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :payment_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
     validates :shipment_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :additional_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :promo_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :additional_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :promo_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
     validates :included_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
 
     make_permalink field: :number
