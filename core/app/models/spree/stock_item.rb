@@ -15,7 +15,7 @@ module Spree
       variant && !variant.destroyed? && variant.should_track_inventory?
     end
 
-    after_save :conditional_variant_touch
+    after_save :conditional_variant_touch, if: :changed?
     after_touch { variant.touch }
 
     def backordered_inventory_units
