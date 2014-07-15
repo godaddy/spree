@@ -17,7 +17,7 @@ module Spree
 
     has_many :adjustments, as: :source, dependent: :destroy
 
-    validates :amount, presence: true, numericality: true
+    validates :amount, presence: true, numericality: { less_than: 999999.99, greater_than_or_equal_to: 0 }
     validates :tax_category_id, presence: true
     validates_with DefaultTaxZoneValidator
 

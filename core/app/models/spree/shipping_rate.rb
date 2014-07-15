@@ -7,6 +7,8 @@ module Spree
     delegate :order, :currency, to: :shipment
     delegate :name, to: :shipping_method
 
+    validates :cost, numericality: { less_than: 999999.99, greater_than_or_equal_to: 0 }
+
     def display_base_price
       Spree::Money.new(cost, currency: currency)
     end

@@ -23,6 +23,13 @@ module Spree
 
     make_permalink field: :number, length: 11, prefix: 'H'
 
+    validates :cost, numericality: { less_than: 999999.99, greater_than_or_equal_to: 0 }
+    validates :adjustment_total, numericality: { less_than: 99999999.99, greater_than: -99999999.99 }
+    validates :additional_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :promo_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :included_tax_total, numericality: { less_than: 99999999.99, greater_than_or_equal_to: 0 }
+    validates :pre_tax_amount, numericality: { less_than: 999999.99, greater_than_or_equal_to: 0 }
+
     scope :shipped, -> { with_state('shipped') }
     scope :ready,   -> { with_state('ready') }
     scope :pending, -> { with_state('pending') }

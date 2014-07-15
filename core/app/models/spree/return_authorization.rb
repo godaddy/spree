@@ -8,7 +8,7 @@ module Spree
     before_save :force_positive_amount
 
     validates :order, presence: true
-    validates :amount, numericality: true
+    validates :amount, numericality: { less_than: 99999999.99, greater_than: -99999999.99 }
     validate :must_have_shipped_units
 
     state_machine initial: :authorized do
