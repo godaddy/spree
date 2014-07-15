@@ -209,4 +209,25 @@ describe Spree::ReturnAuthorization do
     end
   end
 
+  context "validations" do
+    context "amount" do
+      it "has a maximum value of 999_999.99" do
+        return_authorization.amount = '100_000_000'
+        return_authorization.valid?
+        expect(return_authorization.errors[:amount].size).to eq 1
+        return_authorization.amount = '99_999_999.99'
+        return_authorization.valid?
+        expect(return_authorization.errors[:amount].size).to eq 0
+      end
+
+      it "has a minimum value of -99999999.99" do
+        return_authorization.amount = '-100_000_000'
+        return_authorization.valid?
+        expect(return_authorization.errors[:amount].size).to eq 1
+        return_authorization.amount = '-99_999_999.99'
+        return_authorization.valid?
+        expect(return_authorization.errors[:amount].size).to eq 0
+      end
+    end
+  end
 end
