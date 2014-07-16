@@ -4,7 +4,7 @@ module Spree
     belongs_to :variant, class_name: 'Spree::Variant', inverse_of: :prices, touch: true
 
     validate :check_price
-    validates :amount, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+    validates :amount, numericality: { greater_than_or_equal_to: 0, less_than: 999999.99 }, allow_nil: true
 
     def display_amount
       money

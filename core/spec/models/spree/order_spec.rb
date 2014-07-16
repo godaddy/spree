@@ -623,4 +623,146 @@ describe Spree::Order do
       order.tax_total.should eq 30
     end
   end
+
+  context "validations" do
+    context "item_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.item_total = '1_000_000_000'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 1
+        order.item_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.item_total = '-1'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 1
+        order.item_total = '0'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 0
+      end
+    end
+
+    context "total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.total = '1_000_000_000'
+        order.valid?
+        expect(order.errors[:total].size).to eq 1
+        order.total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.total = '-1'
+        order.valid?
+        expect(order.errors[:total].size).to eq 1
+        order.total = '0'
+        order.valid?
+        expect(order.errors[:total].size).to eq 0
+      end
+    end
+
+    context "adjustment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.adjustment_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 1
+        order.adjustment_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 0
+      end
+
+      it "has a minimum value of -99_999_999.99" do
+        order.adjustment_total = '-100_000_000'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 1
+        order.adjustment_total = '-99_999_999.99'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 0
+      end
+    end
+
+    context "payment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.payment_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 1
+        order.payment_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.payment_total = '-1'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 1
+        order.payment_total = '0.0'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 0
+      end
+    end
+
+    context "shipment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.shipment_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 1
+        order.shipment_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.shipment_total = '-1'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 1
+        order.shipment_total = '0'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 0
+      end
+    end
+
+    context "promo_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.promo_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 1
+        order.promo_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.promo_total = '-1'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 1
+        order.promo_total = '0'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 0
+      end
+    end
+
+    context "included_tax_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.included_tax_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 1
+        order.included_tax_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.included_tax_total = '-1'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 1
+        order.included_tax_total = '0'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 0
+      end
+    end
+  end
 end

@@ -420,4 +420,101 @@ describe Spree::Variant do
       expect(variant.price).to eq(10)
     end
   end
+  context "validations" do
+    context "cost_price" do
+      it "has a maximum value of 999_999.99" do
+        variant.cost_price = '1_000_000'
+        variant.valid?
+        expect(variant.errors[:cost_price].size).to eq 1
+        variant.cost_price = '999_999.99'
+        variant.valid?
+        expect(variant.errors[:cost_price].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        variant.cost_price = '-1'
+        variant.valid?
+        expect(variant.errors[:cost_price].size).to eq 1
+        variant.cost_price = '0'
+        variant.valid?
+        expect(variant.errors[:cost_price].size).to eq 0
+      end
+    end
+    context "weight" do
+      it "has a maximum value of 99_999_999.99" do
+        variant.weight = '1_000_000'
+        variant.valid?
+        expect(variant.errors[:weight].size).to eq 1
+        variant.weight = '999_999.99'
+        variant.valid?
+        expect(variant.errors[:weight].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        variant.weight = '-1'
+        variant.valid?
+        expect(variant.errors[:weight].size).to eq 1
+        variant.weight = '0'
+        variant.valid?
+        expect(variant.errors[:weight].size).to eq 0
+      end
+    end
+    context "height" do
+      it "has a maximum value of 99_999_999.99" do
+        variant.height = '1_000_000'
+        variant.valid?
+        expect(variant.errors[:height].size).to eq 1
+        variant.height = '999_999.99'
+        variant.valid?
+        expect(variant.errors[:height].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        variant.height = '-1'
+        variant.valid?
+        expect(variant.errors[:height].size).to eq 1
+        variant.height = '0'
+        variant.valid?
+        expect(variant.errors[:height].size).to eq 0
+      end
+    end
+    context "width" do
+      it "has a maximum value of 99_999_999.99" do
+        variant.width = '1_000_000'
+        variant.valid?
+        expect(variant.errors[:width].size).to eq 1
+        variant.width = '999_999.99'
+        variant.valid?
+        expect(variant.errors[:width].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        variant.width = '-1'
+        variant.valid?
+        expect(variant.errors[:width].size).to eq 1
+        variant.width = '0'
+        variant.valid?
+        expect(variant.errors[:width].size).to eq 0
+      end
+    end
+    context "depth" do
+      it "has a maximum value of 99_999_999.99" do
+        variant.depth = '1_000_000'
+        variant.valid?
+        expect(variant.errors[:depth].size).to eq 1
+        variant.depth = '999_999.99'
+        variant.valid?
+        expect(variant.errors[:depth].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        variant.depth = '-1'
+        variant.valid?
+        expect(variant.errors[:depth].size).to eq 1
+        variant.depth = '0'
+        variant.valid?
+        expect(variant.errors[:depth].size).to eq 0
+      end
+    end
+  end
 end

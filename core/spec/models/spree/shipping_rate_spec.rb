@@ -128,4 +128,25 @@ describe Spree::ShippingRate do
       expect(shipping_rate.tax_rate).to eq(tax_rate)
     end
   end
+  context "validations" do
+    context "cost" do
+      it "has a maximum value of 999_999.99" do
+        shipping_rate.cost = '1_000_000'
+        shipping_rate.valid?
+        expect(shipping_rate.errors[:cost].size).to eq 1
+        shipping_rate.cost = '999_999.99'
+        shipping_rate.valid?
+        expect(shipping_rate.errors[:cost].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        shipping_rate.cost = '-1'
+        shipping_rate.valid?
+        expect(shipping_rate.errors[:cost].size).to eq 1
+        shipping_rate.cost = '0'
+        shipping_rate.valid?
+        expect(shipping_rate.errors[:cost].size).to eq 0
+      end
+    end
+  end
 end
