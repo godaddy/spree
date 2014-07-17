@@ -7,8 +7,10 @@ child :master => :master do
   extends "spree/api/variants/small"
 end
 
-child :variants => :variants do
-  extends "spree/api/variants/small"
+unless params[:template] == 'master'
+  child :variants => :variants do
+    extends "spree/api/variants/small"
+  end
 end
 
 child :option_types => :option_types do
