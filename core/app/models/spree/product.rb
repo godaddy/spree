@@ -202,10 +202,10 @@ module Spree
     end
 
     def total_on_hand
-      if self.variants_including_master.any? { |v| !v.should_track_inventory? }
+      if any_variants_track_inventory?
         Float::INFINITY
       else
-        self.stock_items.to_a.sum(&:count_on_hand)
+        stock_items.sum(:count_on_hand)
       end
     end
 
@@ -292,6 +292,14 @@ module Spree
 
       def punch_slug
         update(slug: "#{Time.now.to_i}_#{slug}") # punch slug with date prefix to allow reuse of original
+      end
+
+      def any_variants_track_inventory?
+        if variants_including_master.loaded?
+          variants_including_master.any? { |v| !v.should_track_inventory? }
+        else
+          Spree::Config.track_inventory_levels && variants_including_master.where(track_inventory: true).any?
+        end
       end
 
   end
