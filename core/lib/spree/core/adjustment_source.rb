@@ -7,7 +7,11 @@ module Spree
             adjustment_scope = self.adjustments.includes(:order).references(:spree_orders)
 
             # For incomplete orders, remove the adjustment completely.
-            adjustment_scope.where("spree_orders.completed_at IS NULL").destroy_all
+            open_adjustments = adjustment_scope.where("spree_orders.completed_at IS NULL")
+            open_orders = open_adjustments.map(&:order).uniq
+            open_adjustments.destroy_all
+            open_orders.each {|o| o.line_items.each {|l| Spree::ItemAdjustments.new(l).update}}
+            open_orders.map(&:update!)
 
             # For complete orders, the source will be invalid.
             # Therefore we nullify the source_id, leaving the adjustment in place.
