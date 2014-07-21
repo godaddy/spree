@@ -23,7 +23,7 @@ module Spree
 
     private
 
-    def attempt_cart_add(variant_id, quantity, options=nil)
+    def attempt_cart_add(variant_id, quantity, options = {})
       quantity = quantity.to_i
       # 2,147,483,647 is crazy.
       # See issue #2695.

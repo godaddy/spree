@@ -5,7 +5,7 @@ describe Spree::OrderPopulator do
   subject { Spree::OrderPopulator.new(order, "USD") }
 
   context "with stubbed out find_variant" do
-    let(:variant) { double('Variant', :name => "T-Shirt", :options_text => "Size: M") }
+    let(:variant) { double('Variant', name: "T-Shirt", options_text: "Size: M") }
 
     before do
      Spree::Variant.stub(:find).and_return(variant)
