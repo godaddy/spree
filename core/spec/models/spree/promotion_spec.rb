@@ -271,10 +271,6 @@ describe Spree::Promotion do
     end
 
     context "when there's no product rule associated" do
-      before(:each) do
-        promotion.stub_chain(:rules, :to_a).and_return([mock_model(Spree::Promotion::Rules::User)])
-      end
-
       it "should not have products but still return an empty array" do
         promotion.products.should be_blank
       end
