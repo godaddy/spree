@@ -75,14 +75,16 @@ module Spree
     validates :email, email: true, if: :require_email, allow_blank: true
     validate :has_available_shipment
 
-    validates :item_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :adjustment_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: -99999999.99}
-    validates :payment_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :shipment_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :additional_tax_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :promo_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :included_tax_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0 }
+    DATABASE_10_2_LIMIT = 99_999_999.99
+
+    validates :item_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0 }
+    validates :total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0 }
+    validates :adjustment_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: -DATABASE_10_2_LIMIT}
+    validates :payment_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :shipment_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0 }
+    validates :additional_tax_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :promo_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :included_tax_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0 }
 
     make_permalink field: :number
 

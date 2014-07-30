@@ -923,25 +923,5 @@ describe Spree::Payment do
         expect(payment.errors[:amount].size).to eq 0
       end
     end
-
-    context "uncaptured_amount" do
-      it "has a maximum value of 99_999_999.99" do
-        payment.uncaptured_amount = '100_000_000'
-        payment.valid?
-        expect(payment.errors[:uncaptured_amount].size).to eq 1
-        payment.uncaptured_amount = '99_999_999.99'
-        payment.valid?
-        expect(payment.errors[:uncaptured_amount].size).to eq 0
-      end
-
-      it "has a minimum value of -99_999_999.99" do
-        payment.uncaptured_amount = '-100_000_000'
-        payment.valid?
-        expect(payment.errors[:uncaptured_amount].size).to eq 1
-        payment.uncaptured_amount = '-99_999_999.99'
-        payment.valid?
-        expect(payment.errors[:uncaptured_amount].size).to eq 0
-      end
-    end
   end
 end
