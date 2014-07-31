@@ -39,9 +39,7 @@ module Spree
 
     after_rollback :persist_invalid
 
-    DATABASE_8_2_LIMIT = 999_999_99.99
-
-    validates :amount, numericality: { less_than_or_equal_to: DATABASE_8_2_LIMIT, greater_than_or_equal_to: -DATABASE_8_2_LIMIT }
+    validates :amount, numericality: Spree::Core::DbValueValidations::DECIMAL_10_2
 
     def persist_invalid
       return unless ['failed', 'invalid'].include?(state)

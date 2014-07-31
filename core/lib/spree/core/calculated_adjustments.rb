@@ -28,7 +28,7 @@ module Spree
           def self.spree_calculators
             Rails.application.config.spree.calculators
           end
-       end
+        end
       end
     end
   end

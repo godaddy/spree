@@ -20,15 +20,12 @@ module Spree
       message: Spree.t('validation.must_be_int')
     }
 
-    DATABASE_8_2_LIMIT = 999_999.99
-    DATABASE_10_2_LIMIT = 99_999_999.99
-
-    validates :price, numericality: { less_than_or_equal_to: DATABASE_8_2_LIMIT, greater_than_or_equal_to: 0 }
-    validates :cost_price, numericality: { less_than_or_equal_to: DATABASE_8_2_LIMIT, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :adjustment_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: -DATABASE_10_2_LIMIT, allow_nil: true }
-    validates :additional_tax_total, :promo_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :included_tax_total, numericality: { less_than_or_equal_to: DATABASE_10_2_LIMIT, greater_than_or_equal_to: 0 }
-    validates :pre_tax_amount, numericality: { less_than_or_equal_to: DATABASE_8_2_LIMIT, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :price, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_8_2
+    validates :cost_price, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :adjustment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_DECIMAL_10_2
+    validates :additional_tax_total, :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :included_tax_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
+    validates :pre_tax_amount, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
     validates_with Stock::AvailabilityValidator
 

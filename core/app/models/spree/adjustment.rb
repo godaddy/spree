@@ -28,8 +28,7 @@ module Spree
 
     validates :label, presence: true
 
-    DATABASE_8_2_LIMIT = 99_999_999.99
-    validates :amount, numericality: { less_than_or_equal_to: DATABASE_8_2_LIMIT, greater_than_or_equal_to: -DATABASE_8_2_LIMIT }
+    validates :amount, numericality: Spree::Core::DbValueValidations::DECIMAL_10_2
 
     state_machine :state, initial: :open do
       event :close do

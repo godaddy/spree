@@ -76,7 +76,6 @@ module Spree
 
     validates :name, presence: true
     validates :price, presence: true, if: proc { Spree::Config[:require_master_price] }
-    validates :price, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999.99999}
     validates :shipping_category_id, presence: true
     validates :slug, length: { minimum: 3 }
     validates :slug, uniqueness: true

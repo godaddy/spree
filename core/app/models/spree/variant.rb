@@ -31,16 +31,14 @@ module Spree
       dependent: :destroy,
       inverse_of: :variant
 
-    DATABASE_8_2_LIMIT = 999_999.99
-
     validate :check_price
     validates :price, numericality: { greater_than_or_equal_to: 0 }
-    validates :weight, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: DATABASE_8_2_LIMIT, allow_nil: true }
-    validates :height, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: DATABASE_8_2_LIMIT, allow_nil: true }
-    validates :width, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: DATABASE_8_2_LIMIT, allow_nil: true }
-    validates :depth, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: DATABASE_8_2_LIMIT, allow_nil: true }
+    validates :weight, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :height, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :width, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :depth, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
-    validates :cost_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true, less_than_or_equal_to: DATABASE_8_2_LIMIT }
+    validates :cost_price, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
     before_validation :set_cost_currency
     after_save :save_default_price

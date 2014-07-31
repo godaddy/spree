@@ -23,12 +23,12 @@ module Spree
 
     make_permalink field: :number, length: 11, prefix: 'H'
 
-    validates :cost, numericality: { less_than_or_equal_to: 999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :adjustment_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: -99999999.99, allow_nil: true }
-    validates :additional_tax_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :promo_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0, allow_nil: true }
-    validates :included_tax_total, numericality: { less_than_or_equal_to: 99999999.99, greater_than_or_equal_to: 0 }
-    validates :pre_tax_amount, numericality: { less_than_or_equal_to: 999999.99, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :cost, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :adjustment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_DECIMAL_10_2
+    validates :additional_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :included_tax_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
+    validates :pre_tax_amount, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
     scope :shipped, -> { with_state('shipped') }
     scope :ready,   -> { with_state('ready') }

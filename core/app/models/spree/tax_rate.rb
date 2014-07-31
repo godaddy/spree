@@ -18,7 +18,7 @@ module Spree
 
     has_many :adjustments, as: :source
 
-    validates :amount, presence: true, numericality: { less_than_or_equal_to: 999.99999, greater_than_or_equal_to: 0, allow_nil: true }
+    validates :amount, presence: true, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_8_5
     validates :tax_category_id, presence: true
     validates_with DefaultTaxZoneValidator
 
