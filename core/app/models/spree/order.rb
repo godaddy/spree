@@ -73,6 +73,7 @@ module Spree
 
     validates :email, presence: true, if: :require_email
     validates :email, email: true, if: :require_email, allow_blank: true
+    validates :number, uniqueness: true
     validate :has_available_shipment
 
     make_permalink field: :number
@@ -266,15 +267,18 @@ module Spree
       end
     end
 
-    # FIXME refactor this method and implement validation using validates_* utilities
-    def generate_order_number
-      record = true
-      while record
-        random = "R#{Array.new(9){rand(9)}.join}"
-        record = self.class.where(number: random).first
-      end
-      self.number = random if self.number.blank?
-      self.number
+    def generate_order_number(digits = 9)
+      self.number ||= loop do
+         # Make a random number.
+         random = "R#{Array.new(digits){rand(10)}.join}"
+         # Use the random  number if no other order exists with it.
+         if self.class.exists?(number: random)
+           # If over half of all possible options are taken add another digit.
+           digits += 1 if self.class.count > (10 ** digits / 2)
+         else
+           break random
+         end
+       end
     end
 
     def shipped_shipments
