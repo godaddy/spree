@@ -3,8 +3,8 @@ require 'spree/order/checkout'
 
 module Spree
   class Order < ActiveRecord::Base
-    include Checkout
-    include CurrencyUpdater
+    include Spree::Order::Checkout
+    include Spree::Order::CurrencyUpdater
 
     checkout_flow do
       go_to_state :address
@@ -412,6 +412,12 @@ module Spree
 
     def insufficient_stock_lines
      line_items.select(&:insufficient_stock?)
+    end
+
+    def ensure_line_items_are_in_stock
+      if insufficient_stock_lines.present?
+        errors.add(:base, Spree.t(:insufficient_stock_lines_present)) and return false
+      end
     end
 
     def merge!(order, user = nil)
