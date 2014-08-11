@@ -249,14 +249,17 @@ module Spree
         end
 
         it 'builds them properly' do
-          order = Importer::Order.import(user,params)
-
+          order = Importer::Order.import(user, params)
           shipment = order.shipments.first
-          shipment.inventory_units.first.variant_id.should eq product.master.id
-          shipment.tracking.should eq '123456789'
-          shipment.shipping_rates.first.cost.should eq 4.99
+
+          expect(shipment.cost.to_f).to eq 4.99
+          expect(shipment.inventory_units.first.variant_id).to eq product.master.id
+          expect(shipment.tracking).to eq '123456789'
+          expect(shipment.shipping_rates.first.cost).to eq 4.99
           expect(shipment.selected_shipping_rate).to eq(shipment.shipping_rates.first)
-          shipment.stock_location.should eq stock_location
+          expect(shipment.stock_location).to eq stock_location
+
+          expect(order.shipment_total.to_f).to eq 4.99
         end
 
         it "raises if cant find stock location" do
@@ -264,6 +267,39 @@ module Spree
           expect {
             order = Importer::Order.import(user,params)
           }.to raise_error
+        end
+
+        context 'when completed_at and shipped_at present' do
+          let(:params) do
+            {
+              :completed_at => 2.days.ago,
+              :shipments_attributes => [
+                { :tracking => '123456789',
+                  :cost => '4.99',
+                  :shipped_at => 1.day.ago,
+                  :shipping_method => shipping_method.name,
+                  :stock_location => stock_location.name,
+                  :inventory_units => [{ :sku => sku }]
+                }
+              ]
+            }
+          end
+
+          it 'builds them properly' do
+            order = Importer::Order.import(user, params)
+            shipment = order.shipments.first
+
+            expect(shipment.cost.to_f).to eq 4.99
+            expect(shipment.inventory_units.first.variant_id).to eq product.master.id
+            expect(shipment.tracking).to eq '123456789'
+            expect(shipment.shipped_at).to be_present
+            expect(shipment.shipping_rates.first.cost).to eq 4.99
+            expect(shipment.selected_shipping_rate).to eq(shipment.shipping_rates.first)
+            expect(shipment.stock_location).to eq stock_location
+            expect(shipment.state).to eq('shipped')
+            expect(order.shipment_state).to eq('shipped')
+            expect(order.shipment_total.to_f).to eq 4.99
+          end
         end
       end
 
@@ -304,7 +340,7 @@ module Spree
 
         order = Importer::Order.import(user,params)
         expect(order.item_total).to eq(166.1)
-        expect(order.total).to eq(163.1) # = item_total (166.1) - adjustment_total (3.00) 
+        expect(order.total).to eq(163.1) # = item_total (166.1) - adjustment_total (3.00)
 
       end
 
@@ -318,9 +354,18 @@ module Spree
         }.to raise_error /XXX/
       end
 
-      it 'builds a payment' do
+      it 'builds a payment using state' do
         params = { :payments_attributes => [{ amount: '4.99',
-                                              payment_method: payment_method.name }] }
+                                              payment_method: payment_method.name,
+                                              state: 'completed' }] }
+        order = Importer::Order.import(user,params)
+        order.payments.first.amount.should eq 4.99
+      end
+
+      it 'builds a payment using status as fallback' do
+        params = { :payments_attributes => [{ amount: '4.99',
+                                              payment_method: payment_method.name,
+                                              status: 'completed' }] }
         order = Importer::Order.import(user,params)
         order.payments.first.amount.should eq 4.99
       end

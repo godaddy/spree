@@ -5,7 +5,6 @@ gem 'spree_core', :path => "../core"
 gemspec
 
 group :test do
- gem 'simplecov'
  gem 'simplecov-rcov'
  gem 'yarjuf'
 end

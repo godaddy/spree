@@ -53,5 +53,6 @@ rerun.txt
 test_app
 .rvmrc
 **/coverage
+*/results.xml
 */.sass-cache
 .localeapp

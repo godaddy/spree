@@ -18,8 +18,7 @@ module Spree
             create_adjustments_from_params(params.delete(:adjustments_attributes), order)
             create_payments_from_params(params.delete(:payments_attributes), order)
 
-
-            if(completed_at = params.delete(:completed_at))
+            if completed_at = params.delete(:completed_at)
               order.completed_at = completed_at
               order.state = 'complete'
             end
@@ -30,9 +29,9 @@ module Spree
             end
 
             order.update_attributes!(params)
-            # Really ensure that the order totals are correct
-            order.update_totals
-            order.persist_totals
+
+            # Really ensure that the order totals & states are correct
+            order.updater.update
             order.reload
           rescue Exception => e
             order.destroy if order && order.persisted?
@@ -45,8 +44,13 @@ module Spree
           shipments_hash.each do |s|
             begin
               shipment = order.shipments.build
-              shipment.tracking = s[:tracking]
+              shipment.tracking       = s[:tracking]
               shipment.stock_location = Spree::StockLocation.find_by_name!(s[:stock_location])
+
+              if s[:shipped_at].present?
+                shipment.shipped_at = s[:shipped_at]
+                shipment.state      = 'shipped'
+              end
 
               inventory_units = s[:inventory_units] || []
               inventory_units.each do |iu|
@@ -63,6 +67,7 @@ module Spree
               rate = shipment.shipping_rates.create!(:shipping_method => shipping_method,
                                                      :cost => s[:cost])
               shipment.selected_shipping_rate_id = rate.id
+              shipment.update_amounts
 
             rescue Exception => e
               raise "Order import shipments: #{e.message} #{s}"
@@ -104,9 +109,11 @@ module Spree
           return [] unless payments_hash
           payments_hash.each do |p|
             begin
-              payment = order.payments.build
+              payment = order.payments.build order: order
               payment.amount = p[:amount].to_f
-              payment.state = p.fetch(:state, 'completed')
+              # Order API should be using state as that's the normal payment field.
+              # spree_wombat serializes payment state as status so imported orders should fall back to status field.
+              payment.state = p[:state] || p[:status] || 'completed'
               payment.payment_method = Spree::PaymentMethod.find_by_name!(p[:payment_method])
               payment.save!
             rescue Exception => e

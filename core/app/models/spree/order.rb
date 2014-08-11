@@ -3,8 +3,8 @@ require 'spree/order/checkout'
 
 module Spree
   class Order < ActiveRecord::Base
-    include Checkout
-    include CurrencyUpdater
+    include Spree::Order::Checkout
+    include Spree::Order::CurrencyUpdater
 
     checkout_flow do
       go_to_state :address
@@ -73,6 +73,7 @@ module Spree
 
     validates :email, presence: true, if: :require_email
     validates :email, email: true, if: :require_email, allow_blank: true
+    validates :number, uniqueness: true
     validate :has_available_shipment
 
     validates :item_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
@@ -275,15 +276,18 @@ module Spree
       end
     end
 
-    # FIXME refactor this method and implement validation using validates_* utilities
-    def generate_order_number
-      record = true
-      while record
-        random = "R#{Array.new(9){rand(9)}.join}"
-        record = self.class.where(number: random).first
-      end
-      self.number = random if self.number.blank?
-      self.number
+    def generate_order_number(digits = 9)
+      self.number ||= loop do
+         # Make a random number.
+         random = "R#{Array.new(digits){rand(10)}.join}"
+         # Use the random  number if no other order exists with it.
+         if self.class.exists?(number: random)
+           # If over half of all possible options are taken add another digit.
+           digits += 1 if self.class.count > (10 ** digits / 2)
+         else
+           break random
+         end
+       end
     end
 
     def shipped_shipments
@@ -417,6 +421,12 @@ module Spree
 
     def insufficient_stock_lines
      line_items.select(&:insufficient_stock?)
+    end
+
+    def ensure_line_items_are_in_stock
+      if insufficient_stock_lines.present?
+        errors.add(:base, Spree.t(:insufficient_stock_lines_present)) and return false
+      end
     end
 
     def merge!(order, user = nil)
