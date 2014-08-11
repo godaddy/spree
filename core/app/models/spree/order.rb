@@ -82,7 +82,7 @@ module Spree
     validates :payment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
     validates :shipment_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
     validates :additional_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
-    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_NEGATIVE_DECIMAL_10_2
     validates :included_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
 
     make_permalink field: :number

@@ -626,17 +626,17 @@ describe Spree::Shipment do
     end
 
     context "promo_total" do
-      it "has a maximum value of 99_999_999.99" do
-        shipment.promo_total = '100_000_000'
+      it "has a minimum value of -99_999_999.99" do
+        shipment.promo_total = '-100_000_000'
         shipment.valid?
         expect(shipment.errors[:promo_total].size).to eq 1
-        shipment.promo_total = '99_999_999.99'
+        shipment.promo_total = '-99_999_999.99'
         shipment.valid?
         expect(shipment.errors[:promo_total].size).to eq 0
       end
 
-      it "has a minimum value of 0" do
-        shipment.promo_total = '-1'
+      it "has a maximum value of 0" do
+        shipment.promo_total = '1'
         shipment.valid?
         expect(shipment.errors[:promo_total].size).to eq 1
         shipment.promo_total = '0'

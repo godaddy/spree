@@ -23,7 +23,8 @@ module Spree
     validates :price, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_8_2
     validates :cost_price, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
     validates :adjustment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_DECIMAL_10_2
-    validates :additional_tax_total, :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_NEGATIVE_DECIMAL_10_2
+    validates :additional_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
     validates :included_tax_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
     validates :pre_tax_amount, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 

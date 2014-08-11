@@ -2,6 +2,7 @@ module Spree
   module Core
     module DbValueValidations
       POSITIVE_MIN = { greater_than_or_equal_to: 0 }.freeze
+      NEGATIVE_MAX = { less_than_or_equal_to: 0 }.freeze
       ALLOW_NIL = { allow_nil: true }.freeze
 
       DECIMAL_8_5_LIMIT = 999.99999
@@ -23,7 +24,9 @@ module Spree
       DECIMAL_10_2 = DECIMAL_10_2_MAX.merge(DECIMAL_10_2_MIN).freeze
       NILLABLE_DECIMAL_10_2 = DECIMAL_10_2.merge(ALLOW_NIL).freeze
       POSITIVE_DECIMAL_10_2 = DECIMAL_10_2_MAX.merge(POSITIVE_MIN).freeze
+      NEGATIVE_DECIMAL_10_2 = DECIMAL_10_2_MIN.merge(NEGATIVE_MAX).freeze
       NILLABLE_POSITIVE_DECIMAL_10_2 = POSITIVE_DECIMAL_10_2.merge(ALLOW_NIL).freeze
+      NILLABLE_NEGATIVE_DECIMAL_10_2 = NEGATIVE_DECIMAL_10_2.merge(ALLOW_NIL).freeze
     end
   end
 end
