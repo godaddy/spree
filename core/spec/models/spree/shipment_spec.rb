@@ -563,4 +563,126 @@ describe Spree::Shipment do
       expect(state_change.next_state).to eq('ready')
     end
   end
+
+  context "validations" do
+    context "cost" do
+      it "has a maximum value of 999_999.99" do
+        shipment.cost = '1_000_000'
+        shipment.valid?
+        expect(shipment.errors[:cost].size).to eq 1
+        shipment.cost = '999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:cost].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        shipment.cost = '-1'
+        shipment.valid?
+        expect(shipment.errors[:cost].size).to eq 1
+        shipment.cost = '0'
+        shipment.valid?
+        expect(shipment.errors[:cost].size).to eq 0
+      end
+    end
+
+    context "adjustment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        shipment.adjustment_total = '100_000_000'
+        shipment.valid?
+        expect(shipment.errors[:adjustment_total].size).to eq 1
+        shipment.adjustment_total = '99_999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:adjustment_total].size).to eq 0
+      end
+
+      it "has a minimum value of -99_999_999.99" do
+        shipment.adjustment_total = '-100_000_000'
+        shipment.valid?
+        expect(shipment.errors[:adjustment_total].size).to eq 1
+        shipment.adjustment_total = '-99_999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:adjustment_total].size).to eq 0
+      end
+    end
+
+    context "additional_tax_total" do
+      it "has a maximum value of 99_999_999.99" do
+        shipment.additional_tax_total = '100_000_000'
+        shipment.valid?
+        expect(shipment.errors[:additional_tax_total].size).to eq 1
+        shipment.additional_tax_total = '99_999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:additional_tax_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        shipment.additional_tax_total = '-1'
+        shipment.valid?
+        expect(shipment.errors[:additional_tax_total].size).to eq 1
+        shipment.additional_tax_total = '0.0'
+        shipment.valid?
+        expect(shipment.errors[:additional_tax_total].size).to eq 0
+      end
+    end
+
+    context "promo_total" do
+      it "has a minimum value of -99_999_999.99" do
+        shipment.promo_total = '-100_000_000'
+        shipment.valid?
+        expect(shipment.errors[:promo_total].size).to eq 1
+        shipment.promo_total = '-99_999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:promo_total].size).to eq 0
+      end
+
+      it "has a maximum value of 0" do
+        shipment.promo_total = '1'
+        shipment.valid?
+        expect(shipment.errors[:promo_total].size).to eq 1
+        shipment.promo_total = '0'
+        shipment.valid?
+        expect(shipment.errors[:promo_total].size).to eq 0
+      end
+    end
+
+    context "included_tax_total" do
+      it "has a maximum value of 99_999_999.99" do
+        shipment.included_tax_total = '100_000_000'
+        shipment.valid?
+        expect(shipment.errors[:included_tax_total].size).to eq 1
+        shipment.included_tax_total = '99_999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:included_tax_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        shipment.included_tax_total = '-1'
+        shipment.valid?
+        expect(shipment.errors[:included_tax_total].size).to eq 1
+        shipment.included_tax_total = '0'
+        shipment.valid?
+        expect(shipment.errors[:included_tax_total].size).to eq 0
+      end
+    end
+
+    context "pre_tax_amount" do
+      it "has a maximum value of 999_999.99" do
+        shipment.pre_tax_amount = '1_000_000'
+        shipment.valid?
+        expect(shipment.errors[:pre_tax_amount].size).to eq 1
+        shipment.pre_tax_amount = '999_999.99'
+        shipment.valid?
+        expect(shipment.errors[:pre_tax_amount].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        shipment.pre_tax_amount = '-1'
+        shipment.valid?
+        expect(shipment.errors[:pre_tax_amount].size).to eq 1
+        shipment.pre_tax_amount = '0'
+        shipment.valid?
+        expect(shipment.errors[:pre_tax_amount].size).to eq 0
+      end
+    end
+  end
 end

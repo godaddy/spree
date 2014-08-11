@@ -7,6 +7,8 @@ module Spree
     delegate :order, :currency, to: :shipment
     delegate :name, to: :shipping_method
 
+    validates :cost, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+
     def display_base_price
       Spree::Money.new(cost, currency: currency)
     end

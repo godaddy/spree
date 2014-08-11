@@ -76,6 +76,15 @@ module Spree
     validates :number, uniqueness: true
     validate :has_available_shipment
 
+    validates :item_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
+    validates :total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
+    validates :adjustment_total, numericality: Spree::Core::DbValueValidations::DECIMAL_10_2
+    validates :payment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :shipment_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
+    validates :additional_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_NEGATIVE_DECIMAL_10_2
+    validates :included_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+
     make_permalink field: :number
 
     delegate :update_totals, :persist_totals, :to => :updater

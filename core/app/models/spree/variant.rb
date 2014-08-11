@@ -33,8 +33,12 @@ module Spree
 
     validate :check_price
     validates :price, numericality: { greater_than_or_equal_to: 0 }
+    validates :weight, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :height, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :width, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
+    validates :depth, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
-    validates :cost_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+    validates :cost_price, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
     before_validation :set_cost_currency
     after_save :save_default_price
