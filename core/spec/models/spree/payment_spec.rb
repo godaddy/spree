@@ -902,4 +902,26 @@ describe Spree::Payment do
       ])
     end
   end
+
+  context "validations" do
+    context "amount" do
+      it "has a maximum value of 99_999_999.99" do
+        payment.amount = '100_000_000'
+        payment.valid?
+        expect(payment.errors[:amount].size).to eq 1
+        payment.amount = '99_999_999.99'
+        payment.valid?
+        expect(payment.errors[:amount].size).to eq 0
+      end
+
+      it "has a minimum value of -99_999_999.99" do
+        payment.amount = '-100_000_000'
+        payment.valid?
+        expect(payment.errors[:amount].size).to eq 1
+        payment.amount = '-99_999_999.99'
+        payment.valid?
+        expect(payment.errors[:amount].size).to eq 0
+      end
+    end
+  end
 end

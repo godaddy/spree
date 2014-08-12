@@ -27,7 +27,8 @@ module Spree
     belongs_to :order, class_name: "Spree::Order"
 
     validates :label, presence: true
-    validates :amount, numericality: true
+
+    validates :amount, numericality: Spree::Core::DbValueValidations::DECIMAL_10_2
 
     state_machine :state, initial: :open do
       event :close do

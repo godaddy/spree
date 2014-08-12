@@ -219,4 +219,147 @@ describe Spree::LineItem do
     end
   end
 
+  context "validations" do
+    context "price" do
+      it "has a maximum value of 999_999.99" do
+        line_item.price = '1_000_000'
+        line_item.valid?
+        expect(line_item.errors[:price].size).to eq 1
+        line_item.price = '999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:price].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        line_item.price = '-1'
+        line_item.valid?
+        expect(line_item.errors[:price].size).to eq 1
+        line_item.price = '0'
+        line_item.valid?
+        expect(line_item.errors[:price].size).to eq 0
+      end
+    end
+
+    context "cost_price" do
+      it "has a maximum value of 999_999.99" do
+        line_item.cost_price = '1_000_000'
+        line_item.valid?
+        expect(line_item.errors[:cost_price].size).to eq 1
+        line_item.cost_price = '999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:cost_price].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        line_item.cost_price = '-1'
+        line_item.valid?
+        expect(line_item.errors[:cost_price].size).to eq 1
+        line_item.cost_price = '0'
+        line_item.valid?
+        expect(line_item.errors[:cost_price].size).to eq 0
+      end
+    end
+
+    context "adjustment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        line_item.adjustment_total = '100_000_000'
+        line_item.valid?
+        expect(line_item.errors[:adjustment_total].size).to eq 1
+        line_item.adjustment_total = '99_999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:adjustment_total].size).to eq 0
+      end
+
+      it "has a minimum value of -99_999_999.99" do
+        line_item.adjustment_total = '-100_000_000'
+        line_item.valid?
+        expect(line_item.errors[:adjustment_total].size).to eq 1
+        line_item.adjustment_total = '-99_999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:adjustment_total].size).to eq 0
+      end
+    end
+
+    context "additional_tax_total" do
+      it "has a maximum value of 99_999_999.99" do
+        line_item.additional_tax_total = '100_000_000'
+        line_item.valid?
+        expect(line_item.errors[:additional_tax_total].size).to eq 1
+        line_item.additional_tax_total = '99_999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:additional_tax_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        line_item.additional_tax_total = '-1'
+        line_item.valid?
+        expect(line_item.errors[:additional_tax_total].size).to eq 1
+        line_item.additional_tax_total = '0.0'
+        line_item.valid?
+        expect(line_item.errors[:additional_tax_total].size).to eq 0
+      end
+    end
+
+    context "promo_total" do
+      it "has a minimum value of -99_999_999.99" do
+        line_item.promo_total = '-100_000_000'
+        line_item.valid?
+        expect(line_item.errors[:promo_total].size).to eq 1
+        line_item.promo_total = '-99_999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:promo_total].size).to eq 0
+      end
+
+      it "has a maximum value of 0" do
+        line_item.promo_total = '1'
+        line_item.valid?
+        expect(line_item.errors[:promo_total].size).to eq 1
+        line_item.promo_total = '0'
+        line_item.valid?
+        expect(line_item.errors[:promo_total].size).to eq 0
+      end
+    end
+
+    context "included_tax_total" do
+      it "has a maximum value of 99_999_999.99" do
+        line_item.included_tax_total = '100_000_000'
+        line_item.valid?
+        expect(line_item.errors[:included_tax_total].size).to eq 1
+        line_item.included_tax_total = '99_999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:included_tax_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        line_item.included_tax_total = '-1'
+        line_item.valid?
+        expect(line_item.errors[:included_tax_total].size).to eq 1
+        line_item.included_tax_total = '0'
+        line_item.valid?
+        expect(line_item.errors[:included_tax_total].size).to eq 0
+      end
+    end
+
+    context "pre_tax_amount" do
+      it "has a maximum value of 999_999.99" do
+        line_item.pre_tax_amount = '1_000_000'
+        line_item.valid?
+        expect(line_item.errors[:pre_tax_amount].size).to eq 1
+        line_item.pre_tax_amount = '999_999.99'
+        line_item.valid?
+        expect(line_item.errors[:pre_tax_amount].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        line_item.pre_tax_amount = '-1'
+        line_item.valid?
+        expect(line_item.errors[:pre_tax_amount].size).to eq 1
+        line_item.pre_tax_amount = '0'
+        line_item.valid?
+        expect(line_item.errors[:pre_tax_amount].size).to eq 0
+      end
+    end
+
+
+  end
 end
