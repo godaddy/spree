@@ -42,7 +42,7 @@ module Spree
         # item_total and ship_total
         def compute_amount(adjustable)
           order = adjustable.is_a?(Order) ? adjustable : adjustable.order
-          return 0 unless promotion.eligible?(order)
+          return 0 unless promotion.line_item_actionable?(order, adjustable)
           promotion_amount = self.calculator.compute(adjustable).to_f.abs
           
           [adjustable.amount, promotion_amount].min * -1
