@@ -481,6 +481,8 @@ module Spree
         end
       end
 
+      self.line_items.reload
+
       self.associate_user!(user) if !self.user && !user.blank?
 
       updater.update_item_count
