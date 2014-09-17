@@ -206,7 +206,7 @@ module Spree
         # regression for #3274
         it "still makes the previous best eligible adjustment valid" do
           subject.choose_best_promotion_adjustment
-          line_item.adjustments.promotion.eligible.first.label.should == 'Promotion A'
+          line_item.adjustments.promotion.first.label.should == 'Promotion A'
         end
       end
 

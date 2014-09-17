@@ -39,7 +39,7 @@ module Spree
 
     after_rollback :persist_invalid
 
-    validates :amount, numericality: true
+    validates :amount, numericality: Spree::Core::DbValueValidations::DECIMAL_10_2
 
     def persist_invalid
       return unless ['failed', 'invalid'].include?(state)

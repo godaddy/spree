@@ -30,6 +30,26 @@ describe Spree::Adjustment do
     end
   end
 
+  context "amount" do
+    it "has a maximum value of 99_999_999.99" do
+      adjustment.amount = '100_000_000'
+      adjustment.valid?
+      expect(adjustment.errors[:amount].size).to eq 1
+      adjustment.amount = '99_999_999.99'
+      adjustment.valid?
+      expect(adjustment.errors[:amount].size).to eq 0
+    end
+
+    it "has a minimum value of -99_999_999.99" do
+      adjustment.amount = '-100_000_000'
+      adjustment.valid?
+      expect(adjustment.errors[:amount].size).to eq 1
+      adjustment.amount = '-99_999_999.99'
+      adjustment.valid?
+      expect(adjustment.errors[:amount].size).to eq 0
+    end
+  end
+
   context "#display_amount" do
     before { adjustment.amount = 10.55 }
 

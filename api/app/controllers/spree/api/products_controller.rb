@@ -151,6 +151,14 @@ module Spree
             params[:product][:shipping_category_id] = id
           end
         end
+
+        def product_includes
+          if params[:template] == 'master'
+            [ :option_types ]
+          else
+            super
+          end
+        end
     end
   end
 end

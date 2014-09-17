@@ -4,3 +4,8 @@ gem 'spree_core', :path => '../core'
 gem 'spree_api', :path => '../api'
 
 gemspec
+
+group :test do
+ gem 'simplecov-rcov'
+ gem 'yarjuf'
+end

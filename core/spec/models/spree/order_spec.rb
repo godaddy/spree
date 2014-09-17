@@ -40,6 +40,27 @@ describe Spree::Order do
       order.find_line_item_by_variant(@variant1).should_not be_nil
       order.find_line_item_by_variant(mock_model(Spree::Variant)).should be_nil
     end
+
+    context "match line item with options" do
+      before do
+        Spree::Order.register_line_item_comparison_hook(:foos_match)
+      end
+
+      after do
+        # reset to avoid test pollution
+        Spree::Order.line_item_comparison_hooks = Set.new
+      end
+
+      it "matches line item when options match" do
+        order.stub(:foos_match).and_return(true)
+        order.line_item_options_match(@line_items.first, {foos: {bar: :zoo}}).should be_true
+      end
+
+      it "does not match line item without options" do
+        order.stub(:foos_match).and_return(false)
+        order.line_item_options_match(@line_items.first, {}).should be_false
+      end
+    end
   end
 
   context "#payments" do
@@ -533,6 +554,60 @@ describe Spree::Order do
         line_item.quantity.should == 2
         line_item.variant_id.should == variant.id
       end
+
+    end
+
+    context "merging using extension-specific line_item_comparison_hooks" do
+      before do
+        Spree::Order.register_line_item_comparison_hook(:foos_match)
+        Spree::Variant.stub(:price_modifier_amount).and_return(0.00)
+      end
+
+      after do
+        # reset to avoid test pollution
+        Spree::Order.line_item_comparison_hooks = Set.new
+      end
+
+      context "2 equal line items" do
+        before do
+          order_1.stub(:foos_match).and_return(true)
+
+          order_1.contents.add(variant, 1, {foos: {}})
+          order_2.contents.add(variant, 1, {foos: {}})
+        end
+
+        specify do
+          #order_1.should_receive(:foos_match)
+          order_1.merge!(order_2)
+          order_1.line_items.count.should == 1
+
+          line_item = order_1.line_items.first
+          line_item.quantity.should == 2
+          line_item.variant_id.should == variant.id
+        end       
+      end
+
+      context "2 different line items" do
+        before do
+          order_1.stub(:foos_match).and_return(false)
+
+          order_1.contents.add(variant, 1, {foos: {}})
+          order_2.contents.add(variant, 1, {foos: {bar: :zoo}})
+        end
+
+        specify do
+          order_1.merge!(order_2)
+          order_1.line_items.count.should == 2
+
+          line_item = order_1.line_items.first
+          line_item.quantity.should == 1
+          line_item.variant_id.should == variant.id
+
+          line_item = order_1.line_items.last
+          line_item.quantity.should == 1
+          line_item.variant_id.should == variant.id
+        end       
+      end
     end
 
     context "merging together two orders with different line items" do
@@ -545,7 +620,7 @@ describe Spree::Order do
 
       specify do
         order_1.merge!(order_2)
-        line_items = order_1.line_items
+        line_items = order_1.line_items.reload
         line_items.count.should == 2
 
         expect(order_1.item_count).to eq 2
@@ -894,6 +969,148 @@ describe Spree::Order do
 
     it 'can lock' do
       expect { order.with_lock {} }.to_not raise_error
+    end
+  end
+
+  context "validations" do
+    context "item_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.item_total = '1_000_000_000'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 1
+        order.item_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.item_total = '-1'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 1
+        order.item_total = '0'
+        order.valid?
+        expect(order.errors[:item_total].size).to eq 0
+      end
+    end
+
+    context "total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.total = '1_000_000_000'
+        order.valid?
+        expect(order.errors[:total].size).to eq 1
+        order.total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.total = '-1'
+        order.valid?
+        expect(order.errors[:total].size).to eq 1
+        order.total = '0'
+        order.valid?
+        expect(order.errors[:total].size).to eq 0
+      end
+    end
+
+    context "adjustment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.adjustment_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 1
+        order.adjustment_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 0
+      end
+
+      it "has a minimum value of -99_999_999.99" do
+        order.adjustment_total = '-100_000_000'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 1
+        order.adjustment_total = '-99_999_999.99'
+        order.valid?
+        expect(order.errors[:adjustment_total].size).to eq 0
+      end
+    end
+
+    context "payment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.payment_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 1
+        order.payment_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.payment_total = '-1'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 1
+        order.payment_total = '0.0'
+        order.valid?
+        expect(order.errors[:payment_total].size).to eq 0
+      end
+    end
+
+    context "shipment_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.shipment_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 1
+        order.shipment_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.shipment_total = '-1'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 1
+        order.shipment_total = '0'
+        order.valid?
+        expect(order.errors[:shipment_total].size).to eq 0
+      end
+    end
+
+    context "promo_total" do
+      it "has a minimum value of -99_999_999.99" do
+        order.promo_total = '-100_000_000'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 1
+        order.promo_total = '-99_999_999.99'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 0
+      end
+
+      it "has a maximum value of 0" do
+        order.promo_total = '1'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 1
+        order.promo_total = '0'
+        order.valid?
+        expect(order.errors[:promo_total].size).to eq 0
+      end
+    end
+
+    context "included_tax_total" do
+      it "has a maximum value of 99_999_999.99" do
+        order.included_tax_total = '100_000_000'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 1
+        order.included_tax_total = '99_999_999.99'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 0
+      end
+
+      it "has a minimum value of 0" do
+        order.included_tax_total = '-1'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 1
+        order.included_tax_total = '0'
+        order.valid?
+        expect(order.errors[:included_tax_total].size).to eq 0
+      end
     end
   end
 end

@@ -10,7 +10,11 @@ module Spree
     validates_uniqueness_of :variant_id, scope: [:stock_location_id, :deleted_at]
     validates :count_on_hand, numericality: { greater_than_or_equal_to: 0 }, if: :verify_count_on_hand?
 
-    delegate :weight, :should_track_inventory?, to: :variant
+    delegate :weight, to: :variant
+
+    def should_track_inventory?
+      variant && !variant.destroyed? && variant.should_track_inventory?
+    end
 
     after_save :conditional_variant_touch, if: :changed?
     after_touch { variant.touch }
