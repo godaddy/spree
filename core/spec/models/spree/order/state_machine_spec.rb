@@ -78,7 +78,7 @@ describe Spree::Order do
       it "should be true if shipment_state is #{shipment_state}" do
         order.stub :completed? => true
         order.shipment_state = shipment_state
-        order.can_cancel?.should be_true
+        order.can_cancel?.should be true
       end
     end
 
@@ -86,7 +86,7 @@ describe Spree::Order do
       it "should be false if shipment_state is #{shipment_state}" do
         order.stub :completed? => true
         order.shipment_state = shipment_state
-        order.can_cancel?.should be_false
+        order.can_cancel?.should be false
       end
     end
 
@@ -98,7 +98,7 @@ describe Spree::Order do
                               stub_model(Spree::InventoryUnit, :variant => variant) ]}
     let!(:shipment) do
       shipment = stub_model(Spree::Shipment)
-      shipment.stub :inventory_units => inventory_units
+      shipment.stub :inventory_units => inventory_units, :order => order
       order.stub :shipments => [shipment]
       shipment
     end

@@ -63,7 +63,7 @@ describe "Checkout", inaccessible: true do
         click_button "Save and Continue"
         page.should_not have_content("undefined method `promotion'")
         click_button "Save and Continue"
-        page.should have_content("Shipping total $10.00")
+        page.should have_content("Shipping total: $10.00")
       end
     end
 
@@ -135,7 +135,7 @@ describe "Checkout", inaccessible: true do
 
   context "and likes to double click buttons" do
     let!(:user) { create(:user) }
-    
+
     let!(:order) do
       order = OrderWalkthrough.up_to(:delivery)
       order.stub :confirmation_required? => true
@@ -224,6 +224,7 @@ describe "Checkout", inaccessible: true do
 
       Spree::CheckoutController.any_instance.stub(current_order: order)
       Spree::CheckoutController.any_instance.stub(try_spree_current_user: user)
+      Spree::OrdersController.any_instance.stub(try_spree_current_user: user)
 
       visit spree.checkout_state_path(:payment)
     end

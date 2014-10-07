@@ -6,7 +6,7 @@ module Spree
     let(:updater) { Spree::OrderUpdater.new(order) }
 
     context "order totals" do
-      before do 
+      before do
         2.times do
           create(:line_item, :order => order, price: 10)
         end
@@ -28,6 +28,29 @@ module Spree
         create(:shipment, :order => order, :cost => 10)
         updater.update_shipment_total
         order.shipment_total.should == 10
+      end
+
+      context 'with order promotion followed by line item addition' do
+        let(:promotion) { Spree::Promotion.create!(:name => "10% off") }
+        let(:calculator) { Calculator::FlatPercentItemTotal.new(:preferred_flat_percent => 10) }
+
+        let(:promotion_action) do
+          Promotion::Actions::CreateAdjustment.create!({
+            calculator: calculator,
+            promotion: promotion,
+          })
+        end
+
+        before do
+          updater.update
+          create(:adjustment, :source => promotion_action, :adjustable => order)
+          create(:line_item, :order => order, price: 10) # in addition to the two already created
+          updater.update
+        end
+
+        it "updates promotion total" do
+          order.promo_total.should == -3
+        end
       end
 
       it "update order adjustments" do
@@ -85,63 +108,92 @@ module Spree
     end
 
     context "updating payment state" do
-      it "is failed if last payment failed" do
-        order.stub_chain(:payments, :last, :state).and_return('failed')
+      let(:order) { Order.new }
+      let(:updater) { order.updater }
+
+      it "is failed if no valid payments" do
+        order.stub_chain(:payments, :valid, :size).and_return(0)
 
         updater.update_payment_state
         order.payment_state.should == 'failed'
       end
 
-      # Regression test for #4281
-      it "is credit_owed if payment taken, but no line items" do
-        order.stub_chain(:line_items, :empty?).and_return(true)
-        order.stub_chain(:payments, :last, :state).and_return('completed')
+      context "payment total is greater than order total" do
+        it "is credit_owed" do
+          order.payment_total = 2
+          order.total = 1
 
-        updater.update_payment_state
-        order.payment_state.should == 'credit_owed'
+          expect {
+            updater.update_payment_state
+          }.to change { order.payment_state }.to 'credit_owed'
+        end
       end
 
-      it "is balance due with one pending payment" do
-        order.stub_chain(:payments, :last, :state).and_return('pending')
+      context "order total is greater than payment total" do
+        it "is credit_owed" do
+          order.payment_total = 1
+          order.total = 2
 
-        updater.update_payment_state
-        order.payment_state.should == 'balance_due'
+          expect {
+            updater.update_payment_state
+          }.to change { order.payment_state }.to 'balance_due'
+        end
       end
 
-      it "is balance due with no line items" do
-        order.stub_chain(:line_items, :empty?).and_return(true)
+      context "order total equals payment total" do
+        it "is paid" do
+          order.payment_total = 30
+          order.total = 30
 
-        updater.update_payment_state
-        order.payment_state.should == 'balance_due'
+          expect {
+            updater.update_payment_state
+          }.to change { order.payment_state }.to 'paid'
+        end
       end
 
-      it "is credit owed if payment is above total" do
-        order.stub_chain(:line_items, :empty?).and_return(false)
-        order.stub :payment_total => 31
-        order.stub :total => 30
+      context "order is canceled" do
 
-        updater.update_payment_state
-        order.payment_state.should == 'credit_owed'
+        before do
+          order.state = 'canceled'
+        end
+
+        context "and is still unpaid" do
+          it "is void" do
+            order.payment_total = 0
+            order.total = 30
+            expect {
+              updater.update_payment_state
+            }.to change { order.payment_state }.to 'void'
+          end
+        end
+
+        context "and is paid" do
+
+          it "is credit_owed" do
+            order.payment_total = 30
+            order.total = 30
+            order.stub_chain(:payments, :valid, :size).and_return(1)
+            order.stub_chain(:payments, :completed, :size).and_return(1)
+            expect {
+              updater.update_payment_state
+            }.to change { order.payment_state }.to 'credit_owed'
+          end
+
+        end
+
+        context "and payment is refunded" do
+          it "is void" do
+            order.payment_total = 0
+            order.total = 30
+            order.stub_chain(:payments, :valid, :size).and_return(1)
+            order.stub_chain(:payments, :completed, :size).and_return(2)
+            expect {
+              updater.update_payment_state
+            }.to change { order.payment_state }.to 'void'
+          end
+        end
       end
 
-      it "is paid if order is paid in full" do
-        order.stub_chain(:line_items, :empty?).and_return(false)
-        order.stub :payment_total => 30
-        order.stub :total => 30
-
-        updater.update_payment_state
-        order.payment_state.should == 'paid'
-      end
-
-      it "is balance due if payment total is less than order total" do
-        order.stub_chain(:line_items, :empty?).and_return(false)
-        order.stub_chain(:payments, :last, :state).and_return('completed')
-        order.stub :payment_total => 29
-        order.stub :total => 30
-
-        updater.update_payment_state
-        order.payment_state.should == 'balance_due'
-      end
     end
 
     it "state change" do
@@ -172,7 +224,7 @@ module Spree
       end
 
       it "updates each shipment" do
-        shipment = stub_model(Spree::Shipment)
+        shipment = stub_model(Spree::Shipment, :order => order)
         shipments = [shipment]
         order.stub :shipments => shipments
         shipments.stub :states => []
@@ -181,6 +233,24 @@ module Spree
         shipments.stub :shipped => []
 
         shipment.should_receive(:update!).with(order)
+        updater.update_shipments
+      end
+
+      it "refreshes shipment rates" do
+        shipment = stub_model(Spree::Shipment, :order => order)
+        shipments = [shipment]
+        order.stub :shipments => shipments
+
+        shipment.should_receive(:refresh_rates)
+        updater.update_shipments
+      end
+
+      it "updates the shipment amount" do
+        shipment = stub_model(Spree::Shipment, :order => order)
+        shipments = [shipment]
+        order.stub :shipments => shipments
+
+        shipment.should_receive(:update_amounts)
         updater.update_shipments
       end
     end

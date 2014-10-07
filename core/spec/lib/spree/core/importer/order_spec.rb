@@ -86,7 +86,7 @@ module Spree
       it 'can build an order from API with just line items' do
         params = { :line_items_attributes => line_items }
 
-        Importer::Order.should_receive(:ensure_variant_id_from_params)
+        Importer::Order.should_receive(:ensure_variant_id_from_params).and_return({variant_id: variant.id, quantity: 5})
         order = Importer::Order.import(user,params)
         order.user.should == nil
         line_item = order.line_items.first
@@ -235,7 +235,7 @@ module Spree
         let(:params) do
           { :shipments_attributes => [
               { :tracking => '123456789',
-                :cost => '4.99',
+                :cost => '14.99',
                 :shipping_method => shipping_method.name,
                 :stock_location => stock_location.name,
                 :inventory_units => [{ :sku => sku }]
@@ -252,14 +252,14 @@ module Spree
           order = Importer::Order.import(user, params)
           shipment = order.shipments.first
 
-          expect(shipment.cost.to_f).to eq 4.99
+          expect(shipment.cost.to_f).to eq 14.99
           expect(shipment.inventory_units.first.variant_id).to eq product.master.id
           expect(shipment.tracking).to eq '123456789'
-          expect(shipment.shipping_rates.first.cost).to eq 4.99
+          expect(shipment.shipping_rates.first.cost).to eq 14.99
           expect(shipment.selected_shipping_rate).to eq(shipment.shipping_rates.first)
           expect(shipment.stock_location).to eq stock_location
 
-          expect(order.shipment_total.to_f).to eq 4.99
+          expect(order.shipment_total.to_f).to eq 14.99
         end
 
         it "raises if cant find stock location" do
@@ -320,7 +320,7 @@ module Spree
             { label: 'Promotion Discount', amount: -3.00 }] }
 
         order = Importer::Order.import(user,params)
-        order.adjustments.all?(&:closed?).should be_true
+        order.adjustments.all?(&:closed?).should be true
         order.adjustments.first.label.should eq 'Shipping Discount'
         order.adjustments.first.amount.should eq -4.99
       end
