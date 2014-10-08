@@ -34,4 +34,5 @@ group :test do
   gem 'webmock', '1.8.11'
   gem 'poltergeist', '1.5.0'
   gem 'rspec-retry'
+  gem 'byebug'
 end
