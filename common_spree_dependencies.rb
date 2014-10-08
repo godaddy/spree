@@ -14,6 +14,7 @@ platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'
 end
 
+gem 'rails', '4.0.9' #Temporary version lock to 4.0.9 to avoid bad rails version.
 gem 'coffee-rails', '~> 4.0.0'
 gem 'sass-rails', '~> 4.0.0'
 
@@ -33,4 +34,5 @@ group :test do
   gem 'webmock', '1.8.11'
   gem 'poltergeist', '1.5.0'
   gem 'rspec-retry'
+  gem 'byebug'
 end

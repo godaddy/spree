@@ -53,12 +53,12 @@ describe Spree::Order do
 
       it "matches line item when options match" do
         order.stub(:foos_match).and_return(true)
-        order.line_item_options_match(@line_items.first, {foos: {bar: :zoo}}).should be_true
+        order.line_item_options_match(@line_items.first, {foos: {bar: :zoo}}).should be true
       end
 
       it "does not match line item without options" do
         order.stub(:foos_match).and_return(false)
-        order.line_item_options_match(@line_items.first, {}).should be_false
+        order.line_item_options_match(@line_items.first, {}).should be false
       end
     end
   end
