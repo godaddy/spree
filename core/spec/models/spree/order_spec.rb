@@ -631,6 +631,27 @@ describe Spree::Order do
         line_items.pluck(:variant_id).should =~ [variant.id, variant_2.id]
       end
     end
+
+    context "merging together two orders with invalid line item" do
+      let(:variant_2) { create(:variant) }
+
+      before do
+        order_1.contents.add(variant, 1)
+        order_2.contents.add(variant_2, 1)
+      end
+
+      specify do
+        variant_2.stock_items.map do |s|
+          s.backorderable = false
+          s.save!
+        end
+        order_1.merge!(order_2)
+        line_items = order_1.line_items.reload
+        line_items.pluck(:quantity).should =~ [1]
+        line_items.pluck(:variant_id).should =~ [variant.id]
+        lambda { order_2.reload }.should raise_error(ActiveRecord::RecordNotFound)
+    end
+    end
   end
 
   context "#confirmation_required?" do
