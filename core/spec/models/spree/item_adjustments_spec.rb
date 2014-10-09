@@ -242,7 +242,7 @@ module Spree
           @before_tax_adjustments_called = true
         end
 
-        set_callback :promo_adjustments, :after do |object|
+        set_callback :tax_adjustments, :after do |object|
           @after_tax_adjustments_called = true
         end
       end
@@ -250,10 +250,10 @@ module Spree
 
       it "calls all the callbacks" do
         subject.update_adjustments
-        expect(subject.before_promo_adjustments_called).to be_true
-        expect(subject.after_promo_adjustments_called).to be_true
-        expect(subject.before_tax_adjustments_called).to be_true
-        expect(subject.after_tax_adjustments_called).to be_true
+        expect(subject.before_promo_adjustments_called).to be true
+        expect(subject.after_promo_adjustments_called).to be true
+        expect(subject.before_tax_adjustments_called).to be true
+        expect(subject.after_tax_adjustments_called).to be true
       end
     end
   end
