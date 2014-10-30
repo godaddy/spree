@@ -15,12 +15,15 @@ describe EmailValidator do
     'valid+email@email.com',
     'valid-email@email.com',
     'valid_email@email.com',
-    'valid.email@email.com'
+    'valid.email@email.com',
+    'a.valid.email@email.com'
   ]}
   let(:invalid_emails) {[
     'invalid email@email.com',
     '.invalid.email@email.com',
     'invalid.email.@email.com',
+    'invalid..email@email.com',
+    'i..nvalidemail@email.com',
     '@email.com',
     '.@email.com',
     'invalidemailemail.com',
