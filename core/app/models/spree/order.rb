@@ -372,16 +372,14 @@ module Spree
 
     # Finalizes an in progress order after checkout is complete.
     # Called after transition to complete state when payments will have been processed
-    def finalize!
+    def finalize!(decrement_inventory=true)
       # lock all adjustments (coupon promotions, etc.)
       all_adjustments.each{|a| a.close}
 
       # update payment and shipment(s) states, and save
       updater.update_payment_state
-      shipments.each do |shipment|
-        shipment.update!(self)
-        shipment.finalize!
-      end
+
+      decrement_inventory and finalize_shipment
 
       updater.update_shipment_state
       save
@@ -442,6 +440,13 @@ module Spree
     rescue Core::GatewayError => e
       result = !!Spree::Config[:allow_checkout_on_gateway_error]
       errors.add(:base, e.message) and return result
+    end
+
+    def finalize_shipment
+      shipments.each do |shipment|
+        shipment.update!(self)
+        shipment.finalize!
+      end
     end
 
     def billing_firstname
