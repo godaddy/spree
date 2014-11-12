@@ -379,7 +379,10 @@ module Spree
       # update payment and shipment(s) states, and save
       updater.update_payment_state
 
-      decrement_inventory and finalize_shipment
+      shipments.each do |shipment|
+        shipment.update!(self)
+        shipment.finalize! if decrement_inventory
+      end
 
       updater.update_shipment_state
       save
@@ -444,7 +447,6 @@ module Spree
 
     def finalize_shipment
       shipments.each do |shipment|
-        shipment.update!(self)
         shipment.finalize!
       end
     end
