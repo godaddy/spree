@@ -105,6 +105,7 @@ module Spree
           @collection = @search.result.
                 distinct_by_product_ids(params[:q][:s]).
                 includes(product_includes).
+                includes(:variants_including_master => [:default_price]).
                 page(params[:page]).
                 per(Spree::Config[:admin_products_per_page])
 
