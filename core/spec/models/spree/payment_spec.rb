@@ -9,15 +9,7 @@ describe Spree::Payment do
     gateway
   end
 
-  let(:card) do
-    Spree::CreditCard.create!(
-      number: "4111111111111111",
-      month: "12",
-      year: "2014",
-      verification_value: "123",
-      name: "Name"
-    )
-  end
+  let(:card) { create :credit_card }
 
   let(:payment) do
     payment = Spree::Payment.new
