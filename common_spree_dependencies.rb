@@ -14,7 +14,6 @@ platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'
 end
 
-gem 'rails', '4.0.9' #Temporary version lock to 4.0.9 to avoid bad rails version.
 gem 'coffee-rails', '~> 4.0.0'
 gem 'sass-rails', '~> 4.0.0'
 
