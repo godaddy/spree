@@ -399,7 +399,7 @@ describe Spree::TaxRate do
           end
 
           it "price adjustments should be accurate" do
-            included_tax = @order.line_item_adjustments.sum(:amount).round(2, BigDecimal::ROUND_HALF_UP)
+            included_tax = @order.line_item_adjustments.sum(:amount)
             expect(@price_before_taxes + included_tax).to eq(line_item.price)
           end
         end

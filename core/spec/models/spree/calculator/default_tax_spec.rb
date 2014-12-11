@@ -85,13 +85,13 @@ describe Spree::Calculator::DefaultTax do
           end
 
           it "should be equal to the item's discounted total * rate" do
-            expect(calculator.compute(line_item)).to eql 1.38095
+            expect(calculator.compute(line_item)).to eql 1.38
           end
         end
 
         it "should be equal to the item's full price * rate" do
           Spree::TaxRate.store_pre_tax_amount(line_item, [rate])
-          expect(calculator.compute(line_item)).to eql 1.42857
+          expect(calculator.compute(line_item)).to eql 1.43
         end
       end
     end

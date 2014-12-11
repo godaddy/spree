@@ -28,7 +28,7 @@ module Spree
 
     validates :label, presence: true
 
-    validates :amount, numericality: Spree::Core::DbValueValidations::DECIMAL_13_5
+    validates :amount, numericality: Spree::Core::DbValueValidations::DECIMAL_10_2
 
     state_machine :state, initial: :open do
       event :close do
