@@ -69,15 +69,15 @@ module Spree
 
     def update_adjustment_total
       recalculate_adjustments
-      order.adjustment_total = round_money(line_items.sum(:adjustment_total) +
+      order.adjustment_total = line_items.sum(:adjustment_total) +
                                shipments.sum(:adjustment_total)  +
-                               adjustments.eligible.sum(:amount))
-      order.included_tax_total = round_money(line_items.sum(:included_tax_total) + shipments.sum(:included_tax_total))
-      order.additional_tax_total = round_money(line_items.sum(:additional_tax_total) + shipments.sum(:additional_tax_total))
+                               adjustments.eligible.sum(:amount)
+      order.included_tax_total = line_items.sum(:included_tax_total) + shipments.sum(:included_tax_total)
+      order.additional_tax_total = line_items.sum(:additional_tax_total) + shipments.sum(:additional_tax_total)
 
-      order.promo_total = round_money(line_items.sum(:promo_total) +
+      order.promo_total = line_items.sum(:promo_total) +
                           shipments.sum(:promo_total) +
-                          adjustments.promotion.eligible.sum(:amount))
+                          adjustments.promotion.eligible.sum(:amount)
 
       update_order_total
     end
@@ -169,9 +169,8 @@ module Spree
 
     private
 
-    def round_money(amount, scale=2)
-      BigDecimal.new(amount.to_s).round(scale, BigDecimal::ROUND_HALF_UP)
-    end
-
+      def round_money(n)
+        (n * 100).round / 100.0
+      end
   end
 end
