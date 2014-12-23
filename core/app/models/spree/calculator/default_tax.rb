@@ -17,9 +17,9 @@ module Spree
 
       line_items_total = matched_line_items.sum(&:total)
       if rate.included_in_price
-        round_money(line_items_total - ( line_items_total / (1 + rate.amount) ) )
+        round_to_two_places(line_items_total - ( line_items_total / (1 + rate.amount) ) )
       else
-        round_money(line_items_total * rate.amount)
+        round_to_two_places(line_items_total * rate.amount)
       end
     end
 
@@ -28,7 +28,7 @@ module Spree
       if rate.included_in_price
         deduced_total_by_rate(item.pre_tax_amount, rate)
       else
-        round_money(item.discounted_amount * rate.amount, 5)
+        round_to_two_places(item.discounted_amount * rate.amount)
       end
     end
 
@@ -45,7 +45,7 @@ module Spree
         end
       else
         with_tax_amount = shipping_rate.cost * rate.amount
-        round_money(with_tax_amount, 5)
+        round_to_two_places(with_tax_amount)
       end
     end
 
@@ -55,12 +55,12 @@ module Spree
       self.calculable
     end
 
-    def round_money(amount, scale=2)
-      BigDecimal.new(amount.to_s).round(scale, BigDecimal::ROUND_HALF_UP)
+    def round_to_two_places(amount)
+      BigDecimal.new(amount.to_s).round(2, BigDecimal::ROUND_HALF_UP)
     end
 
     def deduced_total_by_rate(pre_tax_amount, rate)
-      round_money(pre_tax_amount * rate.amount, 5)
+      round_to_two_places(pre_tax_amount * rate.amount)
     end
 
   end

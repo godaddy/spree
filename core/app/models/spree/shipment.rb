@@ -24,10 +24,10 @@ module Spree
     make_permalink field: :number, length: 11, prefix: 'H'
 
     validates :cost, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
-    validates :adjustment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_DECIMAL_13_5
-    validates :additional_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_13_5
-    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_NEGATIVE_DECIMAL_13_5
-    validates :included_tax_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_13_5
+    validates :adjustment_total, numericality: Spree::Core::DbValueValidations::NILLABLE_DECIMAL_10_2
+    validates :additional_tax_total, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_10_2
+    validates :promo_total, numericality: Spree::Core::DbValueValidations::NILLABLE_NEGATIVE_DECIMAL_10_2
+    validates :included_tax_total, numericality: Spree::Core::DbValueValidations::POSITIVE_DECIMAL_10_2
     validates :pre_tax_amount, numericality: Spree::Core::DbValueValidations::NILLABLE_POSITIVE_DECIMAL_8_2
 
     scope :shipped, -> { with_state('shipped') }
