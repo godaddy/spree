@@ -11,9 +11,9 @@ describe Spree::CheckoutController do
   end
 
   before do
-    controller.stub :try_spree_current_user => user
-    controller.stub :spree_current_user => user
-    controller.stub :current_order => order
+    allow(controller).to receive_messages try_spree_current_user: user
+    allow(controller).to receive_messages spree_current_user: user
+    allow(controller).to receive_messages current_order: order
   end
 
   context "#edit" do
@@ -55,9 +55,9 @@ describe Spree::CheckoutController do
       end
 
       it "should associate the order with a user" do
-        order.user = nil
+        order.update_column :user_id, nil
         order.should_receive(:associate_user!).with(user)
-        spree_get :edit, {}, :order_id => 1
+        spree_get :edit, {}, order_id: 1
       end
     end
   end
@@ -140,14 +140,12 @@ describe Spree::CheckoutController do
 
       context "with the order in the address state" do
         before do
-          order.update_column(:state, "address")
+          order.update_columns(ship_address_id: create(:address).id, state: "address")
           order.stub :user => user
         end
 
         context "with a billing and shipping address" do
           before do
-            order.ship_address = FactoryGirl.create(:address)
-
             @expected_bill_address_id = order.bill_address.id
             @expected_ship_address_id = order.ship_address.id
 
@@ -198,6 +196,49 @@ describe Spree::CheckoutController do
         it "should remove completed order from the session" do
           spree_post :update, {:state => "confirm"}, {:order_id => "foofah"}
           session[:order_id].should be_nil
+        end
+      end
+
+      # Regression test for #4190
+      context "state_lock_version" do
+        let(:post_params) {
+          {
+            state: "address",
+            order: {
+              bill_address_attributes: order.bill_address.attributes.except("created_at", "updated_at"),
+              state_lock_version: 0,
+              use_billing: true
+            }
+          }
+        }
+
+        context "correct" do
+          it "should properly update and increment version" do
+            spree_post :update, post_params
+            expect(order.state_lock_version).to eq 1
+          end
+        end
+
+        context "incorrect" do
+          before do
+            order.update_columns(state_lock_version: 1, state: "address")
+          end
+
+          it "order should receieve ensure_valid_order_version callback" do
+            expect_any_instance_of(described_class).to receive(:ensure_valid_state_lock_version)
+            spree_post :update, post_params
+          end
+
+          it "order should receieve with_lock message" do
+            expect(order).to receive(:with_lock)
+            spree_post :update, post_params
+          end
+
+          it "redirects back to current state" do
+            spree_post :update, post_params
+            expect(response).to redirect_to spree.checkout_state_path('address')
+            expect(flash[:error]).to eq "The order has already been updated."
+          end
         end
       end
     end

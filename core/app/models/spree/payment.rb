@@ -8,7 +8,7 @@ module Spree
 
     belongs_to :order, class_name: 'Spree::Order', touch: true, inverse_of: :payments
     belongs_to :source, polymorphic: true
-    belongs_to :payment_method, class_name: 'Spree::PaymentMethod'
+    belongs_to :payment_method, class_name: 'Spree::PaymentMethod', inverse_of: :payments
 
     has_many :offsets, -> { where("source_type = 'Spree::Payment' AND amount < 0 AND state = 'completed'") },
       class_name: "Spree::Payment", foreign_key: :source_id
@@ -166,7 +166,8 @@ module Spree
       end
 
       def create_payment_profile
-        return unless source.respond_to?(:has_payment_profile?) && !source.has_payment_profile?
+        return unless source.respond_to?(:has_payment_profile?) && !source.has_payment_profile? &&
+          state != 'invalid' && state != 'failed'
 
         payment_method.create_profile(self)
       rescue ActiveMerchant::ConnectionError => e
@@ -174,8 +175,10 @@ module Spree
       end
 
       def invalidate_old_payments
-        order.payments.with_state('checkout').where("id != ?", self.id).each do |payment|
-          payment.invalidate!
+        if state != 'invalid' and state != 'failed'
+          order.payments.with_state('checkout').where("id != ?", self.id).each do |payment|
+            payment.invalidate!
+          end
         end
       end
 

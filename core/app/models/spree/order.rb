@@ -38,9 +38,9 @@ module Spree
     alias_attribute :ship_total, :shipment_total
 
     has_many :state_changes, as: :stateful
-    has_many :line_items, -> { order('created_at ASC') }, dependent: :destroy, inverse_of: :order
+    has_many :line_items, -> { order("#{LineItem.table_name}.created_at ASC") }, dependent: :destroy, inverse_of: :order
     has_many :payments, dependent: :destroy
-    has_many :return_authorizations, dependent: :destroy
+    has_many :return_authorizations, dependent: :destroy, inverse_of: :order
     has_many :adjustments, -> { order("#{Adjustment.table_name}.created_at ASC") }, as: :adjustable, dependent: :destroy
     has_many :line_item_adjustments, through: :line_items, source: :adjustments
     has_many :shipment_adjustments, through: :shipments, source: :adjustments
@@ -688,9 +688,8 @@ module Spree
       def after_cancel
         shipments.each { |shipment| shipment.cancel! }
         payments.completed.each { |payment| payment.cancel! }
-
         send_cancel_email
-        self.update_column(:payment_state, 'credit_owed') unless shipped?
+        self.update!
       end
 
       def send_cancel_email
