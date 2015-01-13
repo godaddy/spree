@@ -2,12 +2,10 @@ require 'spec_helper'
 
 describe Spree::CreditCard do
   let(:valid_credit_card_attributes) do
-    {
-      number: '4111111111111111',
-      verification_value: '123',
-      expiry: "12 / #{(Time.now.year + 1).to_s.last(2)}",
-      name: 'Spree Commerce'
-    }
+    { :number => '4111111111111111',
+      :verification_value => '123',
+      :expiry => "12 / #{Time.now.year + 1}",
+      :name => "Spree Commerce" }
   end
 
   def self.payment_states
@@ -108,6 +106,27 @@ describe Spree::CreditCard do
       credit_card.year = 1.month.ago.year
       credit_card.should_not be_valid
       credit_card.errors[:base].should == ["Card has expired"]
+    end
+
+    it "should not be expired expiring on the current month" do
+      credit_card.attributes = valid_credit_card_attributes
+      credit_card.month = Time.zone.now.month
+      credit_card.year = Time.zone.now.year
+      credit_card.should be_valid
+    end
+
+    it "should handle TZ correctly" do
+      # The card is valid according to the system clock's local time
+      # (Time.now).
+      # However it has expired in rails's configured time zone (Time.current),
+      # which is the value we should be respecting.
+      time = Time.new(2014, 04, 30, 23, 0, 0, "-07:00")
+      Timecop.freeze(time) do
+        credit_card.month = 1.month.ago.month
+        credit_card.year = 1.month.ago.year
+        credit_card.should_not be_valid
+        credit_card.errors[:base].should == ["Card has expired"]
+      end
     end
 
     it "does not run expiration in the past validation if month is not set" do

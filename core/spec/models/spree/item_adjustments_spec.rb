@@ -44,7 +44,7 @@ module Spree
 
       context "tax included in price" do
         before do
-          create(:adjustment, 
+          create(:adjustment,
             :source => tax_rate,
             :adjustable => line_item,
             :order => order,
@@ -71,7 +71,7 @@ module Spree
 
       context "tax excluded from price" do
         before do
-          create(:adjustment, 
+          create(:adjustment,
             :source => tax_rate,
             :adjustable => line_item,
             :order => order,
@@ -130,6 +130,20 @@ module Spree
 
         line_item.adjustments.promotion.eligible.count.should == 1
         line_item.adjustments.promotion.eligible.first.label.should == 'Promotion C'
+      end
+
+      it "should choose the most recent promotion adjustment when amounts are equal" do
+        # Using Timecop is a regression test
+        Timecop.freeze do
+          create_adjustment("Promotion A", -200)
+          create_adjustment("Promotion B", -200)
+        end
+        line_item.adjustments.each {|a| a.update_column(:eligible, true)}
+
+        subject.choose_best_promotion_adjustment
+
+        line_item.adjustments.promotion.eligible.count.should == 1
+        line_item.adjustments.promotion.eligible.first.label.should == 'Promotion B'
       end
 
       context "when previously ineligible promotions become available" do
