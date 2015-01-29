@@ -14,7 +14,6 @@ platforms :jruby do
   gem 'activerecord-jdbcsqlite3-adapter'
 end
 
-gem 'rails', '4.0.9' #Temporary version lock to 4.0.9 to avoid bad rails version.
 gem 'coffee-rails', '~> 4.0.0'
 gem 'sass-rails', '~> 4.0.0'
 
@@ -22,7 +21,7 @@ group :test do
   gem 'capybara', '~> 2.4'
   gem 'database_cleaner', '~> 1.0'
   gem 'email_spec'
-  gem 'factory_girl_rails', '~> 4.4'
+  gem 'factory_girl_rails', '~> 4.5.0'
   gem 'launchy'
   gem 'pry'
   gem 'rspec-activemodel-mocks'
@@ -31,6 +30,7 @@ group :test do
   gem 'rspec-rails', '~> 3.0.2'
   gem 'selenium-webdriver', '~> 2.35'
   gem 'simplecov'
+  gem 'timecop'
   gem 'webmock', '1.8.11'
   gem 'poltergeist', '1.5.0'
   gem 'rspec-retry'
