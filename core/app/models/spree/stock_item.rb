@@ -13,7 +13,7 @@ module Spree
     delegate :weight, to: :variant
 
     def should_track_inventory?
-      variant && !variant.destroyed? && variant.should_track_inventory?
+      variant && !variant.deleted? && variant.should_track_inventory?
     end
 
     after_save :conditional_variant_touch, if: :changed?
