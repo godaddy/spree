@@ -1,6 +1,6 @@
 module Spree
   class OrderPopulator
-    attr_accessor :order, :currency
+    attr_accessor :order, :currency, :new_line_item
     attr_reader :errors
 
     def initialize(order, currency)
@@ -34,9 +34,9 @@ module Spree
 
       variant = Spree::Variant.find(variant_id)
       if quantity > 0
-        line_item = @order.contents.add(variant, quantity, options.merge(currency: currency))
-        unless line_item.valid?
-          errors.add(:base, line_item.errors.messages.values.join(" "))
+        @new_line_item = @order.contents.add(variant, quantity, options.merge(currency: currency))
+        unless @new_line_item.valid?
+          errors.add(:base, @new_line_item.errors.messages.values.join(" "))
           return false
         end
       end
