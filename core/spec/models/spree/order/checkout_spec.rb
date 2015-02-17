@@ -260,31 +260,6 @@ describe Spree::Order do
           order.state.should == "complete"
         end
       end
-
-      context "decrement inventory before payment process" do
-        before do
-          order.stub :confirmation_required? => false
-          order.stub :payment_required? => true
-        end
-
-        it "decrements inventory before processing payment" do
-          Spree::Order.stub :decrement_inventory_before_payment_process => true
-          order.should_receive(:finalize_shipment).once.ordered
-          order.should_receive(:process_payments!).once.ordered
-          order.next!
-          assert_state_changed(order, 'payment', 'complete')
-          order.state.should == "complete"
-        end
-
-        it "will not decrement inventory before processing payment" do
-          Spree::Order.stub :decrement_inventory_before_payment_process => false
-          order.should_not_receive(:finalize_shipment)
-          order.should_receive(:process_payments!).and_return true
-          order.next!
-          assert_state_changed(order, 'payment', 'complete')
-          order.state.should == "complete"
-        end
-      end
     end
   end
 

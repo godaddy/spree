@@ -8,7 +8,6 @@ module Spree
           class_attribute :checkout_flow
           class_attribute :checkout_steps
           class_attribute :removed_transitions
-          class_attribute :decrement_inventory_before_payment_process
 
           def self.checkout_flow(&block)
             if block_given?
@@ -24,7 +23,6 @@ module Spree
             self.next_event_transitions = []
             self.previous_states = [:cart]
             self.removed_transitions = []
-            self.decrement_inventory_before_payment_process = false
 
             # Build the checkout flow using the checkout_flow defined either
             # within the Order class, or a decorator for that class.
@@ -73,7 +71,6 @@ module Spree
 
               if states[:payment]
                 before_transition :to => :complete do |order|
-                  order.finalize_shipment if klass.decrement_inventory_before_payment_process
                   order.process_payments! if order.payment_required?
                 end
               end
@@ -97,9 +94,7 @@ module Spree
 
               before_transition to: :resumed, do: :ensure_line_items_are_in_stock
 
-              after_transition to: :complete do | order |
-                order.finalize!(!klass.decrement_inventory_before_payment_process)
-              end
+              after_transition to: :complete, do: :finalize!
               after_transition to: :resumed,  do: :after_resume
               after_transition to: :canceled, do: :after_cancel
 
