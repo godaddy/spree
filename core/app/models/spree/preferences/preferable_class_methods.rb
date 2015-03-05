@@ -5,18 +5,16 @@ module Spree::Preferences
       options = args.extract_options!
       options.assert_valid_keys(:default, :description)
       default = options[:default]
+      default = ->{ options[:default] } unless default.is_a?(Proc)
       description = options[:description] || name
 
       # cache_key will be nil for new objects, then if we check if there
       # is a pending preference before going to default
       define_method preference_getter_method(name) do
-
-        # perference_cache_key will only be nil/false for new records
-        #
         if preference_cache_key(name)
-          preference_store.get(preference_cache_key(name), default)
+          preference_store.get(preference_cache_key(name), default.call)
         else
-          get_pending_preference(name) || default
+          get_pending_preference(name) || default.call
         end
       end
       alias_method prefers_getter_method(name), preference_getter_method(name)
@@ -32,7 +30,7 @@ module Spree::Preferences
       alias_method prefers_setter_method(name), preference_setter_method(name)
 
       define_method preference_default_getter_method(name) do
-        default
+        default.call
       end
 
       define_method preference_type_getter_method(name) do
