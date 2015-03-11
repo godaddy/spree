@@ -216,6 +216,8 @@ module Spree
               coupon = Coupon.new(@order)
               coupon.apply
               expect(coupon.success).to be_present
+              Spree::TaxRate.adjust(@order, @order.line_items)
+              @order.update!
               # 3 * ((9 - [9,10].min) + 0)
               @order.reload.total.should == 0
               @order.additional_tax_total.should == 0
@@ -234,6 +236,8 @@ module Spree
               coupon = Coupon.new(@order)
               coupon.apply
               expect(coupon.success).to be_present
+              Spree::TaxRate.adjust(@order, @order.line_items)
+              @order.update!
               # 3 * ( (22 - 10) + 1.2)
               @order.reload.total.should == 39.6
               @order.additional_tax_total.should == 3.6
@@ -259,6 +263,8 @@ module Spree
               coupon = Coupon.new(@order)
               coupon.apply
               expect(coupon.success).to be_present
+              Spree::TaxRate.adjust(@order, @order.line_items)
+              @order.update!
               # 0
               @order.reload.total.should == 0
               @order.additional_tax_total.should == 0
