@@ -25,11 +25,8 @@ module Spree
 
     # When it comes to computing shipments or line items: same same.
     def compute_shipment_or_line_item(item)
-      if rate.included_in_price
-        deduced_total_by_rate(item.pre_tax_amount, rate)
-      else
-        round_to_two_places(item.discounted_amount * rate.amount)
-      end
+      item_amount = item.pre_tax_amount || item.discounted_amount
+      round_to_two_places(item_amount * rate.amount)
     end
 
     alias_method :compute_shipment, :compute_shipment_or_line_item

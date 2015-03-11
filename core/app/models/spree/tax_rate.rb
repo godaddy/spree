@@ -38,40 +38,14 @@ module Spree
         # Go see the documentation for that method.
         rate.potentially_applicable?(order)
       end
-
-      # Imagine with me this scenario:
-      # You are living in Spain and you have a store which ships to France.
-      # Spain is therefore your default tax rate.
-      # When you ship to Spain, you want the Spanish rate to apply.
-      # When you ship to France, you want the French rate to apply.
-      #
-      # Normally, Spree would notice that you have two potentially applicable
-      # tax rates for one particular item.
-      # When you ship to Spain, only the Spanish one will apply.
-      # When you ship to France, you'll see a Spanish refund AND a French tax.
-      # This little bit of code at the end stops the Spanish refund from appearing.
-      #
-      # For further discussion, see #4397 and #4327.
-      rates.delete_if do |rate|
-        rate.included_in_price? &&
-        (rates - [rate]).map(&:tax_category).include?(rate.tax_category)
-      end
     end
 
     # Pre-tax amounts must be stored so that we can calculate
     # correct rate amounts in the future. For example:
     # https://github.com/spree/spree/issues/4318#issuecomment-34723428
     def self.store_pre_tax_amount(item, rates)
-      if rates.any? { |r| r.included_in_price }
-        case item
-        when Spree::LineItem
-          item_amount = item.discounted_amount
-        when Spree::Shipment
-          item_amount = item.discounted_cost
-        end
-        pre_tax_amount = item_amount / (1 + rates.map(&:amount).sum)
-        item.update_column(:pre_tax_amount, pre_tax_amount)
-      end
+      inclusive_rates_sum = rates.map { |r| r.included_in_price ? r.amount : 0}.sum
+      item.update_column(:pre_tax_amount, item.discounted_amount / (1 + inclusive_rates_sum))
     end
 
     # This method is best described by the documentation on #potentially_applicable?
@@ -195,7 +169,7 @@ module Spree
 
     def default_zone_or_zone_match?(item)
       Zone.default_tax.contains?(item.order.tax_zone) ||
-      item.order.tax_zone == self.zone
+      self.zone.contains?(item.order.tax_zone)
     end
 
     private
