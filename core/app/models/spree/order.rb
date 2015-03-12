@@ -313,29 +313,29 @@ module Spree
     end
 
     def find_line_item_by_variant(variant, options = {})
-      line_items.detect { |line_item| 
+      line_items.detect { |line_item|
                     line_item.variant_id == variant.id &&
-                    line_item_options_match(line_item, options)                  
+                    line_item_options_match(line_item, options)
                   }
     end
-    
-    # This method enables extensions to participate in the 
+
+    # This method enables extensions to participate in the
     # "Are these line items equal" decision.
     #
     # When adding to cart, an extension would send something like:
     # params[:product_customizations]={...}
-    #                                 
+    #
     # and would provide:
     #
     # def product_customizations_match
     def line_item_options_match(line_item, options)
       return true unless options
 
-      self.line_item_comparison_hooks.all? { |hook| 
+      self.line_item_comparison_hooks.all? { |hook|
         self.send(hook, line_item, options)
       }
     end
-                                     
+
     # Creates new tax charges if there are any applicable rates. If prices already
     # include taxes then price adjustments are created instead.
     def create_tax_charge!
@@ -372,7 +372,7 @@ module Spree
 
     # Finalizes an in progress order after checkout is complete.
     # Called after transition to complete state when payments will have been processed
-    def finalize!
+    def finalize!(decrement_inventory=true)
       # lock all adjustments (coupon promotions, etc.)
       all_adjustments.each{|a| a.close}
 
@@ -380,7 +380,7 @@ module Spree
       updater.update_payment_state
       shipments.each do |shipment|
         shipment.update!(self)
-        shipment.finalize!
+        shipment.finalize! if decrement_inventory
       end
 
       updater.update_shipment_state
@@ -392,6 +392,12 @@ module Spree
       deliver_order_confirmation_email unless confirmation_delivered?
 
       consider_risk
+    end
+
+    def decrement_inventory
+      shipments.each do |shipment|
+        shipment.finalize!
+      end
     end
 
     def fulfill!
@@ -476,12 +482,12 @@ module Spree
       order.line_items.each do |other_order_line_item|
         next unless other_order_line_item.currency == currency
 
-        # Compare the line items of the other order with mine. 
+        # Compare the line items of the other order with mine.
         # Make sure you allow any extensions to chime in on whether or
         # not the extension-specific parts of the line item match
-        current_line_item = self.line_items.detect { |my_li| 
-                      my_li.variant == other_order_line_item.variant && 
-                      self.line_item_comparison_hooks.all? { |hook| 
+        current_line_item = self.line_items.detect { |my_li|
+                      my_li.variant == other_order_line_item.variant &&
+                      self.line_item_comparison_hooks.all? { |hook|
                         self.send(hook, my_li, other_order_line_item)
                       }
                     }
