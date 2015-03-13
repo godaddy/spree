@@ -44,15 +44,8 @@ module Spree
     # correct rate amounts in the future. For example:
     # https://github.com/spree/spree/issues/4318#issuecomment-34723428
     def self.store_pre_tax_amount(item, rates)
-      case item
-      when Spree::LineItem
-        item_amount = item.discounted_amount
-      when Spree::Shipment
-        item_amount = item.discounted_cost
-      end
       inclusive_rates_sum = rates.map { |r| r.included_in_price ? r.amount : 0}.sum
-      item_amount = item_amount / (1 + inclusive_rates_sum)
-      item.update_column(:pre_tax_amount, item_amount)
+      item.update_column(:pre_tax_amount, item.discounted_amount / (1 + inclusive_rates_sum))
     end
 
     # This method is best described by the documentation on #potentially_applicable?
