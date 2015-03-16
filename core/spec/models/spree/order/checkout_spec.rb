@@ -267,18 +267,18 @@ describe Spree::Order do
           order.stub :payment_required? => true
         end
 
-        it "decrements inventory before processing payment" do
-          Spree::Order.stub :decrement_inventory_before_payment_process => true
-          order.should_receive(:finalize_shipment).once.ordered
+        it "decrements inventory before finalizing order" do
+          Spree::Order.stub :decrement_inventory_before_finalize => true
           order.should_receive(:process_payments!).once.ordered
+          order.should_receive(:decrement_inventory).once.ordered
           order.next!
           assert_state_changed(order, 'payment', 'complete')
           order.state.should == "complete"
         end
 
-        it "will not decrement inventory before processing payment" do
-          Spree::Order.stub :decrement_inventory_before_payment_process => false
-          order.should_not_receive(:finalize_shipment)
+        it "will not decrement inventory before finalizing order" do
+          Spree::Order.stub :decrement_inventory_before_finalize => false
+          order.should_not_receive(:decrement_inventory)
           order.should_receive(:process_payments!).and_return true
           order.next!
           assert_state_changed(order, 'payment', 'complete')
@@ -354,9 +354,10 @@ describe Spree::Order do
     end
 
     it "does not attempt to process payments" do
-      order.stub_chain(:line_items, :present?).and_return(true)
-      order.should_not_receive(:payment_required?)
-      order.should_not_receive(:process_payments!)
+      allow(order).to receive_message_chain(:line_items, :present?) { true }
+      allow(order).to receive(:ensure_line_items_are_in_stock) { true }
+      expect(order).not_to receive(:payment_required?)
+      expect(order).not_to receive(:process_payments!)
       order.next!
       assert_state_changed(order, 'cart', 'complete')
     end

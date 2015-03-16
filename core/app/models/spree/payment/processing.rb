@@ -46,7 +46,7 @@ module Spree
           # Standard ActiveMerchant capture usage
           response = payment_method.capture(
             amount,
-            response_code,
+            transaction_info,
             gateway_options
           )
 
@@ -157,6 +157,11 @@ module Spree
       end
 
       private
+
+
+      def transaction_info
+        response_code
+      end
 
       def gateway_action(source, action, success_state)
         protect_from_connection_error do
