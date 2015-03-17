@@ -261,13 +261,13 @@ describe Spree::Order do
         end
       end
 
-      context "decrement inventory before payment process" do
+      describe "decrement inventory" do
         before do
           order.stub :confirmation_required? => false
           order.stub :payment_required? => true
         end
 
-        it "decrements inventory before finalizing order" do
+        it "calls decrement inventory when inventory is decremented before order is finalized" do
           Spree::Order.stub :decrement_inventory_before_finalize => true
           order.should_receive(:process_payments!).once.ordered
           order.should_receive(:decrement_inventory).once.ordered
@@ -276,7 +276,7 @@ describe Spree::Order do
           order.state.should == "complete"
         end
 
-        it "will not decrement inventory before finalizing order" do
+        it "does not call decrement inventory when inventory is not decremented before order is finalized" do
           Spree::Order.stub :decrement_inventory_before_finalize => false
           order.should_not_receive(:decrement_inventory)
           order.should_receive(:process_payments!).and_return true
