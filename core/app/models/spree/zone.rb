@@ -19,9 +19,9 @@ module Spree
     # Returns the matching zone with the highest priority zone type (State, Country, Zone.)
     # Returns nil in the case of no matches.
     def self.match(address)
-      return unless matches = self.includes(:zone_members).
-        order('zone_members_count', 'created_at').
-        select { |zone| zone.include? address }
+      reset_zones_cache if Rails.env.test?
+      @zones_include_members ||= self.includes(:zone_members).order('zone_members_count', 'created_at')
+      return unless matches = @zones_include_members.select { |zone| zone.include? address }
 
       ['state', 'country'].each do |zone_kind|
         if match = matches.detect { |zone| zone_kind == zone.kind }
@@ -29,6 +29,10 @@ module Spree
         end
       end
       matches.first
+    end
+
+    def self.reset_zones_cache
+      @zones_include_members = nil
     end
 
     def kind
