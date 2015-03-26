@@ -10,8 +10,11 @@ module Spree
             open_adjustments = adjustment_scope.where("spree_orders.completed_at IS NULL")
             open_orders = open_adjustments.map(&:order).uniq
             open_adjustments.destroy_all
-            open_orders.each {|o| o.line_items.each {|l| Spree::ItemAdjustments.new(l).update}}
-            open_orders.map(&:update!)
+            open_orders.each do |o|
+              o.line_items.each {|l| Spree::ItemAdjustments.new(l).update}
+              o.create_tax_charge! unless self.is_a? Spree::TaxRate
+              o.update!
+            end
 
             # For complete orders, the source will be invalid.
             # Therefore we nullify the source_id, leaving the adjustment in place.
