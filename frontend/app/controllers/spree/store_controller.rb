@@ -1,7 +1,6 @@
 module Spree
   class StoreController < Spree::BaseController
     include Spree::Core::ControllerHelpers::Order
-    include Spree::Core::ControllerHelpers::Zone
 
     def unauthorized
       render 'spree/shared/unauthorized', :layout => Spree::Config[:layout], :status => 401
