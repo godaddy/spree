@@ -44,6 +44,11 @@ module Spree
         promo_total = best_promotion_adjustment.try(:amount).to_f
       end
 
+      if item.promo_total != promo_total
+        item.update_columns(:promo_total => promo_total)
+        Spree::TaxRate.update_pre_tax_amount(order, [item]) if item.respond_to?(:order)
+      end
+
       included_tax_total = 0
       additional_tax_total = 0
       run_callbacks :tax_adjustments do
@@ -53,7 +58,6 @@ module Spree
       end
 
       item.update_columns(
-        :promo_total => promo_total,
         :included_tax_total => included_tax_total,
         :additional_tax_total => additional_tax_total,
         :adjustment_total => promo_total + additional_tax_total,
