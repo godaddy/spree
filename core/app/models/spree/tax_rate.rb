@@ -45,7 +45,8 @@ module Spree
     # https://github.com/spree/spree/issues/4318#issuecomment-34723428
     def self.store_pre_tax_amount(item, rates)
       inclusive_rates_sum = rates.map { |r| r.included_in_price ? r.amount : 0}.sum
-      item.update_column(:pre_tax_amount, item.discounted_amount / (1 + inclusive_rates_sum))
+      pre_tax_amount = item.discounted_amount / (1 + inclusive_rates_sum) if inclusive_rates_sum > 0.0
+      item.update_column(:pre_tax_amount, pre_tax_amount)
     end
 
     # This method is best described by the documentation on #potentially_applicable?
@@ -67,6 +68,15 @@ module Spree
           item.update_column(:pre_tax_amount, nil)
           Spree::ItemAdjustments.new(item).update
         end
+      end
+    end
+
+    def self.update_pre_tax_amount(order, items)
+      rates = self.match(order)
+      tax_categories = rates.map(&:tax_category)
+      items.select { |item| tax_categories.include?(item.tax_category) }.each do |item|
+        relevant_rates = rates.select { |rate| rate.tax_category == item.tax_category }
+        store_pre_tax_amount(item, relevant_rates)
       end
     end
 

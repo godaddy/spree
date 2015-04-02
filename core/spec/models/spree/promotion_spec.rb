@@ -343,4 +343,42 @@ describe Spree::Promotion do
       expect(order.adjustment_total).to eq -10
     end
   end
+
+  describe "choosing the right promotion" do
+    let(:order) { create :order }
+    let(:line_item) { create :line_item, order: order }
+    let(:promo1) { create :promotion_with_item_adjustment, adjustment_rate: 1, code: 'promo10' }
+    let(:promo2) { create :promotion_with_item_adjustment, adjustment_rate: 2, code: 'promo20' }
+
+    before do
+      expect(line_item.adjustments).to be_empty
+      expect(order.adjustment_total).to eq 0
+      promo1.activate order: order
+      promo2.activate order: order
+      order.update!
+      expect(line_item.adjustments.size).to eq(2)
+    end
+
+    it "chooses the promotion with higher discount" do
+      expect(order.adjustment_total).to eq -2
+    end
+
+    it "fall back to the lower promotion when higher promotion is deleted" do
+      promo2.destroy
+      expect(order.reload.adjustment_total).to eq -1
+    end
+
+    it "has no adjustment when all promotion are deleted" do
+      promo1.destroy
+      promo2.destroy
+      expect(line_item.reload.adjustments).to be_empty
+      expect(order.reload.adjustment_total).to eq 0
+    end
+
+    it "fall back to the lower promotion when higher promotion is expired" do
+      promo2.update_columns(:expires_at => Time.now - 1.day)
+      order.update!
+      expect(order.reload.adjustment_total).to eq -1
+    end
+  end
 end
