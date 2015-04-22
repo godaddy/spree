@@ -189,7 +189,7 @@ module Spree
             line_item_promos[promo_sequence[1]].activate order: order
 
             order.reload
-            order.all_adjustments.count.should eq(2), "Expected two adjustments (using sequence #{promo_sequence})"
+            order.all_adjustments.count.should eq(1), "Expected one adjustment (using sequence #{promo_sequence})"
             order.all_adjustments.eligible.count.should eq(1), "Expected one elegible adjustment (using sequence #{promo_sequence})"
             # TODO: Really, with the rule we've applied to these promos, we'd expect line_item_promo2
             # to be selected; however, all of the rules are currently completely broken for line-item-
