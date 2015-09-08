@@ -1,0 +1,27 @@
+es:
+  spree:
+    api:
+      must_specify_api_key: "Debes especificar una clave API."
+      invalid_api_key: "Clave API especificada no válida (%{key})."
+      unauthorized: "No estás autorizado para realizar esta acción."
+      invalid_resource: "Recurso no válido Corrige los errores y vuelve a intentarlo."
+      resource_not_found: "No se encontró el recurso que estabas buscando."
+      gateway_error: "Se produjo un problema con el portal de pago: %{text}"
+      access: "Acceso a API"
+      key: "Clave"
+      clear_key: "Borrar clave"
+      regenerate_key: "Regenerar clave"
+      no_key: "Sin clave"
+      generate_key: "Generar clave API"
+      key_generated: "Clave generada"
+      key_cleared: "Clave borrada"
+      order:
+        could_not_transition: "No se pudo cambiar el orden. Corrige los errores y vuelve a intentarlo."
+        invalid_shipping_method: "El método de envío especificado es inválido"
+      payment:
+        credit_over_limit: "Este pago solo puede acreditarse hasta %{limit}. Especifica un monto menor o igual a este número."
+        update_forbidden: "Este pago no puede actualizarse porque está %{state}."
+      shipment:
+        cannot_ready: "No se pudo preparar el pedido."
+      stock_location_required: "Se debe proporcionar un valor para el parámetro stock_location_id para poder recuperar movimientos de las existencias."
+      invalid_taxonomy_id: "Id. de taxonomía no válido."
