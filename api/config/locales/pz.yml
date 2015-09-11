@@ -1,0 +1,27 @@
+pz:
+  spree:
+    api:
+      must_specify_api_key: "Zzz zzzz zzzzzzz zz ZZZ zzz."
+      invalid_api_key: "Zzzzzzz ZZZ zzz (%{key}) zzzzzzzzz."
+      unauthorized: "Zzz zzz zzz zzzzzzzzzz zz zzzzzzz zzzz zzzzzz."
+      invalid_resource: "Zzzzzzz zzzzzzzz. Zzzzzz zzz zzzzzz zzz zzz zzzzz."
+      resource_not_found: "Zzz zzzzzzzz zzz zzzz zzzzzzz zzz zzzzz zzz zz zzzzz."
+      gateway_error: "Zzzzz zzz z zzzzzzz zzzz zzz zzzzzzz zzzzzzz: %{text}"
+      access: "ZZZ Zzzzzz"
+      key: "Zzz"
+      clear_key: "Zzzzz zzz"
+      regenerate_key: "Zzzzzzzzzz Zzz"
+      no_key: "Zz zzz"
+      generate_key: "Zzzzzzzz ZZZ zzz"
+      key_generated: "Zzz zzzzzzzzz"
+      key_cleared: "Zzz zzzzzzz"
+      order:
+        could_not_transition: "Zzz zzzzz zzzzz zzz zz zzzzzzzzzzzz. Zzzzzz zzz zzz zzzzzz zzz zzz zzzzz."
+        invalid_shipping_method: "Zzzzzzz zzzzzzzz zzzzzz zzzzzzzzz."
+      payment:
+        credit_over_limit: "Zzzz zzzzzzz zzz zzzz zz zzzzzzzz zz zz %{limit}. Zzzzzz zzzzzzz zz zzzzzz zzzz zzzz zz zzzzz zz zzzz zzzzzz."
+        update_forbidden: "Zzzz zzzzzzz zzzzzz zz zzzzzzz zzzzzzz zz zz %{state}."
+      shipment:
+        cannot_ready: "Zzzzzz zzzzz zzzzzzzz."
+      stock_location_required: "Z zzzzz_zzzzzzzz_zz zzzzzzzzz zzzz zz zzzzzzzz zz zzzzz zz zzzzzzzz zzzzz zzzzzzzzz."
+      invalid_taxonomy_id: "Zzzzzzz zzzzzzzz zz."

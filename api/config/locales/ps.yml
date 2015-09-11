@@ -1,0 +1,27 @@
+ps:
+  spree:
+    api:
+      must_specify_api_key: "[Yòü müst spécîfy ån ÅPÎ kéy. !!! !!! !!!]"
+      invalid_api_key: "[Învålîd ÅPÎ kéy ( !!! !!!]%{key}[) spécîfîéd. !!!]"
+      unauthorized: "[Yòü åré nòt åüthòrîzéd tò pérfòrm thåt åctîòn. !!! !!! !!! !!!]"
+      invalid_resource: "[Învålîd résòürcé. Pléåsé fîx érròrs ånd try ågåîn. !!! !!! !!! !!!]"
+      resource_not_found: "[Thé résòürcé yòü wéré lòòkîng fòr còüld nòt bé fòünd. !!! !!! !!! !!! !!!]"
+      gateway_error: "[Théré wås å pròblém wîth thé påymént gåtéwåy:  !!! !!! !!! !!!]%{text}"
+      access: "[ÅPÎ Åccéss !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
+      key: "[Kéy !!! !!! !!!]"
+      clear_key: "[Cléår kéy !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
+      regenerate_key: "[Régénéråté Kéy !!!]"
+      no_key: "[Nò kéy !!! !!! !!! !!! !!! !!!]"
+      generate_key: "[Généråté ÅPÎ kéy !!! !!!]"
+      key_generated: "[Kéy généråtéd !!!]"
+      key_cleared: "[Kéy cléåréd !!!]"
+      order:
+        could_not_transition: "[Thé òrdér còüld nòt bé trånsîtîònéd. Pléåsé fîx thé érròrs ånd try ågåîn. !!! !!! !!! !!! !!! !!!]"
+        invalid_shipping_method: "[Învålîd shîppîng méthòd spécîfîéd. !!! !!! !!!]"
+      payment:
+        credit_over_limit: "[Thîs påymént cån ònly bé crédîtéd üp tò  !!! !!! !!! !!!]%{limit}[. Pléåsé spécîfy ån åmòünt léss thån òr éqüål tò thîs nümbér. !!! !!! !!! !!! !!!]"
+        update_forbidden: "[Thîs påymént cånnòt bé üpdåtéd bécåüsé ît îs  !!! !!! !!! !!!]%{state}[. !!!]"
+      shipment:
+        cannot_ready: "[Cånnòt réådy shîpmént. !!! !!!]"
+      stock_location_required: "[Å stòck_lòcåtîòn_îd påråmétér müst bé pròvîdéd în òrdér tò rétrîévé stòck mòvéménts. !!! !!! !!! !!! !!! !!! !!!]"
+      invalid_taxonomy_id: "[Învålîd tåxònòmy îd. !!! !!!]"
