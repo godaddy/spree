@@ -1,0 +1,3 @@
+---
+qa:
+  hello: "[spree/2-2-nemo-stable/cmd/lib/spree_cmd/templates/extension/config/locales/en.yml:qa:hello]"

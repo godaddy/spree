@@ -1,0 +1,28 @@
+---
+qa:
+  spree:
+    api:
+      must_specify_api_key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:must_specify_api_key]"
+      invalid_api_key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:invalid_api_key]"
+      unauthorized: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:unauthorized]"
+      invalid_resource: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:invalid_resource]"
+      resource_not_found: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:resource_not_found]"
+      gateway_error: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:gateway_error]"
+      access: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:access]"
+      key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:key]"
+      clear_key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:clear_key]"
+      regenerate_key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:regenerate_key]"
+      no_key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:no_key]"
+      generate_key: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:generate_key]"
+      key_generated: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:key_generated]"
+      key_cleared: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:key_cleared]"
+      order:
+        could_not_transition: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:order:could_not_transition]"
+        invalid_shipping_method: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:order:invalid_shipping_method]"
+      payment:
+        credit_over_limit: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:payment:credit_over_limit]"
+        update_forbidden: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:payment:update_forbidden]"
+      shipment:
+        cannot_ready: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:shipment:cannot_ready]"
+      stock_location_required: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:stock_location_required]"
+      invalid_taxonomy_id: "[spree/2-2-nemo-stable/api/config/locales/en.yml:qa:spree:api:invalid_taxonomy_id]"
