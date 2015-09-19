@@ -30,7 +30,7 @@ module Spree
     has_many :properties, through: :product_properties
 
     has_many :classifications, dependent: :delete_all, inverse_of: :product
-    has_many :taxons, through: :classifications, after_add: :touch_product, after_remove: :touch_product
+    has_many :taxons, through: :classifications, before_remove: :remove_taxon, after_add: :touch_product, after_remove: :touch_product
     has_and_belongs_to_many :promotion_rules, join_table: :spree_products_promotion_rules
 
     belongs_to :tax_category, class_name: 'Spree::TaxCategory'
@@ -322,6 +322,13 @@ module Spree
       self.touch if persisted?
     end
 
+    def remove_taxon(taxon)
+      removed_classifications = classifications.where(taxon: taxon)
+
+      removed_classifications.each do |classification|
+        classification.remove_from_list
+      end
+    end
   end
 end
 
