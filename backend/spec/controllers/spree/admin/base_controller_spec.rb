@@ -18,6 +18,7 @@ describe Spree::Admin::BaseController do
 
     it "redirects to root" do
       controller.stub_chain(:spree, :root_path).and_return('/root')
+      controller.stub_chain(:spree, :admin_path).and_return('/admin')
       get :index
       expect(response).to redirect_to '/root'
     end
