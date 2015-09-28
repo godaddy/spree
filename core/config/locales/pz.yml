@@ -281,8 +281,8 @@ pz:
       not_found: "zzz zzzzz"
       not_locked: "zzz zzz zzzzzz"
       not_saved:
-        one: "! '1 zzzzz zzzzzzzzzz zzzz %{resource} zzzz zzzzz zzzzz:'"
-        other: "! '%{count} zzzzzz zzzzzzzzzz zzzz %{resource} zzzz zzzzz zzzzz:'"
+        one: ! '1 zzzzz zzzzzzzzzz zzzz %{resource} zzzz zzzzz zzzzz:'
+        other: ! '%{count} zzzzzz zzzzzzzzzz zzzz %{resource} zzzz zzzzz zzzzz:'
   spree:
     abbreviation: "Zzzzzzzzzzzz"
     account: "Zzzzzzz"
@@ -333,7 +333,7 @@ pz:
         testmail:
           delivery_error: "Zzzz Zzzz zzzzzzzz zzzzz"
           delivery_success: "Zzzz Zzzz zzzz zzzzzzzzzzzz"
-          error: "! 'Zzzz Zzzz zzzzz: %{e}'"
+          error: ! 'Zzzz Zzzz zzzzz: %{e}'
       tab:
         configuration: "Zzzzzzzzzzzzz"
         option_types: "Zzzzzz Zzzzz"
@@ -503,7 +503,7 @@ pz:
     currency_symbol_position: "Zzz zzzzzzzz zzzzzz zzzzzz zz zzzzz zzzzzz zzzzzz?"
     currency_thousands_separator: "Zzzzzzzz zzzzzzzzz zzzzzzzzz"
     current: "Zzzzzzz"
-    current_promotion_usage: "! 'Zzzzzzz Zzzzz: %{count}'"
+    current_promotion_usage: ! 'Zzzzzzz Zzzzz: %{count}'
     customer: "Zzzzzzzz"
     customer_details: "Zzzzzzzz Zzzzzzz"
     customer_details_updated: "Zzzzzzzz Zzzzzzz Zzzzzzz"
@@ -524,7 +524,7 @@ pz:
     date_completed: "Zzzz Zzzzzzzzz"
     date_picker:
       first_day: "0"
-      format: "! '%Z/%z/%z'"
+      format: ! '%Z/%z/%z'
       js_format: "zz/zz/zz"
     date_range: "Zzzz Zzzzz"
     default: "Zzzzzzz"
@@ -575,7 +575,7 @@ pz:
         no_shipping_methods_available: "Zz zzzzzzzz zzzzzzz zzzzzzzzz zzz zzzzzzzz zzzzzzzz, zzzzzz zzzzzz zzzz zzzzzzz zzz zzz zzzzz."
     errors_prohibited_this_record_from_being_saved:
       one: "1 zzzzz zzzzzzzzzz zzzz zzzzzz zzzz zzzzz zzzzz"
-      other: "! '%{count} zzzzzz zzzzzzzzzz zzzz zzzzzz zzzz zzzzz zzzzz'"
+      other: ! '%{count} zzzzzz zzzzzzzzzz zzzz zzzzzz zzzz zzzzz zzzzz'
     event: "Zzzzz"
     events:
       spree:
@@ -767,7 +767,7 @@ pz:
     no_promotions_found: "Zz zzzzzzzzzz zzzzz"
     no_results: "Zz zzzzzzz"
     no_rules_added: "Zz zzzzz zzzzz"
-    no_resource_found: "! 'Zz %{resource} zzzzz'"
+    no_resource_found: ! 'Zz %{resource} zzzzz'
     no_shipping_methods_found: "Zz zzzzzzzz zzzzzzz zzzzz"
     no_shipping_method_selected: "Zz zzzzzzzz zzzzzz zzzzzzzz."
     no_trackers_found: "Zz Zzzzzzzz Zzzzz"
@@ -778,7 +778,7 @@ pz:
     not: "zzz"
     not_available: "Z/Z"
     not_enough_stock: "Zzzzz zz zzz zzzzzz zzzzzzzzz zz zzz zzzzzz zzzzzzzz zz zzzzzzzz zzzz zzzzzzzz."
-    not_found: "! '%{resource} zz zzz zzzzz'"
+    not_found: ! '%{resource} zz zzz zzzzz'
     notice_messages:
       product_cloned: "Zzzzzzz zzz zzzz zzzzzz"
       product_deleted: "Zzzzzzz zzz zzzz zzzzzzz"
@@ -798,7 +798,7 @@ pz:
     optional: "Zzzzzzzz"
     options: "Zzzzzzz"
     or: "zz"
-    or_over_price: "! '%{price} zz zzzz'"
+    or_over_price: ! '%{price} zz zzzz'
     order: "Zzzzz"
     order_adjustments: "Zzzzz zzzzzzzzzzz"
     order_already_updated: "Zzz zzzzz zzz zzzzzzz zzzz zzzzzzz."
@@ -813,21 +813,21 @@ pz:
         instructions: "Zzzz zzzzz zzz zzzz ZZZZZZZZ.  Zzzzzz zzzzzz zzzz zzzzzzzzzzzz zzzzzzzzzzz zzz zzzz zzzzzzz."
         order_summary_canceled: "Zzzzz Zzzzzzz [ZZZZZZZZ]"
         subject: "Zzzzzzzzzzzz zz Zzzzz"
-        subtotal: "! 'Zzzzzzzz: %{subtotal}'"
-        total: "! 'Zzzzz Zzzzz: %{total}'"
+        subtotal: ! 'Zzzzzzzz: %{subtotal}'
+        total: ! 'Zzzzz Zzzzz: %{total}'
       confirm_email:
         dear_customer: "Zzzz Zzzzzzzz,"
         instructions: "Zzzzzz zzzzzz zzz zzzzzz zzz zzzzzzzzz zzzzz zzzzzzzzzzz zzz zzzz zzzzzzz."
         order_summary: "Zzzzz Zzzzzzz"
         subject: "Zzzzz Zzzzzzzzzzzz"
-        subtotal: "! 'Zzzzzzzz: %{subtotal}'"
+        subtotal: ! 'Zzzzzzzz: %{subtotal}'
         thanks: "Zzzzz zzz zzz zzzz zzzzzzzz."
-        total: "! 'Zzzzz Zzzzz: %{total}'"
+        total: ! 'Zzzzz Zzzzz: %{total}'
     order_not_found: "Zz zzzzzz'z zzzz zzzz zzzzz. Zzzzzz zzz zzzz zzzzzz zzzzz."
     order_number: "Zzzzz %{number}"
     order_populator:
-      out_of_stock: "! '%{item} zz zzz zz zzzzz.'"
-      selected_quantity_not_available: "! 'Zzzzzzzz zzzzzzzz zz %{item} zz zzz zzzzzzzzz.'"
+      out_of_stock: ! '%{item} zz zzz zz zzzzz.'
+      selected_quantity_not_available: ! 'Zzzzzzzz zzzzzzzz zz %{item} zz zzz zzzzzzzzz.'
       please_enter_reasonable_quantity: "Zzzzzz zzzzz z zzzzzzzzzz zzzzzzzz."
     order_processed_successfully: "Zzzz zzzzz zzz zzzz zzzzzzzzz zzzzzzzzzzzz"
     order_resumed: "Zzzzz zzzzzzz"
@@ -853,8 +853,8 @@ pz:
     package_from: "zzzzzzz zzzz"
     pagination:
       next_page: "zzzz zzzz &raquo;"
-      previous_page: "! '&laquo; zzzzzzzz zzzz'"
-      truncate: "! '&hellip;'"
+      previous_page: ! '&laquo; zzzzzzzz zzzz'
+      truncate: ! '&hellip;'
     password: "Zzzzzzzz"
     paste: "Zzzzz"
     path: "Zzzz"
@@ -1031,8 +1031,8 @@ pz:
         shipment_summary: "Zzzzzzzz Zzzzzzz"
         subject: "Zzzzzzzz Zzzzzzzzzzzz"
         thanks: "Zzzzz zzz zzz zzzz zzzzzzzz."
-        track_information: "! 'Zzzzzzzz Zzzzzzzzzzz: %{tracking}'"
-        track_link: "! 'Zzzzzzzz Zzzz: %{url}'"
+        track_information: ! 'Zzzzzzzz Zzzzzzzzzzz: %{tracking}'
+        track_link: ! 'Zzzzzzzz Zzzz: %{url}'
     shipment_state: "Zzzzzzzz Zzzzz"
     shipment_states:
       backorder: "zzzzzzzzz"
@@ -1105,10 +1105,10 @@ pz:
     subtotal: "Zzzzzzzz"
     subtract: "Zzzzzzzz"
     success: "Zzzzzzz"
-    successfully_created: "! '%{resource} zzz zzzz zzzzzzzzzzzz zzzzzzz!'"
-    successfully_removed: "! '%{resource} zzz zzzz zzzzzzzzzzzz zzzzzzz!'"
+    successfully_created: ! '%{resource} zzz zzzz zzzzzzzzzzzz zzzzzzz!'
+    successfully_removed: ! '%{resource} zzz zzzz zzzzzzzzzzzz zzzzzzz!'
     successfully_signed_up_for_analytics: "Zzzzzzzzzzzz zzzzzz zz zzz Zzzzz Zzzzzzzzz"
-    successfully_updated: "! '%{resource} zzz zzzz zzzzzzzzzzzz zzzzzzz!'"
+    successfully_updated: ! '%{resource} zzz zzzz zzzzzzzzzzzz zzzzzzz!'
     tax: "Zzz"
     tax_included: "Zzz (zzzz.)"
     tax_categories: "Zzz Zzzzzzzzzz"
@@ -1123,7 +1123,7 @@ pz:
     taxonomy: "Zzzzzzzz"
     taxonomy_edit: "Zzzz zzzzzzzz"
     taxonomy_tree_error: "Zzz zzzzzzzzz zzzzzz zzz zzz zzzz zzzzzzzz zzz zzz zzzz zzz zzzz zzzzzzzz zz zzz zzzzzzzz zzzzz, zzzzzz zzz zzzzz."
-    taxonomy_tree_instruction: "! '* Zzzzz zzzzz z zzzzz zz zzz zzzz zz zzzzzz zzz zzzz zzz zzzzzz, zzzzzzzz zz zzzzzzz z zzzzz.'"
+    taxonomy_tree_instruction: ! '* Zzzzz zzzzz z zzzzz zz zzz zzzz zz zzzzzz zzz zzzz zzz zzzzzz, zzzzzzzz zz zzzzzzz z zzzzz.'
     taxons: "Zzzzzz"
     test: "Zzzz"
     test_mailer:

@@ -281,8 +281,8 @@ gf:
       not_found: "⌠514264⌡nòt fòünd⌠514264⌡"
       not_locked: "⌠514265⌡wås nòt lòckéd⌠514265⌡"
       not_saved:
-        one: "⌠514266⌡! '1 érròr pròhîbîtéd thîs %{resource} fròm béîng såvéd:'⌠514266⌡"
-        other: "⌠514267⌡! '%{count} érròrs pròhîbîtéd thîs %{resource} fròm béîng såvéd:'⌠514267⌡"
+        one: ! '⌠529165⌡1 érròr pròhîbîtéd thîs %{resource} fròm béîng såvéd:⌠529165⌡'
+        other: ! '⌠529166⌡%{count} érròrs pròhîbîtéd thîs %{resource} fròm béîng såvéd:⌠529166⌡'
   spree:
     abbreviation: "⌠514268⌡Åbbrévîåtîòn⌠514268⌡"
     account: "⌠514269⌡Åccòünt⌠514269⌡"
@@ -333,7 +333,7 @@ gf:
         testmail:
           delivery_error: "⌠514311⌡Tést Måîl délîvéry érròr⌠514311⌡"
           delivery_success: "⌠514312⌡Tést Måîl sént süccéssfülly⌠514312⌡"
-          error: "⌠514313⌡! 'Tést Måîl érròr: %{e}'⌠514313⌡"
+          error: ! '⌠529167⌡Tést Måîl érròr: %{e}⌠529167⌡'
       tab:
         configuration: "⌠514314⌡Cònfîgüråtîòn⌠514314⌡"
         option_types: "⌠514315⌡Òptîòn Typés⌠514315⌡"
@@ -503,7 +503,7 @@ gf:
     currency_symbol_position: "⌠514476⌡Püt cürréncy symbòl béfòré òr åftér dòllår åmòünt?⌠514476⌡"
     currency_thousands_separator: "⌠514477⌡Cürréncy thòüsånds sépåråtòr⌠514477⌡"
     current: "⌠514478⌡Cürrént⌠514478⌡"
-    current_promotion_usage: "⌠514479⌡! 'Cürrént Üsågé: %{count}'⌠514479⌡"
+    current_promotion_usage: ! '⌠529168⌡Cürrént Üsågé: %{count}⌠529168⌡'
     customer: "⌠514480⌡Cüstòmér⌠514480⌡"
     customer_details: "⌠514481⌡Cüstòmér Détåîls⌠514481⌡"
     customer_details_updated: "⌠514482⌡Cüstòmér Détåîls Üpdåtéd⌠514482⌡"
@@ -524,7 +524,7 @@ gf:
     date_completed: "⌠514495⌡Dåté Còmplétéd⌠514495⌡"
     date_picker:
       first_day: "⌠514496⌡0⌠514496⌡"
-      format: "⌠514497⌡! '%Y/%m/%d'⌠514497⌡"
+      format: ! '⌠529169⌡%Y/%m/%d⌠529169⌡'
       js_format: "⌠514498⌡yy/mm/dd⌠514498⌡"
     date_range: "⌠514499⌡Dåté Rångé⌠514499⌡"
     default: "⌠514500⌡Défåült⌠514500⌡"
@@ -575,7 +575,7 @@ gf:
         no_shipping_methods_available: "⌠514543⌡Nò shîppîng méthòds åvåîlåblé fòr séléctéd lòcåtîòn, pléåsé chångé yòür åddréss ånd try ågåîn.⌠514543⌡"
     errors_prohibited_this_record_from_being_saved:
       one: "⌠514544⌡1 érròr pròhîbîtéd thîs récòrd fròm béîng såvéd⌠514544⌡"
-      other: "⌠514545⌡! '%{count} érròrs pròhîbîtéd thîs récòrd fròm béîng såvéd'⌠514545⌡"
+      other: ! '⌠529170⌡%{count} érròrs pròhîbîtéd thîs récòrd fròm béîng såvéd⌠529170⌡'
     event: "⌠514546⌡Évént⌠514546⌡"
     events:
       spree:
@@ -767,7 +767,7 @@ gf:
     no_promotions_found: "⌠514718⌡Nò pròmòtîòns fòünd⌠514718⌡"
     no_results: "⌠514719⌡Nò résülts⌠514719⌡"
     no_rules_added: "⌠514720⌡Nò rülés åddéd⌠514720⌡"
-    no_resource_found: "⌠514721⌡! 'Nò %{resource} fòünd'⌠514721⌡"
+    no_resource_found: ! '⌠529171⌡Nò %{resource} fòünd⌠529171⌡'
     no_shipping_methods_found: "⌠514722⌡Nò shîppîng méthòds fòünd⌠514722⌡"
     no_shipping_method_selected: "⌠514723⌡Nò shîppîng méthòd séléctéd.⌠514723⌡"
     no_trackers_found: "⌠514724⌡Nò Tråckérs Fòünd⌠514724⌡"
@@ -778,7 +778,7 @@ gf:
     not: "⌠514729⌡nòt⌠514729⌡"
     not_available: "⌠514730⌡N/Å⌠514730⌡"
     not_enough_stock: "⌠514731⌡Théré îs nòt énòügh învéntòry åt thé sòürcé lòcåtîòn tò còmplété thîs trånsfér.⌠514731⌡"
-    not_found: "⌠514732⌡! '%{resource} îs nòt fòünd'⌠514732⌡"
+    not_found: ! '⌠529172⌡%{resource} îs nòt fòünd⌠529172⌡'
     notice_messages:
       product_cloned: "⌠514733⌡Pròdüct hås béén clònéd⌠514733⌡"
       product_deleted: "⌠514734⌡Pròdüct hås béén délétéd⌠514734⌡"
@@ -798,7 +798,7 @@ gf:
     optional: "⌠514748⌡Òptîònål⌠514748⌡"
     options: "⌠514749⌡Òptîòns⌠514749⌡"
     or: "⌠514750⌡òr⌠514750⌡"
-    or_over_price: "⌠514751⌡! '%{price} òr òvér'⌠514751⌡"
+    or_over_price: ! '⌠529173⌡%{price} òr òvér⌠529173⌡'
     order: "⌠514752⌡Òrdér⌠514752⌡"
     order_adjustments: "⌠514753⌡Òrdér ådjüstménts⌠514753⌡"
     order_already_updated: "⌠514754⌡Thé òrdér hås ålréådy béén üpdåtéd.⌠514754⌡"
@@ -813,21 +813,21 @@ gf:
         instructions: "⌠514761⌡Yòür òrdér hås béén CÅNCÉLÉD.  Pléåsé rétåîn thîs cåncéllåtîòn înfòrmåtîòn fòr yòür récòrds.⌠514761⌡"
         order_summary_canceled: "⌠514762⌡Òrdér Sümmåry [CÅNCÉLÉD]⌠514762⌡"
         subject: "⌠514763⌡Cåncéllåtîòn òf Òrdér⌠514763⌡"
-        subtotal: "⌠514764⌡! 'Sübtòtål: %{subtotal}'⌠514764⌡"
-        total: "⌠514765⌡! 'Òrdér Tòtål: %{total}'⌠514765⌡"
+        subtotal: ! '⌠529174⌡Sübtòtål: %{subtotal}⌠529174⌡'
+        total: ! '⌠529175⌡Òrdér Tòtål: %{total}⌠529175⌡'
       confirm_email:
         dear_customer: "⌠514766⌡Déår Cüstòmér,⌠514766⌡"
         instructions: "⌠514767⌡Pléåsé révîéw ånd rétåîn thé fòllòwîng òrdér înfòrmåtîòn fòr yòür récòrds.⌠514767⌡"
         order_summary: "⌠514768⌡Òrdér Sümmåry⌠514768⌡"
         subject: "⌠514769⌡Òrdér Cònfîrmåtîòn⌠514769⌡"
-        subtotal: "⌠514770⌡! 'Sübtòtål: %{subtotal}'⌠514770⌡"
+        subtotal: ! '⌠529176⌡Sübtòtål: %{subtotal}⌠529176⌡'
         thanks: "⌠514771⌡Thånk yòü fòr yòür büsînéss.⌠514771⌡"
-        total: "⌠514772⌡! 'Òrdér Tòtål: %{total}'⌠514772⌡"
+        total: ! '⌠529177⌡Òrdér Tòtål: %{total}⌠529177⌡'
     order_not_found: "⌠514773⌡Wé còüldn't fînd yòür òrdér. Pléåsé try thåt åctîòn ågåîn.⌠514773⌡"
     order_number: "⌠514774⌡Òrdér %{number}⌠514774⌡"
     order_populator:
-      out_of_stock: "⌠514775⌡! '%{item} îs òüt òf stòck.'⌠514775⌡"
-      selected_quantity_not_available: "⌠514776⌡! 'Séléctéd qüåntîty òf %{item} îs nòt åvåîlåblé.'⌠514776⌡"
+      out_of_stock: ! '⌠529178⌡%{item} îs òüt òf stòck.⌠529178⌡'
+      selected_quantity_not_available: ! '⌠529179⌡Séléctéd qüåntîty òf %{item} îs nòt åvåîlåblé.⌠529179⌡'
       please_enter_reasonable_quantity: "⌠514777⌡Pléåsé éntér å réåsònåblé qüåntîty.⌠514777⌡"
     order_processed_successfully: "⌠514778⌡Yòür òrdér hås béén pròcésséd süccéssfülly⌠514778⌡"
     order_resumed: "⌠514779⌡Òrdér résüméd⌠514779⌡"
@@ -853,8 +853,8 @@ gf:
     package_from: "⌠514798⌡påckågé fròm⌠514798⌡"
     pagination:
       next_page: "⌠514799⌡néxt pågé &raquo;⌠514799⌡"
-      previous_page: "⌠514800⌡! '&laquo; prévîòüs pågé'⌠514800⌡"
-      truncate: "⌠514801⌡! '&hellip;'⌠514801⌡"
+      previous_page: ! '⌠529180⌡&laquo; prévîòüs pågé⌠529180⌡'
+      truncate: ! '⌠529181⌡&hellip;⌠529181⌡'
     password: "⌠514802⌡Påsswòrd⌠514802⌡"
     paste: "⌠514803⌡Påsté⌠514803⌡"
     path: "⌠514804⌡Påth⌠514804⌡"
@@ -1031,8 +1031,8 @@ gf:
         shipment_summary: "⌠514956⌡Shîpmént Sümmåry⌠514956⌡"
         subject: "⌠514957⌡Shîpmént Nòtîfîcåtîòn⌠514957⌡"
         thanks: "⌠514958⌡Thånk yòü fòr yòür büsînéss.⌠514958⌡"
-        track_information: "⌠514959⌡! 'Tråckîng Înfòrmåtîòn: %{tracking}'⌠514959⌡"
-        track_link: "⌠514960⌡! 'Tråckîng Lînk: %{url}'⌠514960⌡"
+        track_information: ! '⌠529182⌡Tråckîng Înfòrmåtîòn: %{tracking}⌠529182⌡'
+        track_link: ! '⌠529183⌡Tråckîng Lînk: %{url}⌠529183⌡'
     shipment_state: "⌠514961⌡Shîpmént Ståté⌠514961⌡"
     shipment_states:
       backorder: "⌠514962⌡båckòrdér⌠514962⌡"
@@ -1105,10 +1105,10 @@ gf:
     subtotal: "⌠515028⌡Sübtòtål⌠515028⌡"
     subtract: "⌠515029⌡Sübtråct⌠515029⌡"
     success: "⌠515030⌡Süccéss⌠515030⌡"
-    successfully_created: "⌠515031⌡! '%{resource} hås béén süccéssfülly créåtéd!'⌠515031⌡"
-    successfully_removed: "⌠515032⌡! '%{resource} hås béén süccéssfülly rémòvéd!'⌠515032⌡"
+    successfully_created: ! '⌠529184⌡%{resource} hås béén süccéssfülly créåtéd!⌠529184⌡'
+    successfully_removed: ! '⌠529185⌡%{resource} hås béén süccéssfülly rémòvéd!⌠529185⌡'
     successfully_signed_up_for_analytics: "⌠515033⌡Süccéssfülly sîgnéd üp fòr Spréé Ånålytîcs⌠515033⌡"
-    successfully_updated: "⌠515034⌡! '%{resource} hås béén süccéssfülly üpdåtéd!'⌠515034⌡"
+    successfully_updated: ! '⌠529186⌡%{resource} hås béén süccéssfülly üpdåtéd!⌠529186⌡'
     tax: "⌠515035⌡Tåx⌠515035⌡"
     tax_included: "⌠515036⌡Tåx (încl.)⌠515036⌡"
     tax_categories: "⌠515037⌡Tåx Cåtégòrîés⌠515037⌡"
@@ -1123,7 +1123,7 @@ gf:
     taxonomy: "⌠515046⌡Tåxònòmy⌠515046⌡"
     taxonomy_edit: "⌠515047⌡Édît tåxònòmy⌠515047⌡"
     taxonomy_tree_error: "⌠515048⌡Thé réqüéstéd chångé hås nòt béén åccéptéd ånd thé tréé hås béén rétürnéd tò îts prévîòüs ståté, pléåsé try ågåîn.⌠515048⌡"
-    taxonomy_tree_instruction: "⌠515049⌡! '* Rîght clîck å chîld în thé tréé tò åccéss thé ménü fòr åddîng, délétîng òr sòrtîng å chîld.'⌠515049⌡"
+    taxonomy_tree_instruction: ! '⌠529187⌡* Rîght clîck å chîld în thé tréé tò åccéss thé ménü fòr åddîng, délétîng òr sòrtîng å chîld.⌠529187⌡'
     taxons: "⌠515050⌡Tåxòns⌠515050⌡"
     test: "⌠515051⌡Tést⌠515051⌡"
     test_mailer:

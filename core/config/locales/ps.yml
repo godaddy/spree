@@ -281,8 +281,8 @@ ps:
       not_found: "[nòt fòünd !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
       not_locked: "[wås nòt lòckéd !!!]"
       not_saved:
-        one: "[! '1 érròr pròhîbîtéd thîs  !!! !!! !!!]%{resource}[ fròm béîng såvéd:' !!! !!!]"
-        other: "[! ' !!! !!! !!!]%{count}[ érròrs pròhîbîtéd thîs  !!! !!!]%{resource}[ fròm béîng såvéd:' !!! !!!]"
+        one: ! '[1 érròr pròhîbîtéd thîs  !!! !!!]%{resource}[ fròm béîng såvéd: !!! !!!]'
+        other: ! '%{count}[ érròrs pròhîbîtéd thîs  !!! !!!]%{resource}[ fròm béîng såvéd: !!! !!!]'
   spree:
     abbreviation: "[Åbbrévîåtîòn !!!]"
     account: "[Åccòünt !!! !!! !!! !!! !!! !!! !!!]"
@@ -333,7 +333,7 @@ ps:
         testmail:
           delivery_error: "[Tést Måîl délîvéry érròr !!! !!!]"
           delivery_success: "[Tést Måîl sént süccéssfülly !!! !!! !!!]"
-          error: "[! 'Tést Måîl érròr:  !!! !!!]%{e}[' !!!]"
+          error: ! '[Tést Måîl érròr:  !!! !!!]%{e}'
       tab:
         configuration: "[Cònfîgüråtîòn !!!]"
         option_types: "[Òptîòn Typés !!!]"
@@ -503,7 +503,7 @@ ps:
     currency_symbol_position: "[Püt cürréncy symbòl béfòré òr åftér dòllår åmòünt? !!! !!! !!! !!!]"
     currency_thousands_separator: "[Cürréncy thòüsånds sépåråtòr !!! !!! !!!]"
     current: "[Cürrént !!! !!! !!! !!! !!! !!! !!!]"
-    current_promotion_usage: "[! 'Cürrént Üsågé:  !!! !!!]%{count}[' !!!]"
+    current_promotion_usage: ! '[Cürrént Üsågé:  !!! !!!]%{count}'
     customer: "[Cüstòmér !!! !!! !!! !!! !!! !!! !!! !!!]"
     customer_details: "[Cüstòmér Détåîls !!! !!!]"
     customer_details_updated: "[Cüstòmér Détåîls Üpdåtéd !!! !!!]"
@@ -524,7 +524,7 @@ ps:
     date_completed: "[Dåté Còmplétéd !!!]"
     date_picker:
       first_day: "[0 !!!]"
-      format: "[! '%Y/%m/%d' !!!]"
+      format: ! '[%Y/%m/%d !!! !!! !!! !!! !!! !!! !!! !!!]'
       js_format: "[yy/mm/dd !!! !!! !!! !!! !!! !!! !!! !!!]"
     date_range: "[Dåté Rångé !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
     default: "[Défåült !!! !!! !!! !!! !!! !!! !!!]"
@@ -575,7 +575,7 @@ ps:
         no_shipping_methods_available: "[Nò shîppîng méthòds åvåîlåblé fòr séléctéd lòcåtîòn, pléåsé chångé yòür åddréss ånd try ågåîn. !!! !!! !!! !!! !!! !!! !!! !!!]"
     errors_prohibited_this_record_from_being_saved:
       one: "[1 érròr pròhîbîtéd thîs récòrd fròm béîng såvéd !!! !!! !!! !!!]"
-      other: "[! ' !!! !!! !!!]%{count}[ érròrs pròhîbîtéd thîs récòrd fròm béîng såvéd' !!! !!! !!! !!!]"
+      other: ! '%{count}[ érròrs pròhîbîtéd thîs récòrd fròm béîng såvéd !!! !!! !!! !!!]'
     event: "[Évént !!! !!! !!! !!! !!!]"
     events:
       spree:
@@ -767,7 +767,7 @@ ps:
     no_promotions_found: "[Nò pròmòtîòns fòünd !!! !!!]"
     no_results: "[Nò résülts !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
     no_rules_added: "[Nò rülés åddéd !!!]"
-    no_resource_found: "[! 'Nò  !!! !!! !!! !!! !!! !!!]%{resource}[ fòünd' !!! !!! !!! !!! !!! !!! !!!]"
+    no_resource_found: ! '[Nò  !!! !!! !!!]%{resource}[ fòünd !!! !!! !!! !!! !!! !!!]'
     no_shipping_methods_found: "[Nò shîppîng méthòds fòünd !!! !!!]"
     no_shipping_method_selected: "[Nò shîppîng méthòd séléctéd. !!! !!! !!!]"
     no_trackers_found: "[Nò Tråckérs Fòünd !!! !!!]"
@@ -778,7 +778,7 @@ ps:
     not: "[nòt !!! !!! !!!]"
     not_available: "[N/Å !!! !!! !!!]"
     not_enough_stock: "[Théré îs nòt énòügh învéntòry åt thé sòürcé lòcåtîòn tò còmplété thîs trånsfér. !!! !!! !!! !!! !!! !!! !!!]"
-    not_found: "[! ' !!! !!! !!!]%{resource}[ îs nòt fòünd' !!!]"
+    not_found: ! '%{resource}[ îs nòt fòünd !!!]'
     notice_messages:
       product_cloned: "[Pròdüct hås béén clònéd !!! !!!]"
       product_deleted: "[Pròdüct hås béén délétéd !!! !!!]"
@@ -798,7 +798,7 @@ ps:
     optional: "[Òptîònål !!! !!! !!! !!! !!! !!! !!! !!!]"
     options: "[Òptîòns !!! !!! !!! !!! !!! !!! !!!]"
     or: "[òr !!! !!!]"
-    or_over_price: "[! ' !!! !!! !!!]%{price}[ òr òvér' !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
+    or_over_price: ! '%{price}[ òr òvér !!! !!! !!! !!! !!! !!! !!! !!!]'
     order: "[Òrdér !!! !!! !!! !!! !!!]"
     order_adjustments: "[Òrdér ådjüstménts !!! !!!]"
     order_already_updated: "[Thé òrdér hås ålréådy béén üpdåtéd. !!! !!! !!!]"
@@ -813,21 +813,21 @@ ps:
         instructions: "[Yòür òrdér hås béén CÅNCÉLÉD.  Pléåsé rétåîn thîs cåncéllåtîòn înfòrmåtîòn fòr yòür récòrds. !!! !!! !!! !!! !!! !!! !!! !!!]"
         order_summary_canceled: "[Òrdér Sümmåry [CÅNCÉLÉD] !!! !!!]"
         subject: "[Cåncéllåtîòn òf Òrdér !!! !!!]"
-        subtotal: "[! 'Sübtòtål:  !!!]%{subtotal}[' !!!]"
-        total: "[! 'Òrdér Tòtål:  !!! !!!]%{total}[' !!!]"
+        subtotal: ! '[Sübtòtål:  !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]%{subtotal}'
+        total: ! '[Òrdér Tòtål:  !!!]%{total}'
       confirm_email:
         dear_customer: "[Déår Cüstòmér, !!!]"
         instructions: "[Pléåsé révîéw ånd rétåîn thé fòllòwîng òrdér înfòrmåtîòn fòr yòür récòrds. !!! !!! !!! !!! !!! !!!]"
         order_summary: "[Òrdér Sümmåry !!!]"
         subject: "[Òrdér Cònfîrmåtîòn !!! !!!]"
-        subtotal: "[! 'Sübtòtål:  !!!]%{subtotal}[' !!!]"
+        subtotal: ! '[Sübtòtål:  !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]%{subtotal}'
         thanks: "[Thånk yòü fòr yòür büsînéss. !!! !!! !!!]"
-        total: "[! 'Òrdér Tòtål:  !!! !!!]%{total}[' !!!]"
+        total: ! '[Òrdér Tòtål:  !!!]%{total}'
     order_not_found: "[Wé còüldn't fînd yòür òrdér. Pléåsé try thåt åctîòn ågåîn. !!! !!! !!! !!! !!!]"
     order_number: "[Òrdér  !!! !!! !!! !!! !!! !!!]%{number}"
     order_populator:
-      out_of_stock: "[! ' !!! !!! !!!]%{item}[ îs òüt òf stòck.' !!! !!!]"
-      selected_quantity_not_available: "[! 'Séléctéd qüåntîty òf  !!! !!!]%{item}[ îs nòt åvåîlåblé.' !!! !!!]"
+      out_of_stock: ! '%{item}[ îs òüt òf stòck. !!! !!!]'
+      selected_quantity_not_available: ! '[Séléctéd qüåntîty òf  !!! !!!]%{item}[ îs nòt åvåîlåblé. !!! !!!]'
       please_enter_reasonable_quantity: "[Pléåsé éntér å réåsònåblé qüåntîty. !!! !!! !!!]"
     order_processed_successfully: "[Yòür òrdér hås béén pròcésséd süccéssfülly !!! !!! !!! !!!]"
     order_resumed: "[Òrdér résüméd !!!]"
@@ -853,8 +853,8 @@ ps:
     package_from: "[påckågé fròm !!!]"
     pagination:
       next_page: "[néxt pågé  !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]&raquo;"
-      previous_page: "[! ' !!! !!! !!!]&laquo;[ prévîòüs pågé' !!! !!!]"
-      truncate: "[! ' !!! !!! !!!]&hellip;[' !!!]"
+      previous_page: ! '&laquo;[ prévîòüs pågé !!!]'
+      truncate: ! '&hellip;'
     password: "[Påsswòrd !!! !!! !!! !!! !!! !!! !!! !!!]"
     paste: "[Påsté !!! !!! !!! !!! !!!]"
     path: "[Påth !!! !!! !!! !!!]"
@@ -1031,8 +1031,8 @@ ps:
         shipment_summary: "[Shîpmént Sümmåry !!! !!!]"
         subject: "[Shîpmént Nòtîfîcåtîòn !!! !!!]"
         thanks: "[Thånk yòü fòr yòür büsînéss. !!! !!! !!!]"
-        track_information: "[! 'Tråckîng Înfòrmåtîòn:  !!! !!!]%{tracking}[' !!!]"
-        track_link: "[! 'Tråckîng Lînk:  !!! !!!]%{url}[' !!!]"
+        track_information: ! '[Tråckîng Înfòrmåtîòn:  !!! !!!]%{tracking}'
+        track_link: ! '[Tråckîng Lînk:  !!! !!!]%{url}'
     shipment_state: "[Shîpmént Ståté !!!]"
     shipment_states:
       backorder: "[båckòrdér !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
@@ -1105,10 +1105,10 @@ ps:
     subtotal: "[Sübtòtål !!! !!! !!! !!! !!! !!! !!! !!!]"
     subtract: "[Sübtråct !!! !!! !!! !!! !!! !!! !!! !!!]"
     success: "[Süccéss !!! !!! !!! !!! !!! !!! !!!]"
-    successfully_created: "[! ' !!! !!! !!!]%{resource}[ hås béén süccéssfülly créåtéd!' !!! !!! !!!]"
-    successfully_removed: "[! ' !!! !!! !!!]%{resource}[ hås béén süccéssfülly rémòvéd!' !!! !!! !!!]"
+    successfully_created: ! '%{resource}[ hås béén süccéssfülly créåtéd! !!! !!! !!!]'
+    successfully_removed: ! '%{resource}[ hås béén süccéssfülly rémòvéd! !!! !!! !!!]'
     successfully_signed_up_for_analytics: "[Süccéssfülly sîgnéd üp fòr Spréé Ånålytîcs !!! !!! !!! !!!]"
-    successfully_updated: "[! ' !!! !!! !!!]%{resource}[ hås béén süccéssfülly üpdåtéd!' !!! !!! !!!]"
+    successfully_updated: ! '%{resource}[ hås béén süccéssfülly üpdåtéd! !!! !!! !!!]'
     tax: "[Tåx !!! !!! !!!]"
     tax_included: "[Tåx (încl.) !!!]"
     tax_categories: "[Tåx Cåtégòrîés !!!]"
@@ -1123,7 +1123,7 @@ ps:
     taxonomy: "[Tåxònòmy !!! !!! !!! !!! !!! !!! !!! !!!]"
     taxonomy_edit: "[Édît tåxònòmy !!!]"
     taxonomy_tree_error: "[Thé réqüéstéd chångé hås nòt béén åccéptéd ånd thé tréé hås béén rétürnéd tò îts prévîòüs ståté, pléåsé try ågåîn. !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]"
-    taxonomy_tree_instruction: "[! '* Rîght clîck å chîld în thé tréé tò åccéss thé ménü fòr åddîng, délétîng òr sòrtîng å chîld.' !!! !!! !!! !!! !!! !!! !!! !!!]"
+    taxonomy_tree_instruction: ! '[* Rîght clîck å chîld în thé tréé tò åccéss thé ménü fòr åddîng, délétîng òr sòrtîng å chîld. !!! !!! !!! !!! !!! !!! !!! !!!]'
     taxons: "[Tåxòns !!! !!! !!! !!! !!! !!!]"
     test: "[Tést !!! !!! !!! !!!]"
     test_mailer:
