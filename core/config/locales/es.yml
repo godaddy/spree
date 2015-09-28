@@ -281,8 +281,8 @@ es:
       not_found: "no se encontró"
       not_locked: "no estaba bloqueada"
       not_saved:
-        one: "! '1 error impidió que este %{resource} se guardara:'"
-        other: "! '%{count} errores impidieron que este %{resource} se guardara:'"
+        one: ! '1 error impidió que este %{resource} se guardara:'
+        other: ! '%{count} errores impidieron que este %{resource} se guardara:'
   spree:
     abbreviation: "Abreviatura"
     account: "Cuenta"
@@ -333,7 +333,7 @@ es:
         testmail:
           delivery_error: "Ocurrió un error al enviar el correo de prueba"
           delivery_success: "El correo de prueba se envió correctamente"
-          error: "! 'Error en el correo de prueba: %{e}'"
+          error: ! 'Error en el correo de prueba: %{e}'
       tab:
         configuration: "Configuración"
         option_types: "Tipos de opciones"
@@ -503,7 +503,7 @@ es:
     currency_symbol_position: "¿Deseas colocar el símbolo monetario antes o después del monto?"
     currency_thousands_separator: "Separador de millares de moneda"
     current: "Actual"
-    current_promotion_usage: "! Uso actual: %{count}'"
+    current_promotion_usage: ! 'Uso actual: %{count}'
     customer: "Cliente"
     customer_details: "Datos del cliente"
     customer_details_updated: "Detalles del cliente actualizados"
@@ -524,7 +524,7 @@ es:
     date_completed: "Fecha en que se completó"
     date_picker:
       first_day: "0"
-      format: "! '%A/%m/%d'"
+      format: ! '%A/%m/%d'
       js_format: "aa/mm/dd"
     date_range: "Rango de fecha"
     default: "Predeterminado"
@@ -575,7 +575,7 @@ es:
         no_shipping_methods_available: "No hay ningún método disponible para la ubicación seleccionada; cambia tu dirección en intenta nuevamente."
     errors_prohibited_this_record_from_being_saved:
       one: "1 error impidió que este registro se guardara"
-      other: "! %{count} errores impidieron que este registro se guardara"
+      other: ! '%{count} errores impidieron que este registro se guardara'
     event: "¿Informar"
     events:
       spree:
@@ -767,7 +767,7 @@ es:
     no_promotions_found: "No se encontró ninguna promoción"
     no_results: "No se encontró ningún resultado"
     no_rules_added: "No se agregó ninguna regla"
-    no_resource_found: "! 'No se encontró ningún %{resource}'"
+    no_resource_found: ! 'No se encontró ningún %{resource}'
     no_shipping_methods_found: "No se encontró ningún método de envío"
     no_shipping_method_selected: "No se seleccionó ningún método de envío."
     no_trackers_found: "No se encontró ninguna herramienta de rastreo"
@@ -778,7 +778,7 @@ es:
     not: "no"
     not_available: "N/A"
     not_enough_stock: "No hay inventario suficiente en esta ubicación de destino para completar esta transferencia"
-    not_found: "! 'No se encontró %{resource}'"
+    not_found: ! 'No se encontró %{resource}'
     notice_messages:
       product_cloned: "Se clonó el producto"
       product_deleted: "Se eliminó el producto"
@@ -798,7 +798,7 @@ es:
     optional: "Opcional"
     options: "Opciones"
     or: "o"
-    or_over_price: "! '%{price} o más caro'"
+    or_over_price: ! '%{price} o más caro'
     order: "Pedido"
     order_adjustments: "Ajustes del pedido"
     order_already_updated: "El pedido ya fue actualizado."
@@ -813,21 +813,21 @@ es:
         instructions: "Tu pedido fue CANCELADO  Conserva esta información de cancelación para tus archivos."
         order_summary_canceled: "Resumen del pedido [CANCELADO]"
         subject: "Cancelación de pedido"
-        subtotal: "! 'Subtotal: %{subtotal}'"
-        total: "! 'Total del pedido: %{total}'"
+        subtotal: ! 'Subtotal: %{subtotal}'
+        total: ! 'Total del pedido: %{total}'
       confirm_email:
         dear_customer: "Estimado/a cliente:"
         instructions: "Revisa y conserva la siguiente información del pedido para tus archivos."
         order_summary: "Resumen del pedido"
         subject: "Confirmación de Pedido"
-        subtotal: "! 'Subtotal: %{subtotal}'"
+        subtotal: ! 'Subtotal: %{subtotal}'
         thanks: "Gracias por la oportunidad de servirte como cliente."
-        total: "! 'Total del pedido: %{total}'"
+        total: ! 'Total del pedido: %{total}'
     order_not_found: "No pudimos encontrar tu pedido. Intenta esa acción nuevamente."
     order_number: "Pedido %{number}"
     order_populator:
-      out_of_stock: "! '%{item} está agotado.'"
-      selected_quantity_not_available: "! 'La cantidad seleccionada de %{item} no está disponible.'"
+      out_of_stock: ! '%{item} está agotado.'
+      selected_quantity_not_available: ! 'La cantidad seleccionada de %{item} no está disponible.'
       please_enter_reasonable_quantity: "Ingresa una cantidad razonable."
     order_processed_successfully: "Tu pedido fue procesado correctamente"
     order_resumed: "Pedido reanudado"
@@ -853,8 +853,8 @@ es:
     package_from: "paquete desde"
     pagination:
       next_page: "siguiente página &raquo;"
-      previous_page: "! '&laquo; página anterior'"
-      truncate: "! '&hellip;'"
+      previous_page: ! '&laquo; página anterior'
+      truncate: ! '&hellip;'
     password: "Contraseña"
     paste: "Pegar"
     path: "Ruta"
@@ -1031,8 +1031,8 @@ es:
         shipment_summary: "Resumen del envío"
         subject: "Notificación de envío"
         thanks: "Gracias por la oportunidad de servirte como cliente."
-        track_information: "! 'Información de rastreo: %{tracking}'"
-        track_link: "! 'Enlace de rastreo: %{url}'"
+        track_information: ! 'Información de rastreo: %{tracking}'
+        track_link: ! 'Enlace de rastreo: %{url}'
     shipment_state: "Estado del envío"
     shipment_states:
       backorder: "pedido pendiente"
@@ -1105,10 +1105,10 @@ es:
     subtotal: "Subtotal"
     subtract: "Sustraer"
     success: "Éxito"
-    successfully_created: "! ¡'%{resource} se creó correctamente!'"
-    successfully_removed: "! ¡'%{resource} se eliminó correctamente!'"
+    successfully_created: ! '¡%{resource} se creó correctamente!'
+    successfully_removed: ! '¡%{resource} se eliminó correctamente!'
     successfully_signed_up_for_analytics: "Te registraste correctamente en Spree Analytics"
-    successfully_updated: "! ¡'%{resource} se actualizó correctamente!'"
+    successfully_updated: ! '¡%{resource} se actualizó correctamente!'
     tax: "Impuesto"
     tax_included: "Impuestos (incl.)"
     tax_categories: "Categorías de impuestos"
@@ -1123,7 +1123,7 @@ es:
     taxonomy: "Taxonomía"
     taxonomy_edit: "Editar taxonomía"
     taxonomy_tree_error: "El cambio solicitado no fue aceptado por lo que el estado regresó a su estado anterior, intenta nuevamente."
-    taxonomy_tree_instruction: "! '* Haz clic derecho sobre un nodo hijo en el árbol para acceder al menú para agregar, eliminar u ordenar un nodo hijo.'"
+    taxonomy_tree_instruction: ! '* Haz clic derecho sobre un nodo hijo en el árbol para acceder al menú para agregar, eliminar u ordenar un nodo hijo.'
     taxons: "Taxonomías"
     test: "Prueba"
     test_mailer:
