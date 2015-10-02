@@ -26,7 +26,7 @@ module Spree
 
     def duplicate_product
       product.dup.tap do |new_product|
-        new_product.name = "COPY OF #{product.name}"
+        new_product.name = Spree.t('copy_of') + " #{product.name}"
         new_product.taxons = product.taxons
         new_product.created_at = nil
         new_product.deleted_at = nil
@@ -40,7 +40,7 @@ module Spree
     def duplicate_master
       master = product.master
       master.dup.tap do |new_master|
-        new_master.sku = "COPY OF #{master.sku}"
+        new_master.sku = Spree.t('copy_of') + " #{master.sku}"
         new_master.deleted_at = nil
         new_master.images = master.images.map { |image| duplicate_image image } if @include_images
         new_master.price = master.price
@@ -50,7 +50,7 @@ module Spree
 
     def duplicate_variant(variant)
       new_variant = variant.dup
-      new_variant.sku = "COPY OF #{new_variant.sku}"
+      new_variant.sku = Spree.t('copy_of') + " #{new_variant.sku}"
       new_variant.deleted_at = nil
       new_variant.option_values = variant.option_values.map { |option_value| option_value}
       new_variant
