@@ -18,7 +18,7 @@ module Spree
     token_resource
 
     self.whitelisted_ransackable_associations = %w[shipments user promotions bill_address ship_address line_items]
-    self.whitelisted_ransackable_attributes =  %w[completed_at created_at email number state payment_state shipment_state total]
+    self.whitelisted_ransackable_attributes =  %w[completed_at created_at email number state payment_state shipment_state total updated_at]
 
     attr_reader :coupon_code
 

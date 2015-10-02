@@ -73,6 +73,32 @@ describe "Ransackable Attributes" do
       expect(product_names).to include product.name
       expect(product_names).not_to include other_product.name
     end
+
+    it "product updated_at is filterable" do
+      product = create(:product, name: "Fritos")
+      other_product = create(:product)
+      other_product.update_columns(updated_at: other_product.updated_at - 10.days)
+
+      get "/api/products", token: user.spree_api_key, :'q[updated_at_gteq]' => product.updated_at
+
+      product_names = JSON.parse(response.body)['products'].map { |product| product['name'] }
+      expect(product_names).to include product.name
+      expect(product_names).not_to include other_product.name
+    end
+
+    it "order updated_at is filterable" do
+      admin_user = create(:admin_user)
+      admin_user.generate_spree_api_key!
+      order = create(:order_with_line_items, user: user)
+      other_order = create(:order_with_line_items, user: user)
+      other_order.update_columns(updated_at: other_order.updated_at - 10.days)
+
+      get "/api/orders?include_detail=1", token: admin_user.spree_api_key, :'q[updated_at_gteq]' => order.updated_at
+
+      order_names = JSON.parse(response.body)['orders'].map { |order| order['number'] }
+      expect(order_names).to include order.number
+      expect(order_names).not_to include other_order.number
+    end
   end
 
 
