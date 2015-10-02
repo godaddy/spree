@@ -94,6 +94,11 @@ module Spree
         expect{duplicator.duplicate}.to change{Spree::Variant.count}.by(3)
       end
 
+      it "will set an unique sku" do
+        duplicator.duplicate
+        expect(Spree::Variant.last(3).map(&:sku)).to eql ["COPY OF ABC", "COPY OF #{variant1.sku}", "COPY OF #{variant2.sku}"]
+      end
+
       it "will not duplicate the option values" do
         expect{duplicator.duplicate}.to change{Spree::OptionValue.count}.by(0)
       end
