@@ -92,7 +92,7 @@ module Spree
     after_initialize :ensure_master
 
     self.whitelisted_ransackable_associations = %w[stores variants_including_master master variants]
-    self.whitelisted_ransackable_attributes = %w[slug]
+    self.whitelisted_ransackable_attributes = %w[slug updated_at]
 
     def to_param
       slug
