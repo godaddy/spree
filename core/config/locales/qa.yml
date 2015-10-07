@@ -458,7 +458,6 @@ qa:
     close: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:close]"
     close_all_adjustments: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:close_all_adjustments]"
     code: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:code]"
-    copy_of: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:copy_of]"
     company: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:company]"
     complete: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:complete]"
     configuration: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:configuration]"
