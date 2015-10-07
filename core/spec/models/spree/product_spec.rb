@@ -22,8 +22,8 @@ describe Spree::Product do
 
       it 'duplicates product' do
         clone = product.duplicate
-        clone.name.should == 'COPY OF ' + product.name
-        clone.master.sku.should == 'COPY OF ' + product.master.sku
+        clone.name.should == product.name
+        clone.master.sku.should == product.master.sku
         clone.taxons.should == product.taxons
         clone.images.size.should == product.images.size
       end
