@@ -14,6 +14,7 @@ module Spree
     alias_attribute :first_name, :firstname
     alias_attribute :last_name, :lastname
 
+    after_update :touch_all_shipments
 
     self.whitelisted_ransackable_attributes = %w[firstname lastname]
 
@@ -130,5 +131,10 @@ module Spree
         # ensure at least one state field is populated
         errors.add :state, :blank if state.blank? && state_name.blank?
       end
+
+      def touch_all_shipments
+        shipments.find_each(&:touch)
+      end
+    
   end
 end
