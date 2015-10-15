@@ -246,4 +246,14 @@ describe Spree::Address do
     let(:address) { stub_model(Spree::Address) }
     specify { address.instance_eval{ require_phone? }.should be true}
   end
+
+  context "after_update" do
+    let(:address) { create(:address) }
+    let(:shipment) { create(:shipment, :address => address) }
+
+    it "touches shipment" do
+      expect { address.save! }.to change { shipment.reload.updated_at }
+    end
+  end
+
 end
