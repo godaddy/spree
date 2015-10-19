@@ -10,6 +10,7 @@ module Spree
               order: shipment.order, 
               amount: compute_amount(shipment),
               source: self,
+              note: order.coupon_code,
               label: label,
             )
             true
