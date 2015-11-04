@@ -590,21 +590,23 @@ describe Spree::Payment do
 
     context "when profiles are supported" do
       before do
-        gateway.stub :payment_profiles_supported? => true
-        payment.source.stub :has_payment_profile? => false
+        allow(gateway).to receive(:payment_profiles_supported?).and_return(true)
+        source_mock = double('source')
+        allow(payment).to receive(:source).and_return(source_mock)
+        allow(source_mock).to receive(:has_payment_profile?).and_return(false)
       end
 
       context "when there is an error connecting to the gateway" do
         it "should call gateway_error " do
-          gateway.should_receive(:create_profile).and_raise(ActiveMerchant::ConnectionError)
-          lambda do
+          allow(gateway).to receive(:create_profile).and_raise(Spree::Core::GatewayError)
+          expect {
             Spree::Payment.create(
               :amount => 100,
               :order => order,
               :source => card,
               :payment_method => gateway
             )
-          end.should raise_error(Spree::Core::GatewayError)
+          }.to raise_error(Spree::Core::GatewayError)
         end
       end
 
