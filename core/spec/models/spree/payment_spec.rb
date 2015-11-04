@@ -598,7 +598,7 @@ describe Spree::Payment do
 
       context "when there is an error connecting to the gateway" do
         it "should call gateway_error " do
-          allow(gateway).to receive(:create_profile).and_raise(Spree::Core::GatewayError)
+          allow(gateway).to receive(:create_profile).and_raise(ActiveMerchant::ConnectionError.new('message', 'exception'))
           expect {
             Spree::Payment.create(
               amount:           100,
