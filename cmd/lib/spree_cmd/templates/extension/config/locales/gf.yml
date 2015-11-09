@@ -2,4 +2,4 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 gf:
-  hello: "⌠514070⌡Héllò wòrld⌠514070⌡"
+  hello: "⌠514070⌡Hello world⌠514070⌡"
