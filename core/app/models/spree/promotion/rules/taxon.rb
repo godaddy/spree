@@ -5,7 +5,7 @@ module Spree
         has_and_belongs_to_many :taxons, class_name: '::Spree::Taxon', join_table: 'spree_taxons_promotion_rules', foreign_key: 'promotion_rule_id'
 
         MATCH_POLICIES = %w(any all)
-        preference :match_policy, default: MATCH_POLICIES.first
+        preference :match_policy, :string, default: MATCH_POLICIES.first
 
         def applicable?(promotable)
           promotable.is_a?(Spree::Order)
