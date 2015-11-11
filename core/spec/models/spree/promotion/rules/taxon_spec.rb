@@ -35,7 +35,7 @@ describe Spree::Promotion::Rules::Taxon do
         end
 
         it 'should act on a product within the eligible taxon' do
-          expect(rule).to be_actionable(order.line_items.last)
+          expect(rule).to be_actionable(order.line_items.first)
         end
 
         it 'should not act on a product in another taxon' do
