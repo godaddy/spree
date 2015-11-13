@@ -72,7 +72,7 @@ module Spree
 
     # called anytime order.update! happens
     def eligible?(promotable)
-      return false if expired? || usage_limit_exceeded?(promotable)
+      return false if expired_or_usage_exceeded?(promotable)
       !!eligible_rules(promotable, {})
     end
 
@@ -119,9 +119,11 @@ module Spree
     end
 
     def line_item_actionable?(order, line_item)
-      if eligible? order
+      unless expired_or_usage_exceeded? order
         rules = eligible_rules(order)
-        if rules.blank?
+        if rules.nil?
+          false
+        elsif rules.blank?
           true
         else
           rules.send(match_all? ? :all? : :any?) do |rule|
@@ -134,6 +136,11 @@ module Spree
     end
 
     private
+
+    def expired_or_usage_exceeded?(promotable)
+      expired? || usage_limit_exceeded?(promotable)
+    end
+
     def normalize_blank_values
       [:code, :path].each do |column|
         self[column] = nil if self[column].blank?
