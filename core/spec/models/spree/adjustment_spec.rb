@@ -118,6 +118,20 @@ describe Spree::Adjustment do
         expect(adjustment).to receive(:update_columns).with(amount: 5, updated_at: kind_of(Time))
         adjustment.update!
       end
+
+      it "updates eligiblity and label" do
+        expect(adjustment).to receive(:promotion?).and_return(true)
+        expect(adjustment).to receive(:adjustable).and_return(double("Adjustable")).at_least(1).times
+        expect(adjustment).to receive(:source).and_return(double("Source")).at_least(1).times
+        expect(adjustment.source).to receive("compute_amount").with(adjustment.adjustable).and_return(5)
+        expect(adjustment.source).to receive("promotion").and_return(double("Promotion")).at_least(1).times
+        expect(adjustment.source.promotion).to receive("eligible?").with(adjustment.adjustable) {true}
+        expect(adjustment.source.promotion).to receive("name") {"test"}
+        expect(adjustment).to receive(:update_columns).with(amount: 5, updated_at: kind_of(Time))
+        expect(adjustment).to receive(:update_columns).with(eligible: true, label: kind_of(String))
+        adjustment.update!
+      end
+
     end
   end
 
