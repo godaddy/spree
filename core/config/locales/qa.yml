@@ -951,6 +951,9 @@ qa:
       user_logged_in:
         description: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:promotion_rule_types:user_logged_in:description]"
         name: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:promotion_rule_types:user_logged_in:name]"
+      taxon:
+        description: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:promotion_rule_types:taxon:description]"
+        name: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:promotion_rule_types:taxon:name]"
     promotions: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:promotions]"
     promotion_uses: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:promotion_uses]"
     propagate_all_variants: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:propagate_all_variants]"
@@ -1120,6 +1123,11 @@ qa:
     taxon: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon]"
     taxon_edit: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon_edit]"
     taxon_placeholder: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon_placeholder]"
+    taxon_rule:
+      choose_products: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon_rule:choose_products]"
+      label: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon_rule:label]"
+      match_all: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon_rule:match_all]"
+      match_any: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxon_rule:match_any]"
     taxonomies: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxonomies]"
     taxonomy: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxonomy]"
     taxonomy_edit: "[spree/2-2-nemo-stable/core/config/locales/en.yml:qa:spree:taxonomy_edit]"
