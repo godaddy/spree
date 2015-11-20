@@ -950,6 +950,9 @@ es:
       user_logged_in:
         description: "Disponible únicamente para los usuarios que iniciaron sesión"
         name: "Usuario conectado"
+      taxon:
+        description: "Ordes includes products with specified taxon(s)"
+        name: "Taxon(s)"
     promotions: "Promociones"
     promotion_uses: "Usos de la promoción"
     propagate_all_variants: "Propagar todas las variantes"
@@ -1119,6 +1122,11 @@ es:
     taxon: "Taxon."
     taxon_edit: "Editar taxon."
     taxon_placeholder: "Agregar una taxon."
+    taxon_rule:
+      choose_products: "Choose taxon"
+      label: "Order must contain %{select} of these taxons"
+      match_all: "todo"
+      match_any: "cuando menos uno"
     taxonomies: "Taxonomías"
     taxonomy: "Taxonomía"
     taxonomy_edit: "Editar taxonomía"
