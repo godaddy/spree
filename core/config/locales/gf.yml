@@ -950,6 +950,9 @@ gf:
       user_logged_in:
         description: "⌠514878⌡Available only to logged in users⌠514878⌡"
         name: "⌠514879⌡User Logged In⌠514879⌡"
+      taxon:
+        description: "⌠556636⌡Ordes includes products with specified taxon(s)⌠556636⌡"
+        name: "⌠556637⌡Taxon(s)⌠556637⌡"
     promotions: "⌠514880⌡Promotions⌠514880⌡"
     promotion_uses: "⌠514881⌡Promotion uses⌠514881⌡"
     propagate_all_variants: "⌠514882⌡Propagate all variants⌠514882⌡"
@@ -1119,6 +1122,11 @@ gf:
     taxon: "⌠515042⌡Taxon⌠515042⌡"
     taxon_edit: "⌠515043⌡Edit Taxon⌠515043⌡"
     taxon_placeholder: "⌠515044⌡Add a Taxon⌠515044⌡"
+    taxon_rule:
+      choose_products: "⌠556638⌡Choose taxon⌠556638⌡"
+      label: "⌠556639⌡Order must contain %{select} of these taxons⌠556639⌡"
+      match_all: "⌠556640⌡all⌠556640⌡"
+      match_any: "⌠556641⌡at least one⌠556641⌡"
     taxonomies: "⌠515045⌡Taxonomies⌠515045⌡"
     taxonomy: "⌠515046⌡Taxonomy⌠515046⌡"
     taxonomy_edit: "⌠515047⌡Edit taxonomy⌠515047⌡"

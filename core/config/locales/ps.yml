@@ -950,6 +950,9 @@ ps:
       user_logged_in:
         description: "⌠514878⌡[Åvåîlåblé ònly tò lòggéd în üsérs !!! !!! !!!]⌠514878⌡"
         name: "⌠514879⌡[Üsér Lòggéd În !!!]⌠514879⌡"
+      taxon:
+        description: "⌠556636⌡[Òrdés înclüdés pròdücts wîth spécîfîéd tåxòn(s) !!! !!! !!! !!!]⌠556636⌡"
+        name: "⌠556637⌡[Tåxòn(s) !!! !!! !!! !!! !!! !!! !!! !!!]⌠556637⌡"
     promotions: "⌠514880⌡[Pròmòtîòns !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]⌠514880⌡"
     promotion_uses: "⌠514881⌡[Pròmòtîòn üsés !!!]⌠514881⌡"
     propagate_all_variants: "⌠514882⌡[Pròpågåté åll vårîånts !!! !!!]⌠514882⌡"
@@ -1119,6 +1122,11 @@ ps:
     taxon: "⌠515042⌡[Tåxòn !!! !!! !!! !!! !!!]⌠515042⌡"
     taxon_edit: "⌠515043⌡[Édît Tåxòn !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]⌠515043⌡"
     taxon_placeholder: "⌠515044⌡[Ådd å Tåxòn !!!]⌠515044⌡"
+    taxon_rule:
+      choose_products: "⌠556638⌡[Chòòsé tåxòn !!!]⌠556638⌡"
+      label: "⌠556639⌡[Òrdér müst còntåîn  !!! !!!]%{select}[ òf thésé tåxòns !!! !!!]⌠556639⌡"
+      match_all: "⌠556640⌡[åll !!! !!! !!!]⌠556640⌡"
+      match_any: "⌠556641⌡[åt léåst òné !!!]⌠556641⌡"
     taxonomies: "⌠515045⌡[Tåxònòmîés !!! !!! !!! !!! !!! !!! !!! !!! !!! !!!]⌠515045⌡"
     taxonomy: "⌠515046⌡[Tåxònòmy !!! !!! !!! !!! !!! !!! !!! !!!]⌠515046⌡"
     taxonomy_edit: "⌠515047⌡[Édît tåxònòmy !!!]⌠515047⌡"

@@ -950,6 +950,9 @@ pz:
       user_logged_in:
         description: "⌠514878⌡Zzzzzzzzz zzzz zz zzzzzz zz zzzzz⌠514878⌡"
         name: "⌠514879⌡Zzzz Zzzzzz Zz⌠514879⌡"
+      taxon:
+        description: "⌠556636⌡Zzzzz zzzzzzzz zzzzzzzz zzzz zzzzzzzzz zzzzz(z)⌠556636⌡"
+        name: "⌠556637⌡Zzzzz(z)⌠556637⌡"
     promotions: "⌠514880⌡Zzzzzzzzzz⌠514880⌡"
     promotion_uses: "⌠514881⌡Zzzzzzzzz zzzz⌠514881⌡"
     propagate_all_variants: "⌠514882⌡Zzzzzzzzz zzz zzzzzzzz⌠514882⌡"
@@ -1119,6 +1122,11 @@ pz:
     taxon: "⌠515042⌡Zzzzz⌠515042⌡"
     taxon_edit: "⌠515043⌡Zzzz Zzzzz⌠515043⌡"
     taxon_placeholder: "⌠515044⌡Zzz z Zzzzz⌠515044⌡"
+    taxon_rule:
+      choose_products: "⌠556638⌡Zzzzzz zzzzz⌠556638⌡"
+      label: "⌠556639⌡Zzzzz zzzz zzzzzzz %{select} zz zzzzz zzzzzz⌠556639⌡"
+      match_all: "⌠556640⌡zzz⌠556640⌡"
+      match_any: "⌠556641⌡zz zzzzz zzz⌠556641⌡"
     taxonomies: "⌠515045⌡Zzzzzzzzzz⌠515045⌡"
     taxonomy: "⌠515046⌡Zzzzzzzz⌠515046⌡"
     taxonomy_edit: "⌠515047⌡Zzzz zzzzzzzz⌠515047⌡"
