@@ -93,7 +93,10 @@ module Spree
           updated_at: Time.now,
         )
         if promotion?
-          self.update_column(:eligible, source.promotion.eligible?(adjustable))
+          self.update_columns(
+              eligible: source.promotion.eligible?(adjustable),
+              label: "#{Spree.t(:promotion)} (#{source.promotion.name})"
+          )
         end
       end
       amount
