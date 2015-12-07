@@ -32,8 +32,8 @@ module Spree
             amount: amount,
             adjustable: adjustable,
             order: order,
-            note: order.coupon_code,
-            label: "#{Spree.t(:promotion)} (#{promotion.name})",
+            note: "#{promotion.code} (#{promotion.name})",
+            label: "#{Spree.t(:promotion)} (#{promotion.code})",
           )
           true
         end
