@@ -127,8 +127,9 @@ describe Spree::Adjustment do
         expect(adjustment.source).to receive("promotion").and_return(double("Promotion")).at_least(1).times
         expect(adjustment.source.promotion).to receive("eligible?").with(adjustment.adjustable) {true}
         expect(adjustment.source.promotion).to receive("name") {"test"}
+        expect(adjustment.source.promotion).to receive("code").twice {"code"}
         expect(adjustment).to receive(:update_columns).with(amount: 5, updated_at: kind_of(Time))
-        expect(adjustment).to receive(:update_columns).with(eligible: true, label: kind_of(String))
+        expect(adjustment).to receive(:update_columns).with(eligible: true, note: kind_of(String), label: kind_of(String))
         adjustment.update!
       end
 

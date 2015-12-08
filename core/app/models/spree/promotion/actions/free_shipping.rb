@@ -10,7 +10,7 @@ module Spree
               order: shipment.order, 
               amount: compute_amount(shipment),
               source: self,
-              note: order.coupon_code,
+              note: "#{promotion.code} (#{promotion.name})",
               label: label,
             )
             true
@@ -21,7 +21,7 @@ module Spree
         end
 
         def label
-          "#{Spree.t(:promotion)} (#{promotion.name})"
+          "#{Spree.t(:promotion)} (#{promotion.code})"
         end
 
         def compute_amount(shipment)

@@ -95,7 +95,8 @@ module Spree
         if promotion?
           self.update_columns(
               eligible: source.promotion.eligible?(adjustable),
-              label: "#{Spree.t(:promotion)} (#{source.promotion.name})"
+              note: "#{source.promotion.code} (#{source.promotion.name})",
+              label: "#{Spree.t(:promotion)} (#{source.promotion.code})"
           )
         end
       end
