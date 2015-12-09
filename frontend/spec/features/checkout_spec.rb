@@ -379,7 +379,7 @@ describe "Checkout", inaccessible: true do
       fill_in "Coupon Code", with: promotion.code
       click_on "Save and Continue"
 
-      page.should have_content(promotion.name)
+      page.should have_content(promotion.code)
       expect(Spree::Payment.first.amount.to_f).to eq Spree::Order.last.total.to_f
     end
 

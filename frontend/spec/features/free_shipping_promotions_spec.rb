@@ -52,7 +52,7 @@ describe "Free shipping promotions", :js => true do
     it "applies the free shipping promotion" do
       within("#checkout-summary") do
         page.should have_content("Shipping total:  $10.00")
-        page.should have_content("Promotion (Free Shipping): -$10.00")
+        page.should have_content("Promotion (): -$10.00")
       end
     end
   end

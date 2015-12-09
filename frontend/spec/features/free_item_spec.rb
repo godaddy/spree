@@ -51,7 +51,7 @@ describe "Free shipping promotions", :js => true do
       all("a.delete").first.click # Delete the first line item
       page.should_not have_content("RoR Mug")
       page.should have_content("RoR Shirt")
-      page.should have_content("Adjustment: Promotion (Free Shirt!) -$20.00")
+      page.should have_content("Adjustment: Promotion (freeshirt) -$20.00")
       page.should have_content("Total $0.00")
 
       click_button "Checkout"
@@ -79,7 +79,7 @@ describe "Free shipping promotions", :js => true do
 
       within("#checkout-summary") do
         page.should have_content("Shipping total:  $10.00")
-        page.should have_content("Promotion (Free Shirt!): -$20.00")
+        page.should have_content("Promotion (freeshirt): -$20.00")
         page.should have_content("Order Total: $10.00")
       end
     end
