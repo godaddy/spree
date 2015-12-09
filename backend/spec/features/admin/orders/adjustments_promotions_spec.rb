@@ -25,7 +25,7 @@ describe "Adjustments Promotions" do
       it "should create a new adjustment", :js => true do
         fill_in "coupon_code", :with => "10_off"
         click_button "Add Coupon Code"
-        page.should have_content("$10 off")
+        page.should have_content("10_off")
         page.should have_content("-$10.00")
       end
     end

@@ -30,7 +30,7 @@ group :test do
   gem 'rspec-rails', '~> 3.0.2'
   gem 'test-unit'
   gem 'selenium-webdriver', '~> 2.35'
-  gem 'simplecov'
+  gem 'simplecov', '0.10.0'
   gem 'test-unit'
   gem 'timecop'
   gem 'webmock', '1.8.11'
