@@ -254,6 +254,20 @@ describe Spree::Promotion do
       expect(promotion.credits_count).to eq(1)
       expect(promotion.adjusted_credits_count(order)).to eq(0)
     end
+
+    it "counts eligible order level adjustments" do
+      order_adjustment.update_column(:eligible, false)
+      expect(order_adjustment.adjustable).to eq(order)
+      expect(promotion.credits_count).to eq(0)
+      expect(promotion.adjusted_credits_count(order)).to eq(0)
+    end
+
+    it "counts eligible item level adjustments" do
+      item_adjustment.update_column(:eligible, false)
+      expect(item_adjustment.adjustable).to eq(line_item)
+      expect(promotion.credits_count).to eq(0)
+      expect(promotion.adjusted_credits_count(order)).to eq(0)
+    end
   end
 
   context "#products" do
