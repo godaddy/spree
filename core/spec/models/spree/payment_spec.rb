@@ -582,9 +582,9 @@ describe Spree::Payment do
   end
 
   describe "#save" do
-    it "should call order#update!" do
+    it "should call order.updater#update_payment_total" do
       payment = Spree::Payment.create(:amount => 100, :order => order)
-      order.should_receive(:update!)
+      Spree::OrderUpdater.any_instance.should_receive(:update_payment_total)
       payment.save
     end
 

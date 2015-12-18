@@ -184,7 +184,8 @@ module Spree
 
       def update_order
         order.payments.reload
-        order.update!
+        order.updater.update_payment_total
+        order.updater.persist_totals
       end
 
       # Necessary because some payment gateways will refuse payments with
