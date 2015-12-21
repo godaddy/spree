@@ -16,13 +16,17 @@ module Spree
     # associations try to save and then in turn try to call +update!+ again.)
     def update
       update_totals
+      update_order_states
+      run_hooks
+      persist_totals
+    end
+
+    def update_order_states
       if order.completed?
         update_payment_state
         update_shipments
         update_shipment_state
       end
-      run_hooks
-      persist_totals
     end
 
     def run_hooks
