@@ -10,16 +10,11 @@ module Spree
         end
 
         @products = @products.distinct.page(params[:page]).per(params[:per_page])
-        expires_in 15.minutes, :public => true
-        headers['Surrogate-Control'] = "max-age=#{15.minutes}"
         respond_with(@products)
       end
 
       def show
         @product = find_product(params[:id])
-        expires_in 15.minutes, :public => true
-        headers['Surrogate-Control'] = "max-age=#{15.minutes}"
-        headers['Surrogate-Key'] = "product_id=1"
         respond_with(@product)
       end
 
