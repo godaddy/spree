@@ -2,6 +2,8 @@ module Spree
   class Taxon < ActiveRecord::Base
     acts_as_nested_set dependent: :destroy
 
+    before_destroy :touch_products
+
     belongs_to :taxonomy, class_name: 'Spree::Taxonomy', touch: true, inverse_of: :taxons
     has_many :classifications, -> { order(:position) }, dependent: :delete_all, inverse_of: :taxon
     has_many :products, through: :classifications
@@ -85,6 +87,10 @@ module Spree
 
     def touch_parent
       parent.touch if parent
+    end
+
+    def touch_products
+      products.map(&:touch)
     end
   end
 end
