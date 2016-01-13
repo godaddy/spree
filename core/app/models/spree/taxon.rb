@@ -90,7 +90,9 @@ module Spree
     end
 
     def touch_products
-      products.map(&:touch)
+      ActiveRecord::Base.delay_touching do
+        products.map(&:touch)
+      end
     end
   end
 end

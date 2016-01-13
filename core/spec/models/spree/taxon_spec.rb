@@ -66,4 +66,26 @@ describe Spree::Taxon do
       expect { taxonomy.root.children.unscoped.where(:name => "Some name").first_or_create }.not_to raise_error
     end
   end
+
+  context "destroy" do
+    let(:taxon) { FactoryGirl.create(:taxon, :name => "Something") }
+    let(:product1) { create(:product) }
+    let(:product2) { create(:product) }
+
+    before do
+      product1.update_column(:updated_at, 1.minutes.ago)
+      product2.update_column(:updated_at, 1.minutes.ago)
+      taxon.products << [product1, product2]
+      expect([product1.reload, product2.reload].map(&:taxons)).to eq([[taxon], [taxon]])
+    end
+
+    it "touch associated products when deleted" do
+      updated_at_1 = product1.updated_at
+      updated_at_2 = product2.updated_at
+      taxon.destroy
+      expect([product1.reload, product2.reload].map(&:taxons)).to eq([[], []])
+      expect(product1.updated_at).not_to eq(updated_at_1)
+      expect(product2.updated_at).not_to eq(updated_at_2)
+    end
+  end
 end
