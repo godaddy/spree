@@ -60,8 +60,17 @@ module Spree
         headers["Content-Type"] = content_type
       end
 
+      # copied from gem actionpack-4.0.13/lib/action_controller/metal/request_forgery_protection.rb
+      # with modification to force check on GET request
+      def verified_request?
+        !protect_against_forgery? || request.head? ||
+          form_authenticity_token == params[request_forgery_protection_token] ||
+          form_authenticity_token == request.headers['X-CSRF-Token']
+      end
+
       def load_user
-        @current_api_user = Spree.user_class.find_by(spree_api_key: api_key.to_s)
+        @current_api_user = try_spree_current_user if verified_request?
+        @current_api_user = Spree.user_class.find_by(spree_api_key: api_key.to_s) unless @current_api_user
       end
 
       def authenticate_user
@@ -130,10 +139,10 @@ module Spree
 
       def product_scope
         if current_api_user.has_spree_role?("admin")
-          scope = Product.with_deleted.accessible_by(current_ability, :read).includes(*product_includes)
+          scope = Product.accessible_by(current_ability, :read).includes(*product_includes)
 
-          unless params[:show_deleted]
-            scope = scope.not_deleted
+          if params[:show_deleted]
+            scope = scope.with_deleted
           end
         else
           scope = Product.accessible_by(current_ability, :read).active.includes(*product_includes)
