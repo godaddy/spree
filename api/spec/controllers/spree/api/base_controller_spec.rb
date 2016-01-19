@@ -4,7 +4,7 @@ describe Spree::Api::BaseController do
   render_views
   controller(Spree::Api::BaseController) do
     def index
-      render :text => { "products" => [] }.to_json
+      render :text => { "products" => product_scope.where(:id => params[:product_id]).pluck(:id) }.to_json
     end
   end
 
@@ -88,6 +88,28 @@ describe Spree::Api::BaseController do
     it "using an invalid token param" do
       get :index, :token => "fake_key"
       json_response.should == { "error" => "Invalid API key (fake_key) specified." }
+    end
+  end
+
+  context "product scope for admin" do
+    let!(:order) { create :order }
+    let!(:product) { create :product }
+
+    before do
+      product.destroy
+      subject.stub_chain(:current_api_user, :has_spree_role?).and_return(true)
+    end
+
+    it "does not include deleted products by default" do
+      api_get :index, order_token: order.token, product_id: product.id
+      response.status.should == 200
+      expect(JSON.parse(response.body)).to eq({ "products" => []})
+    end
+
+    it "includes deleted products with show_deleted param" do
+      api_get :index, order_token: order.token, product_id: product.id, show_deleted: true
+      response.status.should == 200
+      expect(JSON.parse(response.body)).to eq({ "products" => [product.id]})
     end
   end
 
