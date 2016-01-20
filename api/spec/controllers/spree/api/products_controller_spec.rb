@@ -406,7 +406,7 @@ module Spree
             variant_hash = {
               :sku => '123', :price => 19.99, :options => [{:name => "size", :value => "small"}]
             }
-            @variant_id = product.variants.create!({ product: product }.merge(variant_hash)).id
+            @variant_id = create(:variant, { product: product }.merge(variant_hash)).id
           end
 
           it "cannot update a product with invalid variant attribute" do
