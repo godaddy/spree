@@ -102,6 +102,13 @@ module Spree
             @product.option_types << option_type unless @product.option_types.include?(option_type)
           end
 
+          @product.variants.each do |variant|
+            next if variant.errors.blank?
+            @product.errors.add :variants, variant.errors.messages.merge(id: variant.try(:id))
+          end
+        end
+
+        if @product.errors.blank?
           respond_with(@product.reload, :status => 200, :default_template => :show)
         else
           invalid_resource!(@product)

@@ -401,6 +401,32 @@ module Spree
           json_response["errors"]["name"].should == ["can't be blank"]
         end
 
+        context 'with existing variants' do
+          before do
+            variant_hash = {
+              :sku => '123', :price => 19.99, :options => [{:name => "size", :value => "small"}]
+            }
+            @variant_id = create(:variant, { product: product }.merge(variant_hash)).id
+          end
+
+          it "cannot update a product with invalid variant attribute" do
+            api_put :update, :id => product.to_param, :product => {
+              :variants => [
+                {
+                  :id => @variant_id.to_s,
+                  :price => -4
+                }
+              ]
+            }
+
+            expect(response.status).to eq 422
+            expect(json_response["error"]).to eq "Invalid resource. Please fix errors and try again."
+            expect(json_response["errors"]["variants"].first["id"]).to eq @variant_id
+            expect(json_response["errors"]["variants"].first["price"].first).to eq "must be greater than or equal to 0"
+            expect(json_response["errors"]["variants"].count).to eq 1
+          end
+        end
+
         # Regression test for #4123
         it "puts the created product in the given taxon" do
           api_put :update, :id => product.to_param, :product => {:taxon_ids => taxon_1.id.to_s}
