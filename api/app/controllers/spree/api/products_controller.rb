@@ -86,11 +86,13 @@ module Spree
           variants_params.each do |variant_attribute|
             # update the variant if the id is present in the payload
             if variant_attribute['id'].present?
-              @product.variants.find(variant_attribute['id'].to_i).update_attributes(variant_attribute)
+              variant = @product.variants_including_master.find(variant_attribute['id'].to_i)
+              variant.update_attributes(variant_attribute)
             else
               # make sure the product is assigned before the options=
-              @product.variants.create({ product: @product }.merge(variant_attribute))
+              variant = @product.variants.create({ product: @product }.merge(variant_attribute))
             end
+            @product.errors.add :variants, variant.errors.messages.merge(id: variant.try(:id)) if variant.errors.present?
           end
 
           option_types_params.each do |name|
@@ -100,11 +102,6 @@ module Spree
             end
 
             @product.option_types << option_type unless @product.option_types.include?(option_type)
-          end
-
-          @product.variants.each do |variant|
-            next if variant.errors.blank?
-            @product.errors.add :variants, variant.errors.messages.merge(id: variant.try(:id))
           end
         end
 
