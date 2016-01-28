@@ -319,7 +319,7 @@ module Spree
 
     # Touch current product without callbacks
     def touch_product(_)
-      self.touch
+      self.touch if persisted?
     end
 
   end
