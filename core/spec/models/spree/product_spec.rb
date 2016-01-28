@@ -442,6 +442,24 @@ describe Spree::Product do
       reflection = Spree::Product.reflect_on_association(:classifications)
       expect(reflection.options[:dependent]).to eq(:delete_all)
     end
+
+    context "add/remove taxons" do
+      let(:taxon1) { create(:taxon) }
+      let(:taxon2) { create(:taxon) }
+      let(:product) {
+        p = create(:product)
+        p.taxons << taxon1
+        p
+      }
+
+      it "will touch product when adding a taxon" do
+        expect { product.taxons << taxon2 }.to change { product.updated_at }
+      end
+
+      it "will touch product when removing a taxon" do
+        expect { product.taxons.delete(taxon1) }.to change { product.updated_at }
+      end
+    end
   end
 
   context '#total_on_hand' do
