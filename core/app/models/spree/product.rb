@@ -326,8 +326,9 @@ module Spree
       Spree::Taxonomy.where(id: taxonomy_ids_to_touch).update_all(updated_at: Time.current)
     end
 
-    def touch_product(obj)
-      self.updated_at = Time.now
+    # Touch current product without callbacks
+    def touch_product(_)
+      self.touch
     end
 
   end
