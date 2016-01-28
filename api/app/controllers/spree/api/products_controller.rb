@@ -82,26 +82,28 @@ module Spree
         @product = find_product(params[:id])
         authorize! :update, @product
 
-        if @product.update_attributes(product_params)
-          variants_params.each do |variant_attribute|
-            # update the variant if the id is present in the payload
-            if variant_attribute['id'].present?
-              variant = @product.variants_including_master.find(variant_attribute['id'].to_i)
-              variant.update_attributes(variant_attribute)
-            else
-              # make sure the product is assigned before the options=
-              variant = @product.variants.create({ product: @product }.merge(variant_attribute))
-            end
-            @product.errors.add :variants, variant.errors.messages.merge(id: variant.try(:id)) if variant.errors.present?
-          end
-
-          option_types_params.each do |name|
-            option_type = OptionType.where(name: name).first_or_initialize do |option_type|
-              option_type.presentation = name
-              option_type.save!
+        ActiveRecord::Base.delay_touching do
+          if @product.update_attributes(product_params)
+            variants_params.each do |variant_attribute|
+              # update the variant if the id is present in the payload
+              if variant_attribute['id'].present?
+                variant = @product.variants_including_master.find(variant_attribute['id'].to_i)
+                variant.update_attributes(variant_attribute)
+              else
+                # make sure the product is assigned before the options=
+                variant = @product.variants.create({ product: @product }.merge(variant_attribute))
+              end
+              @product.errors.add :variants, variant.errors.messages.merge(id: variant.try(:id)) if variant.errors.present?
             end
 
-            @product.option_types << option_type unless @product.option_types.include?(option_type)
+            option_types_params.each do |name|
+              option_type = OptionType.where(name: name).first_or_initialize do |option_type|
+                option_type.presentation = name
+                option_type.save!
+              end
+
+              @product.option_types << option_type unless @product.option_types.include?(option_type)
+            end
           end
         end
 
