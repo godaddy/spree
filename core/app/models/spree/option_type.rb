@@ -1,3 +1,5 @@
+# Moved into Nemo, nemo_spree/core
+
 # module Spree
 #   class OptionType < ActiveRecord::Base
 #     has_many :option_values, -> { order(:position) }, dependent: :destroy, inverse_of: :option_type
