@@ -6,8 +6,24 @@ module Spree
 
     let(:taxonomy) { create(:taxonomy) }
     let(:taxon) { create(:taxon, :name => "Ruby", :taxonomy => taxonomy) }
-    let(:taxon2) { create(:taxon, :name => "Rails", :taxonomy => taxonomy) }
+    let(:taxon2) { create(:taxon, :name => "Rails", :taxonomy => taxonomy, :parent => taxon) }
     let(:attributes) { ["id", "name", "pretty_name", "permalink", "parent_id", "taxonomy_id"] }
+    let(:product) {
+      p = create(:product)
+      p.taxons << taxon
+      p
+    }
+    let(:product2) {
+      p = create(:product)
+      p.taxons << taxon2
+      p
+    }
+    let(:product3) {
+      p = create(:product)
+      p.taxons << taxon
+      p.update_attribute(:available_on, 1.day.from_now)
+      p
+    }
 
     before do
       stub_authentication!
@@ -100,6 +116,21 @@ module Spree
         response["state"].should eq("closed")
       end
 
+      it "gets all products for the taxon and its children" do
+        product
+        product2
+        api_get :products, :id => taxon.id
+        response = json_response
+        expect(response['products'].map {|p| p['id']}).to eq([product.id, product2.id])
+      end
+
+      it "does not return inactive product" do
+        product3
+        api_get :products, :id => taxon.id
+        response = json_response
+        expect(response['products']).to eq([])
+      end
+
       it "can learn how to create a new taxon" do
         api_get :new, :taxonomy_id => taxonomy.id
         json_response["attributes"].should == attributes.map(&:to_s)
@@ -170,6 +201,13 @@ module Spree
       it "can destroy" do
         api_delete :destroy, :taxonomy_id => taxonomy.id, :id => taxon.id
         response.status.should == 204
+      end
+
+      it "can return inactive product" do
+        product3
+        api_get :products, :id => taxon.id
+        response = json_response
+        expect(response['products'].map {|p| p['id']}).to eq([product3.id])
       end
     end
 
