@@ -64,7 +64,7 @@ module Spree
         # Returns the products sorted by their position with the classification
         # Products#index does not do the sorting.
         taxon = Spree::Taxon.find(params[:id])
-        @products = taxon.products.ransack(params[:q]).result
+        @products = product_scope.in_taxon(taxon).ransack(params[:q]).result(distinct: true)
         @products = @products.page(params[:page]).per(params[:per_page] || 500)
         render "spree/api/products/index"
       end
