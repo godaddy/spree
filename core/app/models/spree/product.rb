@@ -30,7 +30,7 @@ module Spree
     has_many :properties, through: :product_properties
 
     has_many :classifications, dependent: :delete_all, inverse_of: :product
-    has_many :taxons, through: :classifications
+    has_many :taxons, through: :classifications, after_add: :touch_product, after_remove: :touch_product
     has_and_belongs_to_many :promotion_rules, join_table: :spree_products_promotion_rules
 
     belongs_to :tax_category, class_name: 'Spree::TaxCategory'
@@ -260,15 +260,6 @@ module Spree
       @nested_changes = false
     end
 
-    # there's a weird quirk with the delegate stuff that does not automatically save the delegate object
-    # when saving so we force a save using a hook.
-    def save_master
-      if master && (master.changed? || master.new_record? || (master.default_price && (master.default_price.changed? || master.default_price.new_record?)))
-        master.save
-        @nested_changes = true
-      end
-    end
-
     def ensure_master
       return unless new_record?
       self.master ||= Variant.new
@@ -324,6 +315,11 @@ module Spree
 
       taxonomy_ids_to_touch = taxons_to_touch.map(&:taxonomy_id).flatten.uniq
       Spree::Taxonomy.where(id: taxonomy_ids_to_touch).update_all(updated_at: Time.current)
+    end
+
+    # Touch current product without callbacks
+    def touch_product(_)
+      self.touch if persisted?
     end
 
   end
