@@ -35,7 +35,7 @@ group :test do
   gem 'test-unit'
   gem 'timecop'
   gem 'webmock', '1.8.11'
-  gem 'poltergeist', '1.5.0'
+  gem 'poltergeist'
   gem 'rspec-retry'
   gem 'byebug'
 end
