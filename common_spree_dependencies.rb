@@ -5,21 +5,15 @@ source 'https://rubygems.org'
 
 platforms :ruby do
   gem 'mysql2'
-  gem 'pg'
   gem 'sqlite3'
 end
 
-platforms :jruby do
-  gem 'jruby-openssl'
-  gem 'activerecord-jdbcsqlite3-adapter'
-end
-
-gem 'coffee-rails', '~> 4.0.0'
-gem 'sass-rails', '~> 4.0.0'
+gem 'coffee-rails', '~> 4.2.0'
+gem 'sass-rails', '~> 5.0.0'
 
 group :test do
   gem 'capybara', '~> 2.4'
-  gem 'database_cleaner', '~> 1.0'
+  gem 'database_cleaner'
   gem 'email_spec'
   gem 'factory_girl_rails', '~> 4.5.0'
   gem 'launchy'
