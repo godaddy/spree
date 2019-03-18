@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'spree_core', version
 
   s.add_dependency 'canonical-rails', '~> 0.2.0'
-  s.add_dependency 'jquery-rails', '~> 5.1.2'
+  s.add_dependency 'jquery-rails', '~> 4.3.0'
   s.add_dependency 'stringex', '~> 1.5.1'
 
   s.add_development_dependency 'email_spec', '~> 1.2.1'
