@@ -1,3 +1,8 @@
 eval(File.read(File.dirname(__FILE__) + '/../common_spree_dependencies.rb'))
 
 gemspec
+
+group :development, :test do
+  gem 'byebug'
+  gem 'listen'
+end
