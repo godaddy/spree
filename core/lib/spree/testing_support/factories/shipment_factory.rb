@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :shipment, class: Spree::Shipment do
-    tracking 'U10000'
-    number '100'
-    cost 100.00
-    state 'pending'
+    tracking {'U10000'}
+    number {'100'}
+    cost {100.00}
+    state {'pending'}
     order
     address
     stock_location

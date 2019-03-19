@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :order, class: Spree::Order do
     user
     bill_address
-    completed_at nil
+    completed_at {nil}
     email { user.email }
 
     factory :order_with_totals do
@@ -17,7 +17,7 @@ FactoryBot.define do
       ship_address
 
       transient do
-        line_items_count 5
+        line_items_count {5}
       end
 
       after(:create) do |order, evaluator|
@@ -31,7 +31,7 @@ FactoryBot.define do
       end
 
       factory :completed_order_with_totals do
-        state 'complete'
+        state {'complete'}
 
         after(:create) do |order|
           order.refresh_shipment_rates
@@ -45,8 +45,8 @@ FactoryBot.define do
         end
 
         factory :order_ready_to_ship do
-          payment_state 'paid'
-          shipment_state 'ready'
+          payment_state {'paid'}
+          shipment_state {'ready'}
           after(:create) do |order|
             create(:payment, amount: order.total, order: order, state: 'completed')
             order.shipments.each do |shipment|

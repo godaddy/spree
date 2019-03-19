@@ -1,18 +1,18 @@
 FactoryBot.define do
   factory :adjustment, class: Spree::Adjustment do
     association(:adjustable, factory: :order)
-    amount 100.0
-    label 'Shipping'
+    amount {100.0}
+    label {'Shipping'}
     association(:source, factory: :tax_rate)
-    eligible true
+    eligible {true}
   end
 
   factory :tax_adjustment, class: Spree::Adjustment do
     association(:adjustable, factory: :line_item)
-    amount 10.0
-    label 'VAT 5%'
+    amount {10.0}
+    label {'VAT 5%'}
     association(:source, factory: :tax_rate)
-    eligible true
+    eligible {true}
 
     after(:create) do |adjustment|
       # Set correct tax category, so that adjustment amount is not 0

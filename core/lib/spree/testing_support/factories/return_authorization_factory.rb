@@ -1,10 +1,10 @@
 FactoryBot.define do
   factory :return_authorization, class: Spree::ReturnAuthorization do
-    number '100'
-    amount 100.00
+    number {'100'}
+    amount {100.00}
     association(:order, factory: :shipped_order)
-    reason 'no particular reason'
-    state 'received'
+    reason {'no particular reason'}
+    state {'received'}
   end
 
   factory :new_return_authorization, class: Spree::ReturnAuthorization do

@@ -6,8 +6,8 @@ Spree::Zone.class_eval do
   end
 end
 
-Dir["#{File.dirname(__FILE__)}/factories/**"].each do |f|
-  require File.expand_path(f)
+Dir[File.join(__dir__, 'factories', '**')].each do |file|
+  require File.expand_path(file)
 end
 
 FactoryBot.define do
