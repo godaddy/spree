@@ -9,7 +9,7 @@ describe 'current order tracking' do
     end
   end
 
-  let(:order) { FactoryGirl.create(:order) }
+  let(:order) { FactoryBot.create(:order) }
 
   it 'automatically tracks IP when current_order is called' do
     get :index, {}, { :order_id => order.id }

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::ReturnAuthorization do
   let(:stock_location) { Spree::StockLocation.create(:name => "test") }
-  let(:order) { FactoryGirl.create(:shipped_order) }
+  let(:order) { FactoryBot.create(:shipped_order) }
 
   let(:variant) { order.shipments.first.inventory_units.first.variant }
   let(:return_authorization) { Spree::ReturnAuthorization.new(:order => order, :stock_location_id => stock_location.id) }
@@ -18,7 +18,7 @@ describe Spree::ReturnAuthorization do
   describe ".before_create" do
     describe "#generate_number" do
       context "number is assigned" do
-        let(:return_authorization) { FactoryGirl.build(:return_authorization, number: '123') }
+        let(:return_authorization) { FactoryBot.build(:return_authorization, number: '123') }
 
         it "should return the assigned number" do
           return_authorization.save
@@ -27,7 +27,7 @@ describe Spree::ReturnAuthorization do
       end
 
       context "number is not assigned" do
-        let(:return_authorization) { FactoryGirl.build(:return_authorization, number: nil) }
+        let(:return_authorization) { FactoryBot.build(:return_authorization, number: nil) }
 
         it "should assign number with random RMA number" do
           return_authorization.save
@@ -132,7 +132,7 @@ describe Spree::ReturnAuthorization do
     end
 
     context "to a different stock location" do
-      let(:new_stock_location) { FactoryGirl.create(:stock_location, :name => "other") }
+      let(:new_stock_location) { FactoryBot.create(:stock_location, :name => "other") }
 
       before do
         return_authorization.stub(:stock_location_id => new_stock_location.id)

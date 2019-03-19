@@ -3,10 +3,10 @@ require 'spec_helper'
 describe Spree::CheckoutController do
   let(:token) { 'some_token' }
   let(:user) { stub_model(Spree::LegacyUser) }
-  let(:order) { FactoryGirl.create(:order_with_totals) }
+  let(:order) { FactoryBot.create(:order_with_totals) }
 
   let(:address_params) do
-    address = FactoryGirl.build(:address)
+    address = FactoryBot.build(:address)
     address.attributes.except("created_at", "updated_at")
   end
 
@@ -84,7 +84,7 @@ describe Spree::CheckoutController do
         order.stub :available_shipping_methods => [stub_model(Spree::ShippingMethod)]
         order.stub :available_payment_methods => [stub_model(Spree::PaymentMethod)]
         order.stub :ensure_available_shipping_rates => true
-        order.line_items << FactoryGirl.create(:line_item)
+        order.line_items << FactoryBot.create(:line_item)
       end
 
       context "with the order in the cart state" do
@@ -294,7 +294,7 @@ describe Spree::CheckoutController do
 
     context "fails to transition from address" do
       let(:order) do
-        FactoryGirl.create(:order_with_line_items).tap do |order|
+        FactoryBot.create(:order_with_line_items).tap do |order|
           order.next!
           order.state.should == 'address'
         end
@@ -309,7 +309,7 @@ describe Spree::CheckoutController do
         before do
           order.ship_address.tap do |address|
             # A different country which is not included in the list of shippable countries
-            address.country = FactoryGirl.create(:country, :name => "Australia")
+            address.country = FactoryBot.create(:country, :name => "Australia")
             address.state_name = 'Victoria'
             address.save
           end
@@ -341,13 +341,13 @@ describe Spree::CheckoutController do
 
     context "fails to transition from payment to complete" do
       let(:order) do
-        FactoryGirl.create(:order_with_line_items).tap do |order|
+        FactoryBot.create(:order_with_line_items).tap do |order|
           until order.state == 'payment'
             order.next!
           end
           # So that the confirmation step is skipped and we get straight to the action.
-          payment_method = FactoryGirl.create(:simple_credit_card_payment_method)
-          payment = FactoryGirl.create(:payment, :payment_method => payment_method)
+          payment_method = FactoryBot.create(:simple_credit_card_payment_method)
+          payment = FactoryBot.create(:payment, :payment_method => payment_method)
           order.payments << payment
         end
       end

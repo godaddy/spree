@@ -120,18 +120,12 @@ Spree::Auth::Engine.load_seed if defined?(Spree::Auth)
 
     def install_migrations
       say_status :copying, "migrations"
-      silence_stream(STDOUT) do
-        silence_warnings { rake 'railties:install:migrations' }
-      end
+      silence_warnings { rake 'railties:install:migrations' }
     end
 
     def create_database
       say_status :creating, "database"
-      silence_stream(STDOUT) do
-        silence_stream(STDERR) do
-          silence_warnings { rake 'db:create' }
-        end
-      end
+      silence_warnings { rake 'db:create' }
     end
 
     def run_migrations

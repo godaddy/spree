@@ -79,8 +79,8 @@ describe Spree::Order do
 
   context "#associate_user!" do
     it "should associate a user with a persisted order" do
-      order = FactoryGirl.create(:order_with_line_items, created_by: nil)
-      user = FactoryGirl.create(:user)
+      order = FactoryBot.create(:order_with_line_items, created_by: nil)
+      user = FactoryBot.create(:user)
 
       order.user = nil
       order.email = nil
@@ -98,8 +98,8 @@ describe Spree::Order do
 
     it "should not overwrite the created_by if it already is set" do
       creator = create(:user)
-      order = FactoryGirl.create(:order_with_line_items, created_by: creator)
-      user = FactoryGirl.create(:user)
+      order = FactoryBot.create(:order_with_line_items, created_by: creator)
+      user = FactoryBot.create(:user)
 
       order.user = nil
       order.email = nil
@@ -738,37 +738,37 @@ describe Spree::Order do
 
   describe ".is_risky?" do
     context "Not risky order" do
-      let(:order) { FactoryGirl.create(:order, payments: [payment]) }
+      let(:order) { FactoryBot.create(:order, payments: [payment]) }
       context "with avs_response == D" do
-        let(:payment) { FactoryGirl.create(:payment, avs_response: "D") }
+        let(:payment) { FactoryBot.create(:payment, avs_response: "D") }
         it "is not considered risky" do
           order.is_risky?.should == false
         end
       end
 
       context "with avs_response == M" do
-        let(:payment) { FactoryGirl.create(:payment, avs_response: "M") }
+        let(:payment) { FactoryBot.create(:payment, avs_response: "M") }
         it "is not considered risky" do
           order.is_risky?.should == false
         end
       end
 
       context "with avs_response == ''" do
-        let(:payment) { FactoryGirl.create(:payment, avs_response: "") }
+        let(:payment) { FactoryBot.create(:payment, avs_response: "") }
         it "is not considered risky" do
           order.is_risky?.should == false
         end
       end
 
       context "with cvv_response_code == M" do
-        let(:payment) { FactoryGirl.create(:payment, cvv_response_code: "M") }
+        let(:payment) { FactoryBot.create(:payment, cvv_response_code: "M") }
         it "is not considered risky" do
           order.is_risky?.should == false
         end
       end
 
       context "with cvv_response_message == ''" do
-        let(:payment) { FactoryGirl.create(:payment, cvv_response_message: "") }
+        let(:payment) { FactoryBot.create(:payment, cvv_response_message: "") }
         it "is not considered risky" do
           order.is_risky?.should == false
         end
@@ -777,21 +777,21 @@ describe Spree::Order do
 
     context "Risky order" do
       context "AVS response message" do
-        let(:order) { FactoryGirl.create(:order, payments: [FactoryGirl.create(:payment, avs_response: "A")]) }
+        let(:order) { FactoryBot.create(:order, payments: [FactoryBot.create(:payment, avs_response: "A")]) }
         it "returns true if the order has an avs_response" do
           order.is_risky?.should == true
         end
       end
 
       context "CVV response code" do
-        let(:order) { FactoryGirl.create(:order, payments: [FactoryGirl.create(:payment, cvv_response_code: "N")]) }
+        let(:order) { FactoryBot.create(:order, payments: [FactoryBot.create(:payment, cvv_response_code: "N")]) }
         it "returns true if the order has an cvv_response_code" do
           order.is_risky?.should == true
         end
       end
 
       context "state == 'failed'" do
-        let(:order) { FactoryGirl.create(:order, payments: [FactoryGirl.create(:payment, state: 'failed')]) }
+        let(:order) { FactoryBot.create(:order, payments: [FactoryBot.create(:payment, state: 'failed')]) }
         it "returns true if the order has state == 'failed'" do
           order.is_risky?.should == true
         end
@@ -801,7 +801,7 @@ describe Spree::Order do
 
   context "is considered risky" do
     let(:order) do
-      order = FactoryGirl.create(:completed_order_with_pending_payment)
+      order = FactoryBot.create(:completed_order_with_pending_payment)
       order.considered_risky!
       order
     end
@@ -818,7 +818,7 @@ describe Spree::Order do
 
   # Regression tests for #4072
   context "#state_changed" do
-    let(:order) { FactoryGirl.create(:order) }
+    let(:order) { FactoryBot.create(:order) }
 
     it "logs state changes" do
       order.update_column(:payment_state, 'balance_due')

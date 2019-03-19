@@ -1,3 +1,5 @@
+require 'responders'
+
 module Spree
   class Responder < ::ActionController::Responder #:nodoc:
 

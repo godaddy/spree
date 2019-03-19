@@ -41,7 +41,7 @@ RSpec.configure do |config|
   config.color = true
   config.infer_spec_type_from_file_location!
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Spree::Api::TestingSupport::Helpers, :type => :controller
   config.extend Spree::Api::TestingSupport::Setup, :type => :controller
   config.include Spree::TestingSupport::Preferences, :type => :controller

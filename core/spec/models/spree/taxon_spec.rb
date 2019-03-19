@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Spree::Taxon do
-  let(:taxon) { FactoryGirl.build(:taxon, :name => "Ruby on Rails") }
+  let(:taxon) { FactoryBot.build(:taxon, :name => "Ruby on Rails") }
 
   context "set_permalink" do
 
@@ -19,7 +19,7 @@ describe Spree::Taxon do
     end
 
     context "with parent taxon" do
-      let(:parent) { FactoryGirl.build(:taxon, :permalink => "brands") }
+      let(:parent) { FactoryBot.build(:taxon, :permalink => "brands") }
       before       { taxon.stub :parent => parent }
 
       it "should set permalink correctly when taxon has parent" do

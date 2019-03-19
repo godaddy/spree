@@ -3,7 +3,7 @@ module Spree
     class ProductsController < ResourceController
       helper 'spree/products'
 
-      before_filter :load_data, :except => :index
+      before_action :load_data, :except => :index
       create.before :create_before
       update.before :update_before
       helper_method :clone_object_url
@@ -125,7 +125,7 @@ module Spree
         def product_includes
           [{ :variants => [:images, { :option_values => :option_type }], :master => [:images, :default_price]}]
         end
-        
+
         def clone_object_url resource
           clone_admin_product_url resource
         end

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tracker, class: Spree::Tracker do
     environment { Rails.env }
     analytics_id 'A100'

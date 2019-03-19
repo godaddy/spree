@@ -415,14 +415,14 @@ module Spree
 
         context "when in delivery" do
           let!(:shipping_method) do
-            FactoryGirl.create(:shipping_method).tap do |shipping_method|
+            FactoryBot.create(:shipping_method).tap do |shipping_method|
               shipping_method.calculator.preferred_amount = 10
               shipping_method.calculator.save
             end
           end
 
           before do
-            order.ship_address = FactoryGirl.create(:address)
+            order.ship_address = FactoryBot.create(:address)
             order.state = 'delivery'
             order.save
           end

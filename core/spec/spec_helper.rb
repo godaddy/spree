@@ -51,7 +51,7 @@ RSpec.configure do |config|
     reset_spree_preferences
   end
 
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include Spree::TestingSupport::Preferences
 
   config.fail_fast = ENV['FAIL_FAST'] || false

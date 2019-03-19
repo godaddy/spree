@@ -1,7 +1,7 @@
 module Spree
   module Api
     class InventoryUnitsController < Spree::Api::BaseController
-      before_filter :prepare_event, :only => :update
+      before_action :prepare_event, :only => :update
 
       def show
         @inventory_unit = inventory_unit
@@ -43,7 +43,7 @@ module Spree
       def fire
         inventory_unit.send("#{@event}!") if @event
       end
-      
+
       def inventory_unit_params
         params.require(:inventory_unit).permit(permitted_inventory_unit_attributes)
       end

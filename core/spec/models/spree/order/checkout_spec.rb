@@ -90,7 +90,7 @@ describe Spree::Order do
     end
 
     it "transitions to address" do
-      order.line_items << FactoryGirl.create(:line_item)
+      order.line_items << FactoryBot.create(:line_item)
       order.email = "user@example.com"
       order.next!
       assert_state_changed(order, 'cart', 'address')
@@ -106,18 +106,18 @@ describe Spree::Order do
       before do
         order.state = 'address'
         order.stub(:has_available_payment)
-        shipment = FactoryGirl.create(:shipment, :order => order)
+        shipment = FactoryBot.create(:shipment, :order => order)
         order.email = "user@example.com"
         order.save!
       end
 
       it "updates totals" do
         order.stub(:ensure_available_shipping_rates => true)
-        line_item = FactoryGirl.create(:line_item, :price => 10, :adjustment_total => 10)
+        line_item = FactoryBot.create(:line_item, :price => 10, :adjustment_total => 10)
         order.line_items << line_item
         tax_rate = create(:tax_rate, :tax_category => line_item.tax_category, :amount => 0.05)
         Spree::TaxRate.stub :match => [tax_rate]
-        FactoryGirl.create(:tax_adjustment, :adjustable => line_item, :source => tax_rate)
+        FactoryBot.create(:tax_adjustment, :adjustable => line_item, :source => tax_rate)
         order.email = "user@example.com"
         order.next!
         order.adjustment_total.should == 0.5
@@ -180,7 +180,7 @@ describe Spree::Order do
 
       context "correctly determining payment required based on shipping information" do
         let(:shipment) do
-          FactoryGirl.create(:shipment)
+          FactoryBot.create(:shipment)
         end
 
         before do

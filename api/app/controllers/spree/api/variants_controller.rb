@@ -2,7 +2,7 @@ module Spree
   module Api
     class VariantsController < Spree::Api::BaseController
 
-      before_filter :product
+      before_action :product
 
       def create
         authorize! :create, Variant

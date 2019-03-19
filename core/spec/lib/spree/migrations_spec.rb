@@ -18,9 +18,7 @@ module Spree
       expect(Dir).to receive(:entries).with("db/migrate").and_return app_migrations
       expect(Dir).to receive(:entries).with("dir/db/migrate").and_return engine_migrations
 
-      silence_stream(STDOUT) {
-        expect(subject.check).to eq true
-      }
+      expect(subject.check).to eq true
     end
 
     context "no missing migrations" do
