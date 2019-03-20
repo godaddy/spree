@@ -12,7 +12,7 @@ gem 'coffee-rails', '~> 4.2.0'
 gem 'sass-rails', '~> 5.0.0'
 
 group :test do
-  gem 'capybara', '~> 2.4'
+  gem 'capybara', '~> 3.15.0'
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'factory_bot_rails'
@@ -22,11 +22,11 @@ group :test do
   gem 'rspec-collection_matchers'
   gem 'rspec-its'
   gem 'rspec-rails'
-  gem 'selenium-webdriver', '~> 2.35'
+  gem 'selenium-webdriver'
   gem 'simplecov'
   gem 'test-unit'
   gem 'timecop'
-  gem 'webmock', '1.8.11'
-  gem 'poltergeist', '1.5.0'
+  gem 'webmock'
+  gem 'poltergeist'
   gem 'rspec-retry'
 end

@@ -9,7 +9,7 @@ require 'monetize'
 require 'paperclip'
 require 'paranoia'
 require 'ransack'
-require 'state_machine'
+require 'state_machines-activerecord'
 require 'friendly_id'
 require 'font-awesome-rails'
 
@@ -79,16 +79,16 @@ require 'spree/core/controller_helpers/search'
 
 require 'spree/core/importer'
 
-# TODO revisit this fix with more long term solution of replacing state_machine
-# waiting on https://github.com/pluginaweek/state_machine/pull/275
-# this is how Spree 2.3 resolved StateMachine version conflict issues
-# it appears that Spree 3.0 resolves this by moving to state_machines-activerecord,
-# which is likely a much better long term solution
-module StateMachine
-  module Integrations
-    module ActiveModel
-      public :around_validation
-    end
-  end
-end
+# # TODO revisit this fix with more long term solution of replacing state_machine
+# # waiting on https://github.com/pluginaweek/state_machine/pull/275
+# # this is how Spree 2.3 resolved StateMachine version conflict issues
+# # it appears that Spree 3.0 resolves this by moving to state_machines-activerecord,
+# # which is likely a much better long term solution
+# module StateMachine
+#   module Integrations
+#     module ActiveModel
+#       public :around_validation
+#     end
+#   end
+# end
 
