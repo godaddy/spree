@@ -86,6 +86,9 @@ module Spree
     class_attribute :update_hooks
     self.update_hooks = Set.new
 
+    class_attribute :line_item_comparison_hooks
+    self.line_item_comparison_hooks = Set.new
+
     def self.by_number(number)
       where(number: number)
     end
@@ -119,6 +122,18 @@ module Spree
     # that should be called after Order#update
     def self.register_update_hook(hook)
       self.update_hooks.add(hook)
+    end
+
+    def self.register_line_item_comparison_hook(hook)
+      self.line_item_comparison_hooks.add(hook)
+    end
+
+    def line_item_options_match(line_item, options)
+      return true unless options
+
+      self.line_item_comparison_hooks.all? { |hook|
+        self.send(hook, line_item, options)
+      }
     end
 
     def all_adjustments
