@@ -30,20 +30,10 @@ module Spree
 
       private
         def promotions
-          promo_table = Promotion.arel_table
-          join_table = Arel::Table.new(:spree_orders_promotions)
-
-          join_condition = promo_table.join(join_table, Arel::Nodes::OuterJoin).on(
-            promo_table[:id].eq(join_table[:promotion_id])
-          ).join_sources
-
           Promotion.active.includes(:promotion_rules).
-            joins(join_condition).
-            where(
-              promo_table[:code].eq(nil).and(
-                promo_table[:path].eq(nil)
-              ).or(join_table[:order_id].eq(order.id))
-            ).distinct
+            left_outer_joins(:orders).
+            where('spree_promotions.code IS NULL AND spree_promotions.path IS NULL OR spree_orders_promotions.order_id = ?', order.id).
+            distinct
         end
     end
   end
