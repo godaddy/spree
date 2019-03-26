@@ -68,7 +68,7 @@ module Spree
         process(
           action,
           method: method,
-          params: { parameters.merge!(use_route: :spree) ],
+          params: parameters.merge!(use_route: :spree),
           session: session,
           flash: flash
         )
