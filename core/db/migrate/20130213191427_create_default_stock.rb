@@ -1,4 +1,4 @@
-class CreateDefaultStock < ActiveRecord::Migration
+class CreateDefaultStock < ActiveRecord::Migration[4.2]
   def up
     Spree::StockLocation.skip_callback(:create, :after, :create_stock_items)
     # Spree::StockItem.skip_callback(:save, :after, :process_backorders)
